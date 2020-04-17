@@ -1,0 +1,159 @@
+@import "../../wxParse/wxParse.wxss";
+
+/* 导入额外附加的文章排版样式  */
+@import "../../temp/css/wxParse.wxss";
+
+/* .postshead {border:1px solid #33ff33}
+.detailbody {border:1px solid #ff33ff}
+.entry-content {border:1px solid #ffff33}
+.wp-block-gallery {border:1px solid #33ffff}
+.blocks-gallery-grid {border:1px solid #66aaff}
+.blocks-gallery-caption {border:1px solid #aa66ff}
+.blocks-gallery-caption .wxParse-inline {border:1px solid #ff66aa}
+.blocks-gallery-caption .wxParse-inline text {border:1px solid #abcabc} */
+
+
+
+.postshead .card-header {
+}
+
+/* 交互按钮区域 */
+
+.ctlbtn {
+  padding: 60rpx 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-width: 1rpx 0 0 0;
+  border-style: solid;
+}
+
+.ctlbtn .btnbox {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ctlbtn .btnbox button {
+  position: absolute;
+  width: 100%;
+  height: 88rpx;
+  border: none !important;
+  opacity: 0;
+  z-index: 15;
+}
+
+.ctlbtn .btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.ctlbtn .btn image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.h3title {
+  font-weight: bold;
+  font-size: 36rpx;
+  line-height: 50rpx;
+  margin: 0 40rpx;
+}
+
+.galleryarea {
+  margin: 30rpx 0;
+}
+
+.galleryarea .galleryimages:first-child {
+  margin-left: 40rpx;
+}
+
+.galleryarea .galleryimages:last-child {
+  margin-right: 40rpx;
+}
+
+.galleryarea .galleryimages {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 18rpx;
+  width: 220rpx;
+}
+
+.galleryarea .galleryimages image {
+  width: 100% !important;
+}
+
+.videolookarea {
+  margin: 40rpx;
+  padding: 40rpx;
+  border-radius: 20rpx;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.hidecnt {
+}
+
+.hidecntbtn {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.hidecntbtn image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.hidecntbtn text {
+}
+
+.postlike {
+  margin-top: 40rpx;
+  text-align: center;
+}
+
+.postlike image {
+  width: 48rpx;
+  height: 48rpx;
+  margin: 0rpx 10rpx 10rpx 0rpx;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+.postlike image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 50%;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.detaildata {
+  text-align: center;
+  line-height: 30rpx;
+  margin-bottom: 40rpx;
+}
+
+.detaildata text {
+  opacity: 0.4;
+  font-size: 26rpx;
+}

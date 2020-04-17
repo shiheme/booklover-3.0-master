@@ -1,0 +1,63 @@
+<!--search.wxml-->
+<view class="wrapper {{pageStyle}}"></view>
+
+<navigate-title id="c-bar" title="" isshare="{{isshare}}" pageStyle="{{pageStyle}}" mineurl="../../pages/mine/mine" isActive="{{isActive}}" isGoback="{{isGoback}}" isTomine="{{isTomine}}" isSkin="{{isSkin}}" showLoad="{{showLoad}}" bind:myevent="toggleToast"
+/>
+
+<view class="container {{pageStyle}} page">
+  <view class="index" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+    <view class="menubarwrap">
+      <view class="menubarhead">
+        <view class="tit">
+          <text>搜索</text>
+        </view>
+        <view class="more" wx:if="{{showScan}}">
+          <image src="../../images/{{pageStyle}}/scancode.svg"></image>
+          <text>扫码识别</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="searcharea {{pageStyle}}">
+      <view class="searchbox">
+        <form catchreset="formReset" id="search-form">
+          <view class="searchwarp">
+            <view class="index-search container-class">
+              <icon type="search" size="16" />
+              <input id="search-input" name="input" bindconfirm="formSubmit" bindinput="onInput" class="search-input input-class" confirmType="search" focus="{{autoFocus}}" placeholder="{{placeHolder}}" placeholderClass="search-input-placeholder" value="{{searchKey}}"
+                wx:if="{{inputEnable}}"></input>
+              <view class="search-input" wx:else>{{placeHolder}}</view>
+              <icon bindtap="onClear" type="clear" size="20" wx:if="{{searchKey}}" />
+            </view>
+            <view bindtap="formSubmit" class="closebtn" wx:if="{{keydown_number == 1}}">搜索</view>
+          </view>
+          <radio-group class="radio-group" bindchange="radioChange">
+            <radio class="radio" wx:key="posts" value="posts" checked="true">
+              <text>创意</text>
+            </radio>
+            <radio class="radio" wx:key="source" value="source">
+              <text>作品</text>
+            </radio>
+            <radio class="radio" wx:key="appver" value="appver">
+              <text>应用</text>
+            </radio>
+          </radio-group>
+        </form>
+      </view>
+      <view class="searchlogs" wx:if="{{searchLogs.length > 0}}">
+        <view class="recordtext" style="display:flex;">
+          <text>搜索记录</text>
+          <image src="../../images/{{pageStyle}}/clear.svg" class="clear" bindtap="deleteHistory" />
+        </view>
+        <view class="historybox">
+          <block wx:key="id" wx:for="{{searchLogs}}">
+            <view class="historylist" bindtap='historyValue' data-url="{{item[1]}}" data-key="{{item[0]}}" data-cnt_tp="{{item[2]}}">
+              <text>{{item[0]}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<tabbar bind:bindClickTap="switchTab" mainUnReadNum="10" pageStyle="{{pageStyle}}" carUnReadNum="2" selected="2"></tabbar>

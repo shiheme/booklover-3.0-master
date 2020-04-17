@@ -1,0 +1,336 @@
+/* 定义画集样式 */
+
+.wp-block-gallery {
+  margin-bottom: 40rpx!important;
+  position: relative;
+  width: 100%;
+}
+
+.blocks-gallery-grid {
+  margin: 70rpx 0 0 0 !important;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item:first-child {
+  margin-left: 40rpx;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item:last-child {
+  margin-right: 40rpx;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 18rpx;
+  width: 220rpx;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item .wxParse-li-circle {
+  display: none;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item image {
+  width: 220rpx !important;
+  border-radius: 10rpx;
+  position: relative;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;border-radius: 10rpx;
+  z-index: 11;
+  border-width:1rpx;
+  border-style: solid;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item .blocks-gallery-item__caption {
+  line-height: 40rpx;
+  text-align: center;
+}
+
+.blocks-gallery-grid > .blocks-gallery-item .blocks-gallery-item__caption text {
+  font-size: 28rpx;
+  opacity: 0.4;
+  font-style: italic;
+}
+
+.blocks-gallery-caption {
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  width:100%;
+  height:70rpx;
+  z-index: 10;
+}
+
+.blocks-gallery-caption view.wxParse-inline {
+  line-height: 70rpx;
+  height: 70rpx;
+  display: block;
+}
+
+.blocks-gallery-caption text {
+  font-weight: bold;
+  font-size: 36rpx;
+  margin: 0 40rpx;
+}
+
+/* 定义default-loop的卡片样式 */
+
+.su-posts-default-loop {
+  margin-bottom: 40rpx !important;
+  width: 100%;
+}
+
+.su-posts-default-loop .su-post {
+}
+
+.su-posts-default-loop .su-post .su-post-tap {
+  padding: 40rpx;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.su-posts-default-loop .su-post .su-post-tap image {
+  position: relative;
+  width: 180rpx !important;
+  height: 180rpx !important;
+  overflow: hidden;
+}
+
+.su-posts-default-loop .su-post .su-post-tap image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width:1rpx;
+  border-style: solid;
+}
+
+.su-posts-default-loop .su-post .su-post-tap.iosapp image,.su-posts-default-loop .su-post .su-post-tap.iosapp image::after {
+  border-radius: 22.5%;
+}
+
+.su-posts-default-loop .su-post .su-post-tap.wxapp image,.su-posts-default-loop .su-post .su-post-tap.wxapp image::after {
+  border-radius: 50%;
+}
+
+.su-posts-default-loop .su-post .su-post-tap .su-post-title {
+  line-height: 58rpx;
+  margin-top: 30rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-tap .su-post-title text {
+  font-weight: 500;
+  font-size: 40rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-tap .su-post-excerpt {
+  line-height: 38rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-tap .su-post-excerpt text {
+  font-size: 28rpx;
+  opacity: 0.4;
+}
+
+.su-posts-default-loop .su-post .su-post-tap .su-post-meta {
+  line-height: 42rpx;
+  margin-top: 50rpx;
+  margin-bottom: 20rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-tap .su-post-meta text {
+  font-size: 30rpx;
+  padding: 8rpx 30rpx;
+  border-radius: 30rpx;
+  position: relative;
+}
+
+/* 定义list-loop的卡片样式 */
+
+.su-posts-list-loop {
+  margin-bottom: 40rpx !important;
+  width: 100%;
+}
+
+.su-posts-list-loop .su-post .WxEmojiView {
+  /* display: none; */
+}
+
+.su-posts-list-loop .su-post .su-post-tap {
+  padding: 0 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon {
+  display: flex;
+  position: relative;
+  margin-right: 20rpx;
+  overflow: hidden;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap > .WxEmojiView {
+  display: none;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width:1rpx;
+  border-style: solid;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.iosapp,
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.iosapp::after {
+  border-radius: 22.5%;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.wxapp,
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.wxapp::after {
+  border-radius: 50%;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon image {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-msg {
+  display: flex;
+  flex: auto;
+  flex-flow: column;
+  height: 160rpx;
+  justify-content: center;
+  border-width: 1rpx 0 0 0;
+  border-style: solid;
+}
+
+.su-posts-list-loop .su-post:nth-child(2) .su-post-msg {
+  border-top: none !important;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-title {
+  line-height: 38rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-title text {
+  font-size: 34rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-excerpt {
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-excerpt text {
+  font-size: 28rpx;
+  opacity: 0.4;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-meta {
+  line-height: 42rpx;
+  margin-top: 50rpx;
+  margin-bottom: 20rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-meta text {
+  font-size: 30rpx;
+  padding: 8rpx 30rpx;
+  border-radius: 30rpx;
+  position: relative;
+}
+
+/* 定义文本的排版 */
+
+.entry-content > .wxParse-p {
+  padding: 30rpx 40rpx;
+  line-height: 58rpx;
+  opacity: 0.6;
+  font-size: 34rpx;
+}
+
+/* 默认图片排版有间距，需要占满发布文章时增加fullwidth标签 */
+
+.entry-content > .wxParse-figure.wp-block-image {
+  position: relative;
+  margin: 30rpx 40rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.entry-content > .wxParse-figure.wp-block-image image {
+  display: block;
+}
+
+.entry-content > .wxParse-figure.wp-block-image.fullwidth {
+  margin: 30rpx 0rpx;
+}
+
+.entry-content > .wxParse-figure.wp-block-image .wxParse-figcaption {
+  line-height: 40rpx;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 30rpx 40rpx;
+}
+
+.entry-content > .wxParse-figure.wp-block-image .wxParse-figcaption text {
+  font-size: 30rpx;
+  opacity: 0.4;
+}
+
+.entry-content > .wxParse-figure.wp-block-image.fullwidth image {
+  width: 100% !important;
+}
+
+.entry-content > .wxParse-figure.wp-block-image.fullwidth .wxParse-figcaption {
+  display: none;
+}
+
+/* 视频默认竖版375:812比例，需要4:3或者1:1文章时增加video4-3/video1-1标签 */
+
+.entry-content > .wxParse-figure.wp-block-video {
+  padding: 30rpx 40rpx;
+}
+
+.entry-content > .wxParse-figure.wp-block-video video {
+  border-radius: 20rpx;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.entry-content > .wxParse-figure.wp-block-video video::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 20rpx;
+  z-index: 11;
+  border-width:1rpx;
+  border-style: solid;
+}

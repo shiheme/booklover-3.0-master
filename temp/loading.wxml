@@ -1,0 +1,9 @@
+<template name="loading">
+
+  <view class="showloading {{pageStyle}} {{isshowLoad?'load':''}}">
+    <image class="loadicon" src="../../images/{{pageStyle}}/loading.svg" wx:if="{{pageStyle}}"></image>
+    <view class="loadtext">
+      <text>客官！骚等..</text>
+    </view>
+  </view>
+</template>

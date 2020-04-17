@@ -1,0 +1,66 @@
+<!--index.wxml-->
+<import src="../../temp/loading.wxml" />
+<import src="../../temp/showerror.wxml" />
+<import src="../../temp/cnttype.wxml" />
+<import src="../../temp/cats.wxml" />
+
+<view class="wrapper {{pageStyle}}"></view>
+
+<navigate-title id="c-bar" title="" isshare="{{isshare}}" pageStyle="{{pageStyle}}" mineurl="../../pages/mine/mine" isActive="{{isActive}}" isGoback="{{isGoback}}" isTomine="{{isTomine}}" isSkin="{{isSkin}}" showLoad="{{showLoad}}" bind:myevent="toggleToast"
+/>
+
+<view class="container {{pageStyle}} page">
+  <view class="index" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+    <view class="menubarwrap {{isshowCnt?'show':'hide'}}">
+      <view class="menubarhead">
+        <view class="tit">
+          <text>{{categorytitle}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="index_article {{isshowCnt?'show':'hide'}}" wx:if="{{posts.length>0}}">
+      <block wx:for="{{posts}}" wx:for-index="i" wx:key="id">
+        <!-- 样式分为：交互（gif/video）5、单APP界面4、行业竞品3、色彩扎堆1、功能块扎堆2、兴趣扎堆1、限免扎堆1、营销活动扎堆6、单APP活动-->
+        <view class="cardbox {{(item.app_celltouch == '1') ? 'active' : ''}}">
+          <view mut-bind:touchstart="touchstart" mut-bind:touchmove="touchmove" mut-bind:touchend="touchend" catchtap="bindDetail" class="card {{(item.app_liststyle == '1' || item.app_liststyle == '2') ? item.app_pagestyle : ''}} {{(item.app_liststyle == '7') ? 'msgbtm-card' : ''}} {{(item.app_liststyle=='8' ) ? 'msgbtm-card appver-card' : ''}}"
+            data-posttype="{{item.type}}" id="{{item.id}}" data-key="{{i}}">
+            <view style="margin-top:-{{customBarHeight}}px;overflow:hidden;position: relative; z-index: 10;">
+              <template is="cnttype" data="{{item:item,customBarHeight:customBarHeight}}" />
+            </view>
+            <view class="card-header">
+              <view class="card-header-label">
+                <block wx:key="index" wx:for="{{item.category}}" wx:for-item='cell'>
+                  <text>{{cell.name}}</text>
+                </block>
+              </view>
+              <view class="card-header-title" wx:if="{{item.app_liststyle=='8'}}">{{item.app_title}}
+                <block wx:if="{{item.app_ver!=''}}"> V{{item.app_ver}}</block>
+              </view>
+              <view class="card-header-title" wx:else>{{item.title.rendered}}</view>
+              <block wx:if="{{(item.app_liststyle=='1' ) ||(item.app_liststyle=='7' ) || (item.app_liststyle=='8' )}}">
+                <view class="card-header-subtitle">{{item.excerpt.rendered}}</view>
+              </block>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="last_text" wx:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
+    <view class="last_text" wx:if="{{!isLastPage&&posts.length>0}}">
+      <block wx:if="{{lasttip==true}}">
+        <image class="turn" src="../../images/{{pageStyle}}/loading.svg"></image>
+        <text>加载更多内容中...</text>
+      </block>
+      <block wx:else>
+        <image src="../../images/{{pageStyle}}/error.svg"></image>
+        <text>出错啦！无法连接数据</text>
+      </block>
+    </view>
+  </view>
+
+  <template is="showerror" data="{{isshowError:isshowError,pageStyle:pageStyle}}"></template>
+
+</view>
+
+<template is="loading" data="{{isshowLoad:isshowLoad,pageStyle:pageStyle}}"></template>

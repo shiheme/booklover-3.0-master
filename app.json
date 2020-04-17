@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/source/source",
+    "pages/search/search",
+    "pages/detail/detail",
+    "pages/list/list",
+    "pages/mine/mine",
+    "pages/posts/posts"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "APP比比",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#333333",
+    "selectedColor": "#000000",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/whitebg/btmnav-01.png",
+        "selectedIconPath": "images/whitebg/btmnav-01-on.png",
+        "text": "创意"
+      },
+      {
+        "pagePath": "pages/source/source",
+        "iconPath": "images/whitebg/btmnav-02.png",
+        "selectedIconPath": "images/whitebg/btmnav-02-on.png",
+        "text": "作品"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "iconPath": "images/whitebg/btmnav-03.png",
+        "selectedIconPath": "images/whitebg/btmnav-03-on.png",
+        "text": "搜索"
+      }
+    ]
+  },
+
+  "navigateToMiniProgramAppIdList": [
+    "wx4cf53bda66b14de9"
+  ],
+  "sitemapLocation": "sitemap.json"
+}

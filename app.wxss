@@ -1,0 +1,883 @@
+/**app.wxss**/
+
+/* 导入皮肤样式 */
+@import "temp/css/skin.wxss";
+
+/* 公共样式 */
+
+.show {
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.showloading {
+  position: fixed;
+  text-align: center;
+  opacity: 0;
+  transition: 0.3s;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.showloading.load {
+  opacity: 1;
+  transition: 0.3s;
+  top: 0;
+}
+
+.showloading .loadicon {
+  width: 100rpx;
+  height: 100rpx;
+  animation: turn 0.4s linear infinite;
+  position: relative;
+  z-index: 10;
+  opacity: 0.6;
+}
+
+.showloading .loadicon::before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border-width: 10rpx;
+  border-style: solid;
+  width: 80rpx;
+  height: 80rpx;
+  transform: scale(-0.7);
+  left: 0rpx;
+  top: 0rpx;
+  z-index: 5;
+}
+
+.showloading .loadtext {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadtext text {
+  font-size: 28rpx;
+  opacity: 0.5;
+}
+
+@keyframes turn {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.showerror {
+  padding: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  text-align: center;
+}
+
+.showerror image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.showerror .errortext {
+  font-size: 28rpx;
+  opacity: 0.5;
+}
+
+.wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.wrapper.lock {
+  overflow-y: hidden;
+}
+
+.container {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+button::after {
+  border-radius: 0;
+  border: none;
+}
+
+
+.last_text {
+  padding: 40rpx;
+  text-align: center;
+  opacity: 0.3;
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.last_text image {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+
+.last_text image.turn {
+  animation: turn 0.4s linear infinite;
+}
+
+/* POPUP弹层 */
+
+.popupbg {
+  position: fixed;
+  left: 0;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.popupbg.show {
+  bottom: 0;
+}
+
+.popuparea {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  bottom: -800rpx;
+  height: calc(700rpx+env(safe-area-inset-bottom));
+  transition: 0.3s;
+  border-radius: 24rpx 24rpx 0 0;
+  overflow: hidden;
+}
+
+.popuparea.show {
+  bottom: 0rpx;
+  transition: 0.3s;
+}
+
+.popuparea .popupareahead {
+  overflow: auto;
+  height: 600rpx;
+  -webkit-overflow-scrolling: touch;
+}
+
+.popuparea .popupareafoot {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: calc(env(safe-area-inset-bottom));
+}
+
+.popuparea .popupareafoot text {
+  font-size: 34rpx;
+}
+
+/* 菜单文字区域 */
+
+.menubarwrap {
+  margin: 0rpx 0 26rpx 0;
+}
+
+.menubarhead {
+  padding: 0 50rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100rpx;
+}
+
+.menubarhead .tit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menubarhead .tit text {
+  font-size: 50rpx;
+  font-weight: 400;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.menubarhead .more {
+  display: flex;
+  align-items: flex-end;
+  height: 100rpx;
+}
+
+.menubarhead .more image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/*通用card块样式*/
+
+.cardbox {
+  transition: 0.3s;
+  margin: 0rpx 40rpx 56rpx 40rpx;
+}
+
+.cardbox.active {
+  transition: 0.3s;
+  transform: scale(0.96);
+}
+
+.card {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 32rpx;
+  box-shadow: 0rpx 16rpx 120rpx -10rpx rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.detailhead .card {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0rpx;
+  box-shadow: none;
+  z-index: 10;
+}
+
+.detailbody {
+  margin-top: 60rpx;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 32rpx;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.detailhead .card:after {
+  content: "";
+  border: none !important;
+}
+
+.card .cardbody {
+  overflow: hidden;
+}
+
+.card .cardcell {
+  height: 100rpx;
+  padding: 0 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card .cardcell:last-child {
+  border-bottom: none !important;
+}
+
+.cardcell .tit {
+  font-size: 28rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.cardcell .tit .ita {
+  font-size: 28rpx;
+  font-style: italic;
+  opacity: 0.5;
+  margin-right: 5rpx;
+}
+
+.cardcell .titnor {
+  font-weight: normal;
+}
+
+.cardcell .tit .txt {
+  font-size: 24rpx;
+  font-weight: normal;
+  margin-left: 10rpx;
+}
+
+.cardcell .more {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.cardcell .more .num {
+  font-weight: bold;
+  font-size: 26rpx;
+}
+
+.cardcell .more image {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 10rpx;
+}
+
+.cardcell .more .txt {
+  font-size: 24rpx;
+}
+
+.cardcell .more icon {
+  align-self: center;
+  margin-left: 20rpx;
+}
+
+.cardcell .more icon:after {
+  content: '';
+  display: block;
+  width: 10rpx;
+  height: 10rpx;
+  transform: rotate(45deg);
+}
+
+/*卡片内容区*/
+
+.card-header {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 40rpx;
+}
+
+.card-header-label {
+  font-weight: 600;
+  font-size: 30rpx;
+  line-height: 32rpx;
+  opacity: 0.5;
+}
+
+.card-header-title {
+  margin-top: 10rpx;
+  font-weight: 500;
+  font-size: 52rpx;
+  line-height: 70rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.card-header-subtitle {
+  font-size: 30rpx;
+  line-height: 38rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  position: absolute;
+  bottom: 40rpx;
+  left: 40rpx;
+  opacity: 0.4;
+}
+
+.msgbtm-card {
+  position: relative;
+  padding: 0;
+}
+
+.msgbtm-card .card-header {
+  position: absolute;
+  padding: 40rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  top: auto;
+  height: auto;
+}
+
+.msgbtm-card .card-header .card-header-subtitle {
+  position: relative;
+  bottom: auto;
+  left: auto;
+}
+
+/*卡片内APP样式*/
+
+.apps-cell-wrap {
+  width: 100%;
+  position: relative;
+  margin-bottom: 20rpx;
+  z-index: 10;
+}
+
+.apps-cell {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  display: block;
+  z-index: 5;
+}
+
+.apps-cell .app-cell-li {
+  list-style: none;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.apps-cell .app-cell-li::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.apps-cell .app-cell-li.iosapp, .apps-cell .app-cell-li.iosapp::after {
+  border-radius: 22.5%;
+}
+
+.apps-cell .app-cell-li.wxapp, .apps-cell .app-cell-li.wxapp::after {
+  border-radius: 50%;
+}
+
+.apps-animation-area {
+  width: 100%;
+  margin-top: 200rpx;
+  margin-bottom: 24rpx;
+  overflow: hidden;
+}
+
+.apps-animation-area .apps-cell-wrap {
+  height: 180rpx;
+}
+
+.apps-animation-area .apps-cell-wrap:nth-child(2) {
+  margin-left: -700rpx;
+}
+
+.apps-animation-area .apps-cell-wrap:nth-child(3) {
+  margin-left: -200rpx;
+}
+
+.apps-animation-area .apps-cell {
+  animation: 100s app-move infinite linear;
+  width: 3000rpx;
+  height: 180rpx;
+}
+
+.apps-animation-area .apps-cell .app-cell-li {
+  width: 180rpx;
+  height: 180rpx;
+}
+
+.apps-animation-area .apps-cell image {
+  width: 180rpx;
+  height: 180rpx;
+}
+
+@keyframes app-move {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -1000rpx;
+  }
+}
+
+.apps-sloping-area {
+  width: 100%;
+  margin-top: 200rpx;
+  overflow: hidden;
+}
+
+.apps-sloping-area .apps-cell-wrap {
+  height: 600rpx;
+}
+
+.apps-sloping-area .apps-cell {
+  width: 600rpx;
+  height: 180rpx;
+  transform: translate(-60rpx, -100rpx) rotate(-30deg) scale(2);
+}
+
+.apps-sloping-area .apps-cell .app-cell-li {
+  width: 180rpx;
+  height: 180rpx;
+}
+
+.apps-sloping-area .apps-cell image {
+  width: 180rpx;
+  height: 180rpx;
+}
+
+/*带APP的底部*/
+
+.card-app-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10rpx 40rpx;
+}
+
+/*APP列表开始*/
+
+.card-app-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-app-icon {
+  display: flex;
+  position: relative;
+  margin-right: 20rpx;
+  overflow: hidden;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.card-app-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.card-app-icon.iosapp, .card-app-icon.iosapp::after {
+  border-radius: 22.5%;
+}
+
+.card-app-icon.wxapp, .card-app-icon.wxapp::after {
+  border-radius: 50%;
+}
+
+.card-app-icon image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.card-app-msg {
+  display: flex;
+  flex: auto;
+  flex-flow: column;
+  height: 140rpx;
+  justify-content: center;
+  border-width: 1rpx 0 0 0;
+  border-style: solid;
+}
+
+.card .card-app-cell:first-child .card-app-msg {
+  border-top: none;
+}
+
+.card-app-title {
+  font-weight: 500;
+  font-size: 30rpx;
+  line-height: 38rpx;
+}
+
+.card-app-label {
+  font-size: 28rpx;
+  opacity: 0.4;
+}
+
+/* 通用列表样式(分类列表/用户中心列表) */
+.card-cell {
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-cell button {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  border: none !important;
+  opacity: 0;
+  z-index: 15;
+}
+
+.card-cell-icon {
+  display: flex;
+  position: relative;
+  margin-right: 20rpx;
+  overflow: hidden;
+  border-radius: 22.5%;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.card-cell-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 22.5%;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.card-cell-icon image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.card-cell-msg {
+display: flex;
+  flex: auto;
+  height: 140rpx;
+  align-items: center;
+  justify-content: space-between;
+  border-width: 1rpx 0 0 0;
+  border-style: solid;
+}
+
+.card-cell-wrap .card-cell:first-child .card-cell-msg {
+  border-top: none!important;
+}
+
+.card-cell-msg .card-cell-base {
+display: flex;
+  flex-flow: column;
+  height: 140rpx;
+  justify-content: center;
+}
+
+.card-cell-msg .card-cell-base .card-cell-title {
+font-weight: 500;
+  font-size: 30rpx;
+  line-height: 38rpx;
+}
+.card-cell-msg .card-cell-base .card-cell-label {
+font-size: 28rpx;
+  opacity: 0.4;
+}
+
+.card-cell-msg .card-cell-more text {
+  font-size:28rpx;
+  opacity: .6;
+}
+
+.card-cell-msg .card-cell-more icon {
+  align-self: center;
+  margin-left: 20rpx;
+}
+
+.card-cell-msg .card-cell-more icon:after {
+  content: '';
+  display: block;
+  width: 10rpx;
+  height: 10rpx;
+  border-width: 2rpx 2rpx 0 0;
+  border-style: solid;
+  transform: rotate(45deg);
+}
+
+.apps-singleimg-area {
+  height: 840rpx;
+}
+
+.apps-applist-area {
+  margin-top: 200rpx;
+  margin-bottom: 40rpx;
+  padding: 0 40rpx;
+}
+
+/* 
+.cateslistwrap {
+  position: fixed;
+  left: 0;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+.cateslistwrap.show {
+  z-index: 999;
+  bottom: 0;
+} */
+.cateslist {
+  padding: 0 40rpx;
+}
+
+.appver-card {
+}
+
+.appver-card .card-image {
+  margin-top: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-flow: column;
+}
+.appver-card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-flow: column;
+}
+.appver-card .card-app-icon {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.appver-card .card-app-icon image {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.appver-card .card-app-msg {
+  border-top: none !important;
+}
+
+.appver-card .card-app-title {
+  font-weight: 500;
+  font-size: 40rpx;
+  line-height: 58rpx;
+}
+
+.appver-card .card-app-label {
+  font-size: 28rpx;
+}
+
+/* 分享列表样式 */
+
+.ctrolbtnlist {
+  padding: 40rpx;
+}
+
+.ctrolbtnlist .card-ctrol-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-ctrol-icon {
+  display: flex;
+  position: relative;
+  margin-right: 20rpx;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 100rpx;
+  height: 100rpx;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-ctrol-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 50%;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+}
+
+.card-ctrol-icon image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.card-ctrol-msg {
+  display: flex;
+  flex: auto;
+  flex-flow: column;
+  height: 140rpx;
+  justify-content: center;
+}
+
+.ctrolbtnlist .card-ctrol-cell:first-child .card-ctrol-msg {
+  border-top: none;
+}
+
+.card-ctrol-title {
+  font-weight: 500;
+  font-size: 34rpx;
+  line-height: 38rpx;
+}
+
+.card-ctrol-label {
+  font-size: 28rpx;
+}
+
+.noncnt {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  margin-top:200rpx;
+}
+
+.noncnt image {
+  width: 150rpx;
+  height: 150rpx;
+  margin-bottom: 20rpx;
+  opacity: .2;
+}
+

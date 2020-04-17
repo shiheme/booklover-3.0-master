@@ -1,0 +1,20 @@
+<template name="cats">
+  <view class="cateslist card-cell-wrap">
+    <block wx:for="{{category}}" wx:for-index="i" wx:key="id">
+      <view class="card-cell" id="{{item.id}}" catchtap="bindCateByID">
+        <!-- <view class="card-cell-icon">
+          <image lazyLoad src="{{item.cover}}"></image>
+        </view> -->
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">{{item.name}}</view>
+            <view class="card-cell-label">{{item.count}}</view>
+          </view>
+          <view class="card-cell-more">
+            <icon />
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</template>

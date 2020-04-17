@@ -1,0 +1,7 @@
+{
+"component": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigate-title": "../../temp/comps/nav-title/index"
+  }
+}

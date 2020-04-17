@@ -1,0 +1,116 @@
+<!--pages/mine/mine.wxml-->
+<view class="wrapper {{pageStyle}}"></view>
+
+<navigate-title id="c-bar" title="" isshare="{{isshare}}" pageStyle="{{pageStyle}}" mineurl="../../pages/mine/mine" isActive="{{isActive}}" isGoback="{{isGoback}}" isTomine="{{isTomine}}" isSkin="{{isSkin}}" showLoad="{{showLoad}}" bind:myevent="toggleToast"
+/>
+
+<view class="container {{pageStyle}} page">
+  <view class="user-container" style="min-height: 100vh; padding-top: {{customBarHeight}}px;">
+    <view class="user-information card-cell-wrap">
+      <view class="card-cell" wx:if="{{!user}}">
+        <view class="card-cell-icon">
+          <image lazyLoad src="../../images/{{pageStyle}}/gravatar.png"></image>
+        </view>
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">游客</view>
+            <view class="card-cell-label">点击登录</view>
+          </view>
+        </view>
+        <button class="card-cell-btn" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+      </view>
+      <view class="card-cell" wx:else>
+        <view class="card-cell-icon">
+          <image lazyLoad src="{{user.avatarUrl}}"></image>
+        </view>
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">{{user.nickName}}</view>
+          </view>
+        </view>
+
+      </view>
+
+      
+    </view>
+    <view class="card user-items card-cell-wrap">
+
+      <view class="card-cell">
+
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">我点赞的</view>
+          </view>
+          <view class="card-cell-more">
+            <icon />
+          </view>
+        </view>
+
+        <button wx:if="{{!user}}" class="card-cell-btn" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+        <button wx:else class="card-cell-btn" data-url="/pages/posts/posts?id=1" bindtap="bindHandler"></button>
+      </view>
+
+
+      <view class="card-cell">
+
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">订阅更新</view>
+            <view class="card-cell-label">新内容发布后自动通知</view>
+          </view>
+          <view class="card-cell-more">
+            <icon />
+          </view>
+        </view>
+
+        <button wx:if="{{!user}}" class="card-cell-btn" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+        <button wx:else class="card-cell-btn" bindtap="bindSubscribe"></button>
+      </view>
+
+
+      <view class="card-cell">
+
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">投稿+</view>
+            <view class="card-cell-label">分享好看的交互效果</view>
+          </view>
+          <view class="card-cell-more">
+            <icon />
+          </view>
+        </view>
+
+        <button class="card-cell-btn" open-type="contact"></button>
+      </view>
+
+      <view class="card-cell">
+
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">清除缓存</view>
+            <view class="card-cell-label">{{currentSize}}</view>
+          </view>
+          <view class="card-cell-more">
+            <icon />
+          </view>
+        </view>
+
+        <button class="card-cell-btn" bindtap="clear"></button>
+      </view>
+
+      <view class="card-cell" wx:if="{{user}}">
+
+        <view class="card-cell-msg">
+          <view class="card-cell-base">
+            <view class="card-cell-title">退出</view>
+          </view>
+          <view class="card-cell-more">
+            <icon />
+          </view>
+        </view>
+        <button class="card-cell-btn" bindtap="loginOut"></button>
+      </view>
+
+    </view>
+  </view>
+</view>

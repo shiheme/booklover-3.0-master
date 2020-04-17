@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigate-title": "../../temp/comps/nav-title/index"
+  }
+}

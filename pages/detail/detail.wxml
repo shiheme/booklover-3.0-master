@@ -1,0 +1,115 @@
+<!--pages/detail/detail.wxml-->
+<import src="../../temp/loading.wxml" />
+<import src="../../temp/showerror.wxml" />
+<import src="../../wxParse/wxParse.wxml" />
+<import src="../../temp/cnttype.wxml" />
+
+<view class="wrapper {{pageStyle}}"></view>
+
+<navigate-title id="c-bar" title="" isshare="{{isshare}}" pageStyle="{{pageStyle}}" mineurl="../../pages/mine/mine" isActive="{{isActive}}" isGoback="{{isGoback}}" isTomine="{{isTomine}}" isSkin="{{isSkin}}" showLoad="{{showLoad}}" bind:myevent="toggleToast"
+/>
+
+<view class="container {{pageStyle}} page">
+  <view class="detail {{isshowCnt?'show':'hide'}}" style=" padding-bottom:calc(0rpx + env(safe-area-inset-bottom));">
+    <view class="detailhead postshead {{isshowCnt?'show':'hide'}}">
+      <view class="card {{(detail.app_liststyle=='1' || detail.app_liststyle=='2' ) ? detail.app_pagestyle : ''}} {{(detail.app_liststyle=='7' ) ? 'msgbtm-card' : ''}} {{(detail.app_liststyle=='8' ) ? 'msgbtm-card appver-card' : ''}}" id="{{detail.id}}">
+        <template is="cnttype" data="{{item:detail,customBarHeight:customBarHeight}}" />
+        <view class="card-header" style="margin-top: {{customBarHeight}}px;">
+          <view class="card-header-label">
+            <block wx:key="index" wx:for="{{detail.category}}" wx:for-item='cell'>
+              <text>{{cell.name}}</text>
+            </block>
+          </view>
+          <view class="card-header-title" wx:if="{{detail.app_liststyle=='8'}}">{{detail.app_title}}
+            <block wx:if="{{detail.app_ver!=''}}"> V{{detail.app_ver}}</block>
+          </view>
+          <view class="card-header-title" wx:else>{{detail.title.rendered}}</view>
+          <block wx:if="{{(detail.app_liststyle=='1' ) || (detail.app_liststyle=='8' )}}">
+            <view class="card-header-subtitle">{{detail.excerpt.rendered}}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+    <view class="detailbody">
+      <view id="entry-content" class="entry-content">
+        <template is="wxParse" data="{{wxParseData:article.nodes,windowWidth:windowWidth}}" />
+      </view>
+
+      <view class="videolookarea" wx:if="{{posttype != 'posts' && detail.app_videoadscnt != ''}}">
+        <view class="hidecnt" wx:if="{{videolook}}">
+          <template is="wxParse" data="{{wxParseData:videoadscnt.nodes}}" />
+        </view>
+        <view class="hidecntbtn" bindtap="bindreadMore" wx:else>
+          <image src="../../images/{{pageStyle}}/lock.svg" />
+          <text class="tit">{{detail.app_videoadstit}}</text>
+        </view>
+      </view>
+      <view class="ctlbtn">
+        <view class="btnbox">
+          <button wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button wx:else bindtap="bindLikeTap" id="{{detail.id}}"></button>
+          <view class="btn">
+            <image src="{{detail.islike? '../../images/on/like.svg': '../../images/'+pageStyle+ '/like.svg'}}"></image>
+          </view>
+        </view>
+        <view class="btnbox">
+          <button open-type='share' plain="true"></button>
+          <view class="btn">
+            <image src="../../images/{{pageStyle}}/share.svg"></image>
+          </view>
+        </view>
+        <view class="btnbox" catchtap="downloadPrefix">
+          <view class="btn">
+            <image src="../../images/{{pageStyle}}/pengyouquan.svg"></image>
+          </view>
+        </view>
+        <view class="btnbox" catchtap="bindShowpop">
+          <view class="btn">
+            <image class="reddot" src="../../images/{{pageStyle}}/comt.svg"></image>
+          </view>
+        </view>
+      </view>
+
+      <view class="postlike" wx:if="{{detail.post_likes.length>0}}">
+        <block wx:for="{{detail.post_likes}}" wx:for-item="item" wx:key="id">
+          <image src="{{item.avatar}}" alt="{{item.name}}"></image>
+        </block>
+      </view>
+      <view class="detaildata">
+        <text>
+      {{detail.meta.views}}人浏览<block wx:if="{{detail.likes > 0}}">，{{detail.likes}}人点赞</block><block wx:else>，还没人点赞 (￣^￣) 哼！</block></text>
+      </view>
+    </view>
+  </view>
+  <template is="showerror" data="{{isshowError:isshowError,pageStyle:pageStyle}}"></template>
+
+</view>
+
+<view class="popuparea {{pageStyle}} {{showpop ? 'show': ''}}">
+  <view class="popupareahead">
+    <view class="ctrolbtnlist">
+      <view class="card-ctrol-cell">
+        <view class="card-ctrol-icon" style="background-color:green;">
+          <image lazy-load='true' src="../../images/blackbg/share.svg" style="width:60rpx;height:60rpx;"></image>
+        </view>
+        <view class="card-ctrol-msg">
+          <view class="card-ctrol-title">加入圈子进行话题讨论</view>
+        </view>
+      </view>
+      <view class="card-ctrol-cell">
+        <view class="card-ctrol-icon" style="background-color:yellow;">
+          <image lazy-load='true' src="../../images/blackbg/pengyouquan.svg" style="width:60rpx;height:60rpx;"></image>
+        </view>
+        <view class="card-ctrol-msg">
+          <view class="card-ctrol-title">加编辑微信拉群讨论</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="popupareafoot" catchtap="bindHidepop">
+    <text>取消</text>
+  </view>
+</view>
+<view class="popupbg {{pageStyle}} {{showpop ? 'show': ''}}" catchtap="bindHidepop"></view>
+
+<template is="loading" data="{{isshowLoad:isshowLoad,pageStyle:pageStyle}}"></template>
