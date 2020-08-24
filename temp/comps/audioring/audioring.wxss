@@ -1,0 +1,265 @@
+@import "../../../app.wxss";
+
+.circlebar {width:180rpx;
+height:180rpx;
+display: flex;
+align-items: center;
+/* background-color:#000; */
+background:linear-gradient(to left, #8360c3, #2ebf91);
+/* background:linear-gradient(to left, #2661DD 0, #40ED94 50%, #5956CC 100%); */
+border-radius: 90rpx;
+}
+.circlebar .left,
+.circlebar .right {
+ width:50%;
+ height:100%;
+ overflow: hidden;
+}
+.circlebar .left .block,
+.circlebar .right .block {
+ width:100%;
+ height:100%;
+ /* background-color:rgb(245,245,245); */
+}
+
+.circlebar .left .block {
+  border-radius:90rpx 0 0 90rpx;
+  
+}
+.circlebar .right .block {
+  border-radius:0 90rpx 90rpx 0;
+}
+.circlebar .round {
+  position: absolute;
+  width: 160rpx;
+  height:160rpx;
+  left:50%;
+  top:50%;
+  margin-left:-80rpx;
+  margin-top:-80rpx;
+  border-radius: 80rpx;
+  /* background-color: rgb(245,245,245); */
+}
+
+.audio {
+  position: absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  bottom: 0;
+  right:0;
+  border-radius: 20rpx;
+  overflow: hidden;
+  /* pointer-events: none; */
+}
+.audiobg {
+  position: absolute;
+  background-color: rgba(0, 0, 0, .3);
+  z-index: 10;
+  left:0;
+  top:0;
+  bottom: 0;
+  right:0;
+  opacity: 0;
+  transition: .5;
+  border-radius: 20rpx;
+  overflow: hidden;
+  pointer-events: none;
+}
+.audio.detail .audiobg {
+  display: none!important;
+}
+.audio.on .audiobg {
+  opacity: 1;
+  transition: .5;
+  pointer-events:auto;
+}
+
+.audiosquare {
+  position: absolute;
+  width:80rpx;
+  height:80rpx;
+  right: 30rpx;
+  bottom: 20rpx;
+  margin-right:0;
+  margin-bottom:0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  transition: .5s;
+}
+
+.audio.on .audiosquare {
+  width:200rpx;
+  height:200rpx;
+  right: 50%;
+  bottom: 50%;
+  margin-right:-100rpx;
+  margin-bottom:-100rpx;
+  transition: .5s;
+}
+
+.audio.detail .audiosquare{
+  width:200rpx;
+  height:200rpx;
+  right: 50%;
+  bottom: 50%;
+  margin-right:-100rpx;
+  margin-bottom:-100rpx;
+}
+.audiosquare .square {
+  display: none;
+}
+.audio.on .audiosquare .square {
+  display: block;
+}
+
+.audiosquare .square1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(245,245,245, .3); */
+  border-radius: 32% 58% 69% 43% / 48% 32% 59% 55%;
+  transition: 0.5s;
+  animation: animate 3s linear infinite;
+}
+
+.audiosquare .square2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(245,245,245, .3); */
+  border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+  transition: 0.5s;
+  animation: animate 3s linear infinite;
+}
+
+.audiosquare .square3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(245,245,245, .3); */
+  border-radius: 31% 45% 74% 35% / 38% 56% 51% 87%;
+  transition: 0.5s;
+  animation: animate2 3s linear infinite;
+}
+
+.audiobtn {
+  position: relative;
+  /* padding: 40px 60px; */
+  width: 60rpx;
+  height: 60rpx;
+  /* background-color: rgba(245,245,245, 1); */
+  /* color: rgba(0, 0, 0, .8); */
+  text-align: center;
+  transition: 0.5s;
+  z-index: 1000;
+  border-radius: 50% 50%;
+  transition: .5s;
+}
+
+.audio.on .audiobtn,
+.audio.detail .audiobtn {
+  width: 180rpx;
+  height: 180rpx;
+  transition: .5s;
+}
+
+.audiobtn .canvas {
+  position: absolute;
+  left:0;
+  top:0;
+  visibility: hidden;
+  width:0;
+  height: 0;
+  z-index: 5;
+  /* display:none; */
+}
+.audio.on .audiobtn .canvas,
+.audio.detail .audiobtn .canvas {
+  /* display:block; */
+  visibility: visible;
+  width:90px;
+  height: 90px;
+  transition: 1s; 
+  /* transition-delay: 0.5s; */
+}
+.audiobtn .circlebar {
+  position: absolute;
+  left:0;
+  top:0;
+  visibility: hidden;
+  width:0;
+  height: 0;
+  z-index: 5;
+  /* display:none; */
+}
+.audio.on .audiobtn .circlebar,
+.audio.detail .audiobtn .circlebar  {
+  /* display:block; */
+  visibility: visible;
+  width:180rpx;
+  height: 180rpx;
+  /* transition: 1s;  */
+  transition-delay: 0.5s;
+}
+.audiobtn .audioimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width:100%;
+  height:100%;
+  left:0;top:0;
+  z-index: 10;
+}
+.audiobtn .icon {
+  width:50rpx;
+  height:50rpx;
+  font-size: 1.2em;
+}
+
+/* .content a {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+  border: 2px solid #fff;
+  padding: 6px 18px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 73% 27% 44% 56% / 49% 44% 56% 51%;
+} */
+
+
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate2 {
+  0% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+
+

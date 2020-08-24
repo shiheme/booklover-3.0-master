@@ -3,7 +3,11 @@
   "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
-    "navigate-title": "../../temp/comps/nav-title/index",
-    "tabbar": "../../temp/comps/tabBar/index"
+    "wrapleft": "../../temp/comps/wrapleft/index",
+    "navtitle": "../../temp/comps/navtitle/index",
+    "tabbar": "../../temp/comps/tabbar/index",
+    "welcome": "../../temp/comps/welcome/welcome",
+    "videoimg": "../../temp/comps/videoimg/videoimg",
+    "audioring": "../../temp/comps/audioring/audioring"
   }
 }

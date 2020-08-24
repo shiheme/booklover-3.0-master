@@ -1,0 +1,80 @@
+<!--trees 递归子组件-->
+<wxs module="handler" src="./handler.wxs" />
+<block wx:for="{{nodes}}" wx:key="index" wx:for-item="n">
+  <block wx:if="{{n.en||n.svg||n.err}}">
+    <rich-text class="_svg" nodes="{{[n]}}" />
+  </block>
+  <!--图片-->
+  <block wx:elif="{{n.name=='img'}}">
+    <block wx:if="{{n.attrs.class == 'imgnotag wp-post-image'}}">
+      <image class="_img {{n.attrs.class}}" style="{{n.attrs.style}}" src="{{n.attrs.src}}" lazy-load="{{lazyLoad}}" mode="{{n.mode||'widthFix'}}" webp="{{n.webp}}" data-attrs="{{n.attrs}}" data-auto="{{n.auto}}" data-source="img" bindload="{{canIUse?handler.load:'loadImg'}}"
+        binderror="error" />
+    </block>
+    <block wx:else>
+      <image class="_img {{n.attrs.class}}" style="{{n.attrs.style}}" src="{{n.attrs.src}}" lazy-load="{{lazyLoad}}" mode="{{n.mode||'widthFix'}}" show-menu-by-longpress="{{!n.attrs.ignore}}" webp="{{n.webp}}" data-attrs="{{n.attrs}}" data-i="{{index}}" data-auto="{{n.auto}}"
+        data-source="img" bindtap="imgtap" bindload="{{canIUse?handler.load:'loadImg'}}" binderror="error" />
+    </block>
+  </block>
+  <!--文本-->
+  <block wx:elif="{{n.type=='text'}}">
+    <text class="_text" decode>{{n.text}}</text>
+  </block>
+  <block wx:elif="{{n.name=='br'}}">
+    <text class="_text">\n</text>
+  </block>
+  <!--链接-->
+  <block wx:elif="{{n.name=='a'}}">
+    <view class="_a {{n.attrs.class}}" hover-class="_hover" style="{{n.attrs.style}}" data-attrs="{{n.attrs}}" bindtap="{{canIUse?handler.visited:'linkpress'}}">
+      <trees class="_a_tree" nodes="{{n.children}}" />
+    </view>
+  </block>
+  <!--视频-->
+  <block wx:elif="{{n.name=='video'}}">
+    <view wx:if="{{n.lazyLoad}}" id="{{n.attrs.id}}" class="_video {{n.attrs.class}}" style="{{n.attrs.style}}" data-i="{{index}}" bindtap="loadVideo" />
+    <video wx:else object-fit="cover" id="{{n.attrs.id}}" class="{{n.attrs.class}}" style="_vid {{n.attrs.style}}" autoplay="{{n.attrs.autoplay}}" controls="{{n.attrs.controls}}" loop="{{n.attrs.loop}}" muted="{{n.attrs.muted}}" poster="{{n.attrs.poster}}" src="{{n.attrs.source[n.i||0]}}"
+    />
+  </block>
+  <!--音频-->
+  <block wx:elif="{{n.name=='audio'}}">
+    <audio id="{{n.attrs.id}}" class="_aud {{n.attrs.class}}" style="{{n.attrs.style}}" author="{{n.attrs.author}}" autoplay="{{n.attrs.autoplay}}" controls="{{n.attrs.controls}}" loop="{{n.attrs.loop}}" name="{{n.attrs.name}}" poster="{{n.attrs.poster}}" src="{{n.attrs.source[n.i||0]}}"
+      data-i="{{index}}" data-source="audio" binderror="error" bindplay="play" />
+  </block>
+  <!--广告-->
+  <block wx:elif="{{n.name=='ad'}}">
+    <ad class="{{n.attrs.class}}" style="{{n.attrs.style}}" unit-id="{{n.attrs['unit-id']}}" data-source="ad" binderror="error" />
+  </block>
+  <!--列表-->
+  <block wx:elif="{{n.name=='li'}}">
+    <view class="{{n.attrs.class}} _liwrap" style="{{n.attrs.style}}">
+      <view wx:if="{{n.type=='ol'}}" class="_ol-bef">{{n.num}}</view>
+      <view wx:else class="_ul-bef">
+        <view wx:if="{{n.floor%3==0}}" class="_ul-p1">█</view>
+        <view wx:elif="{{n.floor%3==2}}" class="_ul-p2" />
+        <view wx:else class="_ul-p1" style="border-radius:50%">█</view>
+      </view>
+      <trees class="_node _li" lazy-load="{{lazyLoad}}" nodes="{{n.children}}" />
+    </view>
+  </block>
+  <!--富文本-->
+  <block wx:elif="{{handler.useRichText(n)}}">
+    <rich-text id="{{n.attrs.id}}" class="_p __{{n.name}}" nodes="{{[n]}}" />
+  </block>
+  <!--继续递归-->
+  <block wx:else>
+    <block wx:if="{{n.attrs.class == 'wp-block-video video1-1'}}">
+      <trees id="{{n.attrs.id}}" class="_node _{{n.name}} {{n.attrs.class}} {{safemode}}" style="height:{{1*(windowWidth-40)/1}}px;{{n.attrs.style}}" lazy-load="{{lazyLoad}}" nodes="{{n.children}}" />
+    </block>
+    <block wx:elif="{{n.attrs.class == 'wp-block-video video4-3'}}">
+      <trees id="{{n.attrs.id}}" class="_node _{{n.name}} {{n.attrs.class}} {{safemode}}" style="height:{{3*(windowWidth-40)/4}}px;{{n.attrs.style}}" lazy-load="{{lazyLoad}}" nodes="{{n.children}}" />
+    </block>
+    <block wx:elif="{{n.attrs.class == 'wp-block-video video16-9'}}">
+      <trees id="{{n.attrs.id}}" class="_node _{{n.name}} {{n.attrs.class}} {{safemode}}" style="height:{{9*(windowWidth-40)/16}}px;{{n.attrs.style}}" lazy-load="{{lazyLoad}}" nodes="{{n.children}}" />
+    </block>
+    <block wx:elif="{{n.attrs.class == 'wp-block-video video0-0'}}">
+      <trees id="{{n.attrs.id}}" class="_node _{{n.name}} {{n.attrs.class}} {{safemode}}" style="height:{{740*(windowWidth-40)/375}}px;{{n.attrs.style}}" lazy-load="{{lazyLoad}}" nodes="{{n.children}}" />
+    </block>
+    <block wx:else>
+      <trees id="{{n.attrs.id}}" class="_node _{{n.name}} {{n.attrs.class}} {{safemode}}" style="{{n.attrs.style}}" lazy-load="{{lazyLoad}}" nodes="{{n.children}}" />
+    </block>
+  </block>
+</block>

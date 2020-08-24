@@ -1,131 +1,42 @@
 /* 定义白色系风格 */
-.wrapper.whitebg,
-.container.whitebg {
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.popuparea.whitebg .popupareafoot,
-.container.whitebg .card, 
-.container.whitebg .card-app-footer,
-.container.whitebg .msgbtm-card .card-header {
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.popuparea.whitebg .popupareahead {
-  background: rgba(255, 255, 255, 0.95);
-}
-.cateslistarea.whitebg .cateslistareafoot {
-  background: rgba(255, 255, 255, 1);
-}
-
-.whitebg .card::after,
-.whitebg .card-app-msg,
-.whitebg .card-cell-msg,
-.whitebg .ctlbtn,
-.whitebg .searchlogs,
-.whitebg .postlike image::after,
-.whitebg .su-posts-list-loop .su-post .su-post-msg, 
-.whitebg .blocks-gallery-grid > .blocks-gallery-item image::after,
-.whitebg .su-posts-default-loop .su-post .su-post-tap image::after,
-.whitebg .su-posts-list-loop .su-post .su-post-tap .su-post-icon::after,
-.whitebg .entry-content > .wxParse-figure.wp-block-video video::after,
-.whitebg .apps-cell .app-cell-li::after,
-.whitebg .card-app-icon::after,
-.whitebg .card-cell-icon::after,
-.whitebg .card-ctrol-icon::after,
-.whitebg.showloading .loadicon::before {
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-.whitebg .card-cell-msg .card-cell-more icon:after {
-  border-color: rgba(0, 0, 0, 0.5);
-}
+.bgcolor-base {background-color: rgba(255, 255, 255, 1);color: rgba(0, 0, 0, 1);}
+.bgcolor-sub {background-color: rgb(245, 245, 245, 1);color: rgba(0, 0, 0, 1);}
+.bgcolor-base-op95 {background: rgba(255, 255, 255, 0.95);color: rgba(0, 0, 0, 1);}
+.bgcolor-sub-op20 {background: rgba(245, 245, 245, 0.2);color: rgba(0, 0, 0, 1);}
 
 
-.whitebg,
-.whitebg text,
-.container.whitebg .card-app-footer .card-app-msg,
-.container .card.whitebg .card-header-title {
-  color: rgba(0, 0, 0, 1);
+.bgcolor-base-face {background-color: rgba(30,30,30,1);color:rgba(255,255,255,1);}
+.bgcolor-base-face-op20 {background-color: rgba(30,30,30,.2);color:rgba(255,255,255,1);}
+.bgcolor-base-face-op30 {background-color: rgba(30,30,30,.3);color:rgba(255,255,255,1);}
+.bgcolor-base-face-op50 {background-color: rgba(30,30,30,.5);color:rgba(255,255,255,1);}
+
+/* .color-base-face {color:rgba(255,255,255,1);} */
+
+@media(prefers-color-scheme:dark){
+
+  .bgcolor-base {background-color: rgba(20, 20, 20, 1);color: rgba(255,255,255, 1);}
+  .bgcolor-sub {background-color: rgb(30, 30, 30, 1);color: rgba(255,255,255, 1);}
+  .bgcolor-base-op95 {background: rgba(20,20,20, 0.95);color: rgba(255,255,255, 1);}
+  .bgcolor-sub-op20 {background: rgba(30,30,30, 0.2);color: rgba(255,255,255, 1);}
+  
+  .bgcolor-base-face {background-color: rgba(245,245,245,1);color:rgba(0,0,0,1);}
+  .bgcolor-base-face-op20 {background-color: rgba(245,245,245,.2);color:rgba(0,0,0,1);}
+  .bgcolor-base-face-op30 {background-color: rgba(245,245,245,.3);color:rgba(0,0,0,1);}
+  .bgcolor-base-face-op50 {background-color: rgba(245,245,245,.5);color:rgba(0,0,0,1);}
+  
 }
 
-.container .card.whitebg .card-header-label,
-.container .card.whitebg .card-header-subtitle {
-  color: rgba(0, 0, 0, 0.4);
-  opacity: 1;
-}
+.blackbg {color:rgba(255,255,255,1)!important}
+.whitebg {color:rgba(0,0,0,1)!important}
 
-.whitebg .videolookarea,
-.whitebg .su-posts-default-loop .su-post .su-post-tap,
-.whitebg .entry-content > .wxParse-figure.wp-block-image .wxParse-figcaption {background:rgba(0,0,0,.04);}
+.whitebg .bgcolor-sub-op20 {background: rgba(245, 245, 245, 0.2);color: rgba(0, 0, 0, 1);}
+.whitebg .bgcolor-base-face {background-color: rgba(30,30,30,1);color:rgba(255,255,255,1);}
+.whitebg .bgcolor-base-face-op20 {background-color: rgba(30,30,30,.2);color:rgba(255,255,255,1);}
+.whitebg .bgcolor-base-face-op30 {background-color: rgba(30,30,30,.3);color:rgba(255,255,255,1);}
+.whitebg .bgcolor-base-face-op50 {background-color: rgba(30,30,30,.5);color:rgba(255,255,255,1);}
 
-.whitebg .searchwarp,
-.whitebg .historybox .historylist {
-  background: rgba(0, 0, 0, 0.08);
-}
-
-/* 定义黑色系风格 */
-.wrapper.blackbg,
-.container.blackbg {
-  background-color: rgba(20, 20, 20, 1);
-}
-.popuparea.blackbg .popupareafoot,
-.container.blackbg .card, 
-.container.blackbg .card-app-footer,
-.container.blackbg .msgbtm-card .card-header {
-  background-color: rgba(30, 30, 30, 1);
-}
-
-.popuparea.blackbg .popupareahead {
-  background: rgba(30, 30, 30, 0.95);
-}
-.cateslistarea.blackbg .cateslistareafoot {
-  background: rgba(30, 30, 30, 1);
-}
-
-.blackbg .card::after,
-.blackbg .card-app-msg,
-.blackbg .card-cell-msg,
-.blackbg .ctlbtn,
-.blackbg .searchlogs,
-.blackbg .postlike image::after,
-.blackbg .su-posts-list-loop .su-post .su-post-msg, 
-.blackbg .blocks-gallery-grid > .blocks-gallery-item image::after,
-.blackbg .su-posts-default-loop .su-post .su-post-tap image::after,
-.blackbg .su-posts-list-loop .su-post .su-post-tap .su-post-icon::after,
-.blackbg .entry-content > .wxParse-figure.wp-block-video video::after,
-.blackbg .apps-cell .app-cell-li::after,
-.blackbg .card-app-icon::after,
-.blackbg .card-cell-icon::after,
-.blackbg .card-ctrol-icon::after,
-.blackbg.showloading .loadicon::before   {
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.blackbg .card-cell-msg .card-cell-more icon:after {
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.blackbg,
-.blackbg text,
-.container.blackbg .card-app-footer .card-app-msg,
-.container .card.blackbg .card-header-title {
-  color: rgba(255, 255, 255, 1);
-}
-
-.container .card.blackbg .card-header-label,
-.container .card.blackbg .card-header-subtitle {
-  color: rgba(255, 255, 255, 0.8);
-  opacity: 1;
-}
-
-.blackbg .searchwarp,
-.blackbg .historybox .historylist {
-  background: rgba(255,255,255, 0.08);
-}
-
-.blackbg .videolookarea,
-.blackbg .su-posts-default-loop .su-post .su-post-tap,
-.blackbg .entry-content > .wxParse-figure.wp-block-image .wxParse-figcaption  {
-  background:rgba(255,255,255,.04);
-}
+.blackbg .bgcolor-sub-op20 {background: rgba(30,30,30, 0.2);color: rgba(255,255,255, 1);}
+.blackbg .bgcolor-base-face {background-color: rgba(245,245,245,1);color:rgba(0,0,0,1);}
+.blackbg .bgcolor-base-face-op20 {background-color: rgba(245,245,245,.2);color:rgba(0,0,0,1);}
+.blackbg .bgcolor-base-face-op30 {background-color: rgba(245,245,245,.3);color:rgba(0,0,0,1);}
+.blackbg .bgcolor-base-face-op50 {background-color: rgba(245,245,245,.5);color:rgba(0,0,0,1);}

@@ -1,0 +1,28 @@
+<block wx:if="{{(item[index].book_audio != false)}}">
+	<view id="audio{{index}}" class="{{type !='detail'?item[index].book_tolibrary[0].book_pagestyle:''}} audio {{type}} {{item[index].book_audio_state == 'false'?'':'on'}}" bindtap="{{item[index].book_audio_state == 'false'?'audioPlay':'audioStop'}}" data-key="{{index}}" data-book_audio_state="{{item[index].book_audio_state}}">
+		<view class="audiosquare">
+			<view class="square square1 bgcolor-base-face-op30"></view>
+			<view class="square square2 bgcolor-base-face-op30"></view>
+			<view class="square square3 bgcolor-base-face-op30"></view>
+			<view class="audiobtn bgcolor-base-face">
+				<!-- <canvas class="canvas" style="" canvas-id="circleBar" /> -->
+				<view class="circlebar">
+					<view class="left">
+						<view class="block bgcolor-base-face" animation="{{leftani}}"></view>
+					</view>
+					<view class="right">
+						<view class="block bgcolor-base-face" animation="{{rightani}}"></view>
+					</view>
+					<view class="round bgcolor-base-face"></view>
+
+				</view>
+				<view class="audioimg">
+					<icon class="icon iconfont icon-audio color-base-face" />
+				</view>
+			</view>
+		</view>
+		<view class="audiobg"></view>
+	</view>
+
+
+</block>

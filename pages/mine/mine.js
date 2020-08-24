@@ -10,25 +10,17 @@ Component({
    */
   data: {
     user: '',
-    isGoback: true,
+    
     isActive: true, //定义头部导航是否显示背景
-    pageStyle: app.globalData.pageStyle
+    isSearch: true,
+    isSkin: true
   },
   attached: function(options) {
-    var self = this;
-    self.setData({
-      pageBackground: app.globalData.pageBackground,
-      pageStyle: app.globalData.pageStyle
-    })
+
   },
   pageLifetimes: {
     show: function() {
-      var self = this;
-      app.setNavBarBg(); //设置标题栏背景色
-      self.setData({
-        pageBackground: app.globalData.pageBackground,
-        pageStyle: app.globalData.pageStyle,
-      })
+
     },
     hide: function() {
       // 页面被隐藏
@@ -57,7 +49,7 @@ Component({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-      let self = this;
+      let that = this;
       let user = app.globalData.user
       if (!user) {
         user = '';
@@ -71,18 +63,18 @@ Component({
         success(res) {
           var currentSize = res.currentSize;
           if (currentSize < 1024) {
-            self.setData({
+            that.setData({
               currentSize: currentSize + 'Kb'
             });
           } else {
             currentSize = currentSize / 1024;
             currentSize = String(currentSize).replace(/^(.*\..{2}).*$/, "$1");
             currentSize = parseFloat(currentSize);
-            self.setData({
+            that.setData({
               currentSize: currentSize + 'Mb'
             });
           }
-          console.log(res.currentSize);
+          // console.log(res.currentSize);
         }
       })
     },
@@ -123,19 +115,28 @@ Component({
     },
 
     getProfile: function(e) {
-      console.log(e);
-      wx.showLoading({
-        title: '正在登录...',
-      })
+      // console.log(e);
       API.getProfile().then(res => {
-          console.log(res)
-          this.setData({
-            user: res
+        // console.log(res)
+        this.setData({
+          user: res
+        })
+        wx.hideLoading()
+        if(!res){
+          wx.showToast({
+            title: '哎呀！/r/n你拒绝了授权',
+            icon: 'none',
+            duration: 2000,
           })
-          wx.hideLoading()
+        } else {
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success',
+            duration: 2000,
+          })
+        }
         })
         .catch(err => {
-          console.log(err)
           wx.hideLoading()
         })
     },
@@ -149,7 +150,7 @@ Component({
       args.platform = wx.getSystemInfoSync().platform
       args.program = 'WeChat'
       API.subscribeMessage(args).then(res => {
-          console.log(res)
+          // console.log(res)
           wx.showToast({
             title: res.message,
             icon: 'success',
@@ -187,7 +188,7 @@ Component({
           }
         },
         fail: function(res) {
-          console.log(res)
+          // console.log(res)
         }
       })
     },
@@ -197,7 +198,7 @@ Component({
       this.onLoad();
     },
 
-    clear: function (e) {
+    clear: function(e) {
       wx.clearStorageSync();
       wx.showToast({
         title: '清除完毕',

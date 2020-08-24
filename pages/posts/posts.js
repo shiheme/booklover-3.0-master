@@ -14,27 +14,18 @@ Component({
    */
   data: {
     page: 1,
+    id:1,
     posts: [],
 
     isGoback: true,
     isActive: true, //定义头部导航是否显示背景
-    pageStyle: app.globalData.pageStyle
   },
   attached: function(options) {
-    var self = this;
-    self.setData({
-      pageBackground: app.globalData.pageBackground,
-      pageStyle: app.globalData.pageStyle
-    })
+
   },
   pageLifetimes: {
     show: function() {
-      var self = this;
-      app.setNavBarBg(); //设置标题栏背景色
-      self.setData({
-        pageBackground: app.globalData.pageBackground,
-        pageStyle: app.globalData.pageStyle,
-      })
+
     },
     hide: function() {
       // 页面被隐藏
@@ -217,6 +208,15 @@ Component({
     },
 
     getFavPosts: function(args) {
+      wx.showNavigationBarLoading({
+        complete() {
+          wx.showNavigationBarLoading({
+            complete() {
+              //console.log('showNavigationBarLoading')
+            }
+          })
+        }
+      })
       API.getFavPosts(args).then(res => {
         let args = {}
         if (res.length < 10) {
@@ -227,16 +227,72 @@ Component({
           })
         }
         if (this.data.isPull) {
-          args.posts = [].concat(this.data.posts, res)
+          // args.posts = [].concat(this.data.posts, res)
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            var excerpt = item.excerpt.rendered
+            item.date = API.getDateDiff(strdate);
+            item.excerpt.rendered = API.removeHTML(excerpt);
+            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
+            return item;
+          }))
           args.page = this.data.page + 1
         } else if (this.data.isBottom) {
-          args.posts = [].concat(this.data.posts, res)
+          // args.posts = [].concat(this.data.posts, res) 
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            var excerpt = item.excerpt.rendered
+            item.date = API.getDateDiff(strdate);
+            item.excerpt.rendered = API.removeHTML(excerpt);
+            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
+            return item;
+          }))
           args.page = this.data.page + 1
         } else {
-          args.posts = [].concat(this.data.posts, res)
+          // args.posts = [].concat(this.data.posts, res)
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            var excerpt = item.excerpt.rendered
+            item.date = API.getDateDiff(strdate);
+            item.excerpt.rendered = API.removeHTML(excerpt);
+            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
+            return item;
+          }))
           args.page = this.data.page + 1
         }
         this.setData(args)
+        this.setData({
+          isshowCnt: true,
+          isshowLoad: false,
+          //triggered: false
+        })
+
+        // wx.hideLoading();
+        wx.hideNavigationBarLoading({
+          complete() {
+            //console.log('hideNavigationBarLoading')
+          }
+        })
+        wx.stopPullDownRefresh()
+      }).catch(err => {
+        console.log(err)
+        if (this.data.page == 1) {
+          this.setData({
+            isshowError: true,
+            isshowLoad: false,
+            isshowCnt: false,
+            //triggered: false
+          })
+        } else {
+          this.setData({
+            lasttip: false
+          })
+        }
+        wx.hideNavigationBarLoading({
+          complete() {
+            //console.log('hideNavigationBarLoading')
+          }
+        })
       })
     },
 
@@ -267,9 +323,11 @@ Component({
 
     bindDetail: function(e) {
       let id = e.currentTarget.id;
-      let posttype = e.currentTarget.dataset.posttype;
-      if (posttype == 'post') {
-        posttype == 'posts'
+      let posttype;
+      if (e.currentTarget.dataset.posttype == 'post') {
+        posttype = 'posts';
+      } else {
+        posttype = e.currentTarget.dataset.posttype;
       }
       wx.navigateTo({
         url: '/pages/detail/detail?id=' + id + '&posttype=' + posttype,
@@ -278,9 +336,9 @@ Component({
 
     //card触摸交互
     touchstart: function(e) {
-      var self = this,
+      let that = this,
         key = e.currentTarget.dataset.key,
-        posts = self.data.posts;
+        posts = that.data.posts;
 
       posts.forEach((v, i, array) => {
         v.app_celltouch = '0';
@@ -288,35 +346,35 @@ Component({
           v.app_celltouch = '1';
         }
       })
-      self.setData({
-        posts: self.data.posts,
+      that.setData({
+        posts: that.data.posts,
       })
     },
 
     touchmove: function(e) {
-      var self = this,
+      let that = this,
         key = e.currentTarget.dataset.key,
-        posts = self.data.posts;
+        posts = that.data.posts;
       setTimeout(function() {
         posts.forEach((v, i, array) => {
           v.app_celltouch = '0';
         })
-        self.setData({
-          posts: self.data.posts,
+        that.setData({
+          posts: that.data.posts,
         })
       }, 100);
 
     },
 
     touchend: function(e) {
-      var self = this,
+      let that = this,
         key = e.currentTarget.dataset.key,
-        posts = self.data.posts;
+        posts = that.data.posts;
       posts.forEach((v, i, array) => {
         v.app_celltouch = '0';
       })
-      self.setData({
-        posts: self.data.posts,
+      that.setData({
+        posts: that.data.posts,
       })
     },
   }

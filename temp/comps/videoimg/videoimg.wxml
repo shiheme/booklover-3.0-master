@@ -1,0 +1,155 @@
+<block wx:if="{{item[index].meta.thumbnail!=''}}">
+	<view id="vids{{index}}" class="liststyle1">
+		<view catchtap="bindDetail" class="card bgcolor-sub {{(ani && playstart)?'trans':'notrans'}} {{item[index].book_tolibrary[0].book_pagestyle}}" style="background-color:{{item[index].book_foreground?item[index].book_foreground:''}}" data-posttype="{{item[index].type}}" id="{{item[index].id}}" data-key="{{index}}">
+			<view class="cardheader">
+				<view class="basemsg">
+					<view class="title">
+						<text>{{item[index].title.rendered}}</text>
+					</view>
+					<view class="label">
+						<text>{{item[index].excerpt.rendered}}</text>
+					</view>
+				</view>
+				<view class="works-items {{(ani && playstart) || !ani ?'showo':'hideo'}}" style="">
+					<view class="worksgroup {{item[index].book_tolibrary.length == 1?'worksgroup1':''}} {{item[index].book_tolibrary.length >= 2?'worksgroup2':''}}">
+						<view class="workcnt ">
+							<block wx:key="index" wx:for="{{item[index].book_tolibrary}}" wx:for-item='cell'>
+								<view class="workcell workcell{{index}}" catchtap="bindDetail" data-posttype="movie" id="{{cell.id}}">
+									<view class="msg">
+										<view class="workcover" style="background-image:url('{{cell.book_thumb}}');"></view>
+										<view class="base">
+											<view class="text"><text class="tit">{{cell.book_title}}</text></view>
+											<view class="text"><text class="opend">{{cell.book_opened}}</text></view>
+											<view class="text"><text class="imdb" wx:if="{{cell.book_imdb}}">IMDB:{{cell.book_imdb}}</text><text class="dbid" wx:elif="{{cell.book_dbid}}">豆瓣ID:{{cell.book_dbid}}</text></view>
+										</view>
+									</view>
+									<view class="more">
+										<text class="dbscore">{{cell.book_dbscore}}</text>
+									</view>
+								</view>
+							</block>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="cardbody {{item[index].book_liststyle=='1'?item[index].app_pagestyle:''}}" style="z-index:9;">
+				<view class="cardimage {{(ani && playstart) || !ani ?'scale':'noscale'}}" style="height:{{height}}px;">
+					<image class="image" lazy-load='true' mode="widthFix" style="width:100%; position:absolute; right:0;bottom:0rpx;left:0;top:0;" src="{{item[index].meta.thumbnail}}"></image>
+				</view>
+			</view>
+			<view class="cardfoot">
+				<view class="postmsg {{(ani && playstart) || !ani ?'showo':'hideo'}}">
+					<view class="data">
+						<view class="item">
+							<icon class="icon iconfont icon-eye" />
+							<text class="text">{{item[index].meta.views}}</text>
+						</view>
+						<view class="item">
+							<icon class="icon iconfont icon-like" />
+							<text class="text">{{item[index].likes}}</text>
+						</view>
+					</view>
+					<view class="time hide">
+						{{item[index].date}}
+					</view>
+				</view>
+			</view>
+		</view>
+
+	</view>
+</block>
+<block wx:elif="{{item[index].meta.thumbnail==''}}">
+	<view id="vids{{index}}" class="liststyle2">
+		<view catchtap="bindDetail" class="card bgcolor-sub {{(ani && playstart)?'trans':'notrans'}} {{item[index].book_tolibrary[0].book_pagestyle}}" style="{{item[index].book_tolibrary[0].book_foreground?'background-color:'+item[index].book_tolibrary[0].book_foreground:''}}" data-posttype="{{item[index].type}}" id="{{item[index].id}}" data-key="{{index}}">
+			<view class="cardheader">
+				<view class="basemsg" wx:if="{{item[index].book_liststyle != '1'}}">
+					<view class="title">
+						<text>{{item[index].title.rendered}}</text>
+					</view>
+					<view class="label">
+						<text>{{item[index].excerpt.rendered}}</text>
+					</view>
+				</view>
+				<view class="basemsg" wx:else>
+					<view class="title">
+						<!-- <text>{{item[index].title.rendered}}</text> -->
+						<text>8月文摘语录（2020）</text>
+					</view>
+					<block wx:key="index" wx:for="{{item[index].book_toquot}}" wx:for-item='cell'>
+						<view class="quot">
+							<view class="label">
+								<text class="text">{{cell.quot_title}}</text>
+							</view>
+							<view class="subtitle">
+								<text class="text">{{cell.quot_library[0].book_author}}《{{cell.quot_library[0].book_title}}》</text>
+							</view>
+						</view>
+					</block>
+				</view>
+				<view class="works-items {{(ani && playstart) || !ani ?'trans':'notrans'}}" style="margin-top:{{height-margintop-70}}px;">
+					<view class="worksgroup {{item[index].book_tolibrary.length == 1?'worksgroup1':''}} {{item[index].book_tolibrary.length >= 2?'worksgroup2':''}}" wx:if="{{item[index].book_liststyle != '1'}}">
+						<view class="workcnt ">
+							<block wx:key="index" wx:for="{{item[index].book_tolibrary}}" wx:for-item='cell'>
+								<block wx:if="{{index<5}}">
+									<view class="workcell workcell{{index}}">
+										<view class="msg">
+											<view class="workcover libcover" style="background-image:url('{{cell.book_thumb}}');"></view>
+											<view class="base">
+												<view class="text"><text class="tit">{{cell.book_title}}</text></view>
+												<view class="text"><text class="opend">{{cell.book_opened}}</text></view>
+												<view class="text"><text class="imdb" wx:if="{{cell.book_imdb}}">IMDB:{{cell.book_imdb}}</text><text class="dbid" wx:elif="{{cell.book_dbid}}">豆瓣ID:{{cell.book_dbid}}</text></view>
+											</view>
+										</view>
+										<view class="more">
+											<text class="dbscore">{{cell.book_dbscore}}</text>
+										</view>
+									</view>
+								</block>
+							</block>
+						</view>
+					</view>
+
+					<view class="worksgroup {{item[index].book_toquot.length == 1?'worksgroup1':''}} {{item[index].book_toquot.length >= 2?'worksgroup2':''}}" wx:else>
+						<view class="workcnt ">
+							<block wx:key="index" wx:for="{{item[index].book_toquot}}" wx:for-item='cell'>
+								<block wx:if="{{index<5}}">
+									<view class="workcell workcell{{index}}">
+										<view class="msg">
+											<view class="workcover libcover" style="background-image:url('{{cell.quot_library[0].book_thumb}}');"></view>
+										</view>
+									</view>
+								</block>
+
+							</block>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="cardbody bgline {{item[index].book_tolibrary[0].book_pagestyle}}" style="z-index:9;">
+				<view class="cardimage" style="height:{{height}}px;"></view>
+			</view>
+			<view class="cardfoot">
+				<view class="postmsg {{(ani && playstart) || !ani ?'showo':'hideo'}}">
+					<view class="data">
+						<view class="item">
+							<icon class="icon iconfont icon-eye" />
+							<text class="text">{{item[index].meta.views}}</text>
+						</view>
+						<view class="item">
+							<icon class="icon iconfont icon-like" />
+							<text class="text">{{item[index].likes}}</text>
+						</view>
+						
+					</view>
+					<view class="time hide">
+						{{item[index].date}}
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="">
+			<view class=""></view>
+		</view>
+
+	</view>
+</block>

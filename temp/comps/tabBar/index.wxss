@@ -1,12 +1,44 @@
+@import "/app.wxss";
+
+.hide {
+  display: none !important;
+}
+
 .tab-bar {
+  /* position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  
+  height: 96rpx;
+  display: flex;
+  /* display: none; */
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  padding-bottom: calc(env(safe-area-inset-bottom));
+  z-index: 90;
+  transition: 0.3s;
+}
+
+.cover-view {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  
   height: 96rpx;
   display: flex;
+  /* display: none; */
+  padding-left: 10rpx;
+  padding-right: 10rpx;
   padding-bottom: calc(env(safe-area-inset-bottom));
-  z-index: 100;
+  z-index: 50;
+  background-color: #000000;
+}
+
+.tab-bar.scroll {
+  transition: 0.3s;
+  bottom: -200rpx;
 }
 
 .tab-bar-border {
@@ -27,43 +59,56 @@
   flex-direction: column;
 }
 
-.tab-bar-item .image {
-  width: 54rpx;
-  height: 54rpx;
+.tab-bar-item .icon {
+  width: 48rpx;
+  height: 48rpx;
+  font-size: 1.84em;
+  opacity: .3;
+  margin-top: 6rpx;
+}
+
+.tab-bar-item .icon.selected {
+  opacity: .8;
 }
 
 .tab-bar-item .text {
   font-size: 20rpx;
+  font-weight: 500;
 }
 
-.tab-bar.whitebg {
-  background: rgba(255, 255, 255, 0.95);
+.tab-bar.simple .tab-bar-item .icon {
+  width: 60rpx;
+  height: 60rpx;
+  font-size: 2.1em;
 }
 
-.tab-bar.whitebg .tab-bar-border {
-  background-color: rgba(255, 255, 255, 1);
+.tab-bar.simple .tab-bar-item .text {
+  display: none;
 }
 
-.tab-bar.whitebg .tab-bar-item .color {
-  color: rgba(0, 0, 0, 0.8);
+.tab-bar-item-add .image,
+.tab-bar.simple .tab-bar-item-add .image {
+  width: 70rpx;
+  height: 70rpx;
 }
 
-.tab-bar.whitebg .tab-bar-item .selectedColor {
-  color: rgba(0, 0, 0, 1);
+.addlist {
+  padding: 40rpx;
 }
 
-.tab-bar.blackbg {
-  background: rgba(20, 20, 20, 0.95);
+.addlist .card-cell {
+  padding: 0rpx 40rpx;
+  background: rgba(123, 123, 123, .1);
+  border-radius: 20rpx;
+  margin: 30rpx 0;
 }
 
-.tab-bar.blackbg .tab-bar-border {
-  background-color: rgba(20, 20, 20, 1);
+.addlist .card-cell-msg .card-cell-base .card-cell-title {
+  font-size: 36rpx;
+  line-height: 48rpx;
 }
 
-.tab-bar.blackbg .tab-bar-item .color {
-  color: rgba(255, 255, 255, 0.9);
-}
+.addlist .card-cell-msg {
+  border-width: 0;
 
-.tab-bar.blackbg .tab-bar-item .selectedColor {
-  color: rgba(255, 255, 255, 1);
 }

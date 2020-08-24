@@ -1,7 +1,10 @@
 {
-"component": true,
+  "component": true,
   "navigationStyle": "custom",
   "usingComponents": {
-    "navigate-title": "../../temp/comps/nav-title/index"
+    "navtitle": "../../temp/comps/navtitle/index",
+    "parser": "../../temp/comps/parser/parser",
+    "txv-video": "plugin://tencentvideo/video",
+    "audioring": "../../temp/comps/audioring/audioring"
   }
 }

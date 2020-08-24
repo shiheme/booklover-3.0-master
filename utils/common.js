@@ -18,18 +18,25 @@ module.exports = Behavior({
     showpop: false,
 
     cnt_tp: '', //定义文章类型
+    opennavbarscroll: false, //是否让底部导航开启滑动隐藏
+    istrue_scroll: false, //控制底部导航显示隐藏
+
+    geziads: false, //小格子原生广告
+
     isshowLoad: true,
     isshowError: false,
     isshowCnt: false,
     isActive: true, //定义头部导航是否显示背景
     isGoback: false, //定义头部导航是否存在返回上一页/返回首页
-    isTomine: false, //定义头部导航是否显示个人中心
-    isSkin: false, //定义头部导航是否显示切换风格
+    isSearch: false, //定义头部导航是否显示搜索
+    isTolist: false, //定义头部导航是否显示内容列表
+
     showLoad: false,
-    //navBarHeight: wx.getSystemInfoSync().statusBarHeight,
-    pageBackground: app.globalData.pageBackground,
-    pageStyle: app.globalData.pageStyle,
-    //skinSwitch: app.globalData.skinSwitch,
+    opentabwrapper: false,
+    scene: app.globalData.scene,
+    showitemadd: app.globalData.showitemadd,
+    tabbarStyle:app.globalData.tabbarStyle,
+ 
     wrapperhide: app.globalData.wrapperhide,
     windowHeight: app.globalData.windowHeight,
     windowWidth: app.globalData.windowWidth,
@@ -37,79 +44,88 @@ module.exports = Behavior({
     customBarHeight: app.globalData.CustomBar,
     titleBarHeight: app.globalData.TitleBar
   },
-  attached: function() {
+  attached: function () {
     // 页面创建时执行
-    var self = this;
-    
-    app.setNavBarBg(); //设置标题栏背景色
-    self.setData({
-      pageBackground: app.globalData.pageBackground,
-      pageStyle: app.globalData.pageStyle,
-    })
-    if (this.data.isshare == 1) {
+    var that = this;
+
+    if (that.data.isshare == 1) {
       //console.log('是分享进入');
-      self.setData({
+      that.setData({
         'isshare': this.data.isshare
       })
     }
+
   },
   methods: {
+    //判断加载广告
+    adLoadgeziads() {
+      let that = this;
+      that.setData({
+        geziads: true
+      })
+    },
+    adErrorgeziads(err) {
+      let that = this;
+      that.setData({
+        geziads: false
+      })
+    },
+    
     //显示/隐藏pop
     bindShowpop: function (e) {
-      var self = this;
-      self.setData({
+      let that = this;
+      that.setData({
         showpop: true
       })
     },
     bindHidepop: function (e) {
-      var self = this;
-      self.setData({
+      let that = this;
+      that.setData({
         showpop: false
       })
     },
-
-    //传递切换黑白风格
-    toggleToast(e) {
-      var self = this;
-      //开启
-      if (e.detail.value == true) {
-        app.globalData.pageStyle = "blackbg";
-        // app.globalData.fresherbackground = "#000";
-        // app.globalData.fresherstyle = "white";
-        app.setSkinBlackTitle(); //设置标题栏
-        //app.globalData.skinSwitch = true
-        app.setBlackTabBar(); //设置tabBar
-      } else {
-        app.globalData.pageStyle = 'whitebg';
-        // app.globalData.fresherbackground = "#fff";
-        // app.globalData.fresherstyle = "black";
-        app.setSkinNormalTitle()
-        //app.globalData.skinSwitch = false
-        app.setNormalTabBar();
-      }
-      self.setData({
-        pageStyle: app.globalData.pageStyle
+    opentabwrapper: function (e) {
+      // console.log(e)
+      let that = this;
+      that.setData({
+        opentabwrapper: true
       })
-      //保存到本地
-      wx.setStorage({
-        key: "pageStyle",
-        data: app.globalData.pageStyle
-      })
-      // wx.setStorage({
-      //   key: "skinSwitch",
-      //   data: app.globalData.skinSwitch
-      // })
     },
 
-    
+    closetabwrapper: function (e) {
+      let that = this;
+      that.setData({
+        opentabwrapper: false
+      })
+    },
+
     // 公共事件
+    popSingleimg: function (e) {
+      var src = e.currentTarget.dataset.src;
+      wx.previewImage({
+        urls: [src],
+      });
+    },
+    toMini: function (e) {
+      var appId = e.currentTarget.dataset.appid,
+        path = e.currentTarget.dataset.path;
+      wx.navigateToMiniProgram({
+        appId: appId,
+        path: path,
+        extraData: {},
+        success(res) {
+          // 打开成功
+        }
+      })
+    },
+
     //给a标签添加跳转和复制链接事件
-    wxParseTagATap: function(e) {
-      var self = this;
+    wxParseTagATap: function (e) {
+      let that = this;
       var href = e.currentTarget.dataset.src;
       var domain = API.getHost();
-      console.log(href)
-      console.log(domain)
+      // console.log(href)
+      // console.log(domain)
       //可以在这里进行一些路由处理
       if (href.indexOf(domain) == -1) {
         wx.setClipboardData({
@@ -126,32 +142,29 @@ module.exports = Behavior({
             })
           }
         })
-      }
-      else {
+      } else {
 
         var slug = API.getUrlFileName(href, domain);
 
         var posttype = API.getUrlPosttypeName(href, domain);
-        console.log(posttype)
+        // console.log(posttype)
         if (slug == 'index') {
-          console.log(slug)
+          // console.log(slug)
           // wx.switchTab({
           //   url: '../index/index'
           // })
-        }
-        else {
-          console.log(slug)
-          API.getPostBySlug(posttype,slug).then(res => {
-            console.log(res)
+        } else {
+          // console.log(slug)
+          API.getPostBySlug(posttype, slug).then(res => {
+            // console.log(res)
             var postID = res[0].id;
-            console.log(postID)
+            // console.log(postID)
             var openLinkCount = wx.getStorageSync('openLinkCount') || 0;
             if (openLinkCount > 4) {
               wx.navigateTo({
                 url: '../detail/detail?id=' + postID + '&posttype=' + posttype
               })
-            }
-            else {
+            } else {
               wx.navigateTo({
                 url: '../detail/detail?id=' + postID + '&posttype=' + posttype
               })
@@ -163,7 +176,16 @@ module.exports = Behavior({
 
       }
     },
-    
+
+    bindDetail: function (e) {
+      let id = e.currentTarget.id,
+      posttype = e.currentTarget.dataset.posttype;
+      wx.navigateTo({
+        url: '/pages/detail/detail?id=' + id + '&posttype=' + posttype,
+      })
+    },
+
+
   }
 
 })

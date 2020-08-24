@@ -3,6 +3,6 @@
   "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
-    "navigate-title": "../../temp/comps/nav-title/index"
+    "navtitle": "../../temp/comps/navtitle/index"
   }
 }

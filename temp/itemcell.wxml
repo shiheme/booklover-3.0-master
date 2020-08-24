@@ -1,0 +1,145 @@
+<template name="posts">
+	<view class="itemcell posts">
+
+		<view class="moviewater" wx:if="{{posttype == 'library' && gridtype == 'water'}}">
+			<block wx:for="{{posts}}" wx:for-index="i" wx:key="key">
+				<block wx:if="{{i==5 && geziads==true}}">
+					<view class="moviecell bgcolor-sub" style="width:{{(windowWidth-50)/3}}px;">
+						<ad-custom unit-id="adunit-aa5302a48410634f" bindload="adLoadgeziads" binderror="adErrorgeziads"></ad-custom>
+					</view>
+				</block>
+				<block wx:else>
+					<view class="moviecell bgcolor-sub {{item.book_pagestyle}}" catchtap="bindDetail" data-posttype="{{item.type}}" id="{{item.id}}" data-key="{{i}}">
+						<view class="msg bgline" style="width:{{(windowWidth-50)/3}}px;{{item.book_foreground?'background-color:'+item.book_foreground:''}}">
+							<view class="postscover libcover" style="background-image:url('{{item.meta.thumbnail}}');width:{{(windowWidth-45)/5}}px;height:{{138*((windowWidth-45)/5)/100}}px;">
+								<view class="dbscore" wx:if="{{item.book_dbscore}}">{{item.book_dbscore}}</view>
+							</view>
+							<view class="base bgcolor-sub">
+								<view class="tit">{{item.title.rendered}}</view>
+							</view>
+						</view>
+					</view>
+				</block>
+			</block>
+		</view>
+		<view class="movielist" wx:if="{{posttype == 'library' && gridtype == 'list'}}">
+			<block wx:for="{{posts}}" wx:for-index="i" wx:key="key">
+				<view class="cardbox">
+					<view catchtap="bindDetail" class="card bgcolor-sub works-items {{item.book_pagestyle}}" data-posttype="{{item.type?item.type:posttype}}" id="{{item.id}}" data-key="{{i}}">
+						<view class="worksgroup">
+							<view class="workcnt">
+								<view class="workcell">
+									<view class="head bgline" style="{{item.book_foreground?'background-color:'+item.book_foreground:''}}">
+										<view class="msg">
+											<view class="workcover libcover" style="background-image:url('{{item.meta.thumbnail?item.meta.thumbnail:item.book_thumb}}');width:{{(windowWidth-35)/4}}px;height:{{138*((windowWidth-35)/4)/100}}px;"></view>
+											<view class="base">
+												<view class="text"><text class="tit">{{item.title.rendered?item.title.rendered:item.book_title}}</text></view>
+												<view class="text">
+													<text class="opend"><block wx:if="{{item.book_opened}}">{{item.book_opened}}</block></text>
+												</view>
+												<view class="text">
+													<text class="imdb"><block wx:if="{{item.book_isbn}}">ISBN:{{item.book_isbn}}</block><block wx:elif="{{item.book_dbid}}">豆瓣ID:{{item.book_dbid}}</block></text>
+												</view>
+												<view class="tag">
+													<block wx:key="index" wx:for="{{item.state}}" wx:for-item='cell'>
+														<text class="tags bgcolor-sub-op20">{{cell.name}}</text>
+													</block>
+													<block wx:key="index" wx:for="{{item.category}}" wx:for-item='cell'>
+														<text class="tags bgcolor-sub-op20">{{cell.name}}</text>
+													</block>
+												</view>
+
+											</view>
+										</view>
+										<view class="more">
+											<text class="dbscore">{{item.book_dbscore}}</text>
+										</view>
+									</view>
+									<view class="foot bgcolor-sub">
+										<view class="cats"></view>
+										<view class="postmsg">
+											<view class="data">
+												<view class="item">
+													<icon class="icon iconfont icon-eye" />
+													<text class="text">{{item.meta.views?item.meta.views:item.views}}</text>
+												</view>
+												<view class="item">
+													<icon class="icon iconfont icon-like" />
+													<text class="text">{{item.likes}}</text>
+												</view>
+												<view class="item">
+													<icon class="icon iconfont icon-comt" />
+													<text class="text">{{item.comments}}</text>
+												</view>
+											</view>
+										</view>
+										<view class="bg" style="{{item.book_foreground?'background-color:'+item.book_foreground:''}}"></view>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</block>
+		</view>
+		<view class="simplepost" wx:if="{{gridtype == 'simple'}}">
+			<block wx:for="{{posts}}" wx:for-index="i" wx:key="key">
+				<view catchtap="{{type!='single'?'bindDetail':''}}" class="card bgcolor-sub" data-posttype="{{item.post.post_type}}" id="{{item.post.ID}}" data-key="{{i}}">
+					<view class="cardbody">
+						<view class="post_cnt">
+							<block wx:if="{{type=='topcmt'}}">
+								<view class="cmtheader">
+									<view class="avatar">
+										<image class="image" src="{{item.author.avatar}}"></image>
+									</view>
+									<view class="basemsg">
+										<view class="name">{{item.author.name}}</view>
+										<view class="date">
+											<text class="text">{{item.date}}</text>
+										</view>
+									</view>
+								</view>
+
+								<view class="cmtbody">
+									{{item.content}}
+								</view>
+								<view class="cmtfoot">
+							点评
+							<icon class="iconrating staricon{{(item.rating)*10}} icon" />{{item.rating?item.rating:'0'}}星给 <text class="strong">《{{item.post.post_title}}》</text>
+						</view>
+							</block>
+							<block wx:elif="{{type=='single'}}">
+							<view class="base">
+												<view class="text"><text class="tit">{{item.title.rendered?item.title.rendered:item.book_title}}</text></view>
+												<view class="text">
+													<text class="opend"><block wx:if="{{item.book_opened}}">{{item.book_opened}}</block></text>
+												</view>
+												<view class="text">
+													<text class="imdb"><block wx:if="{{item.book_isbn}}">ISBN:{{item.book_isbn}}</block><block wx:elif="{{item.book_dbid}}">豆瓣ID:{{item.book_dbid}}</block></text>
+												</view>
+												<view class="tag">
+													<block wx:key="index" wx:for="{{item.state}}" wx:for-item='cell'>
+														<text class="tags bgcolor-sub-op20">{{cell.name}}</text>
+													</block>
+													<block wx:key="index" wx:for="{{item.category}}" wx:for-item='cell'>
+														<text class="tags bgcolor-sub-op20">{{cell.name}}</text>
+													</block>
+												</view>
+
+											</view>
+							</block>
+						</view>
+						<view class="post_thumb">
+							<view class="workcover libcover" style="background-image:url('{{item.meta.thumbnail?item.meta.thumbnail:item.post_thumbnail}}');"></view>
+						</view>
+					</view>
+					<view class="cardfoot">
+						
+					</view>
+				</view>
+
+			</block>
+		</view>
+		
+	</view>
+</template>

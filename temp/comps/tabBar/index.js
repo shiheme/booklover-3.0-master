@@ -1,37 +1,57 @@
 Component({
   data: {
     selected: 0,
-    color: "color",
-    selectedColor: "selectedColor",
+    color: "color color-base-op40",
+    selectedColor: "selectedColor color-base-op80",
     "list": [
       {
         "pagePath": "/pages/index/index",
-        "iconPath": "/btmnav-01.png",
-        "selectedIconPath": "/btmnav-01-on.png",
-        "text": "创意"
+        "iconPath": "icon-btmnav-01",
+        "selectedIconPath": "icon-btmnav-01",
+        "text": "发现"
       },
       {
-        "pagePath": "/pages/source/source",
-        "iconPath": "/btmnav-02.png",
-        "selectedIconPath": "/btmnav-02-on.png",
-        "text": "作品"
+        "pagePath": "/pages/library/library",
+        "iconPath": "icon-btmnav-02",
+        "selectedIconPath": "icon-btmnav-02",
+        "text": "书架"
       },
       {
-        "pagePath": "/pages/search/search",
-        "iconPath": "/btmnav-03.png",
-        "selectedIconPath": "/btmnav-03-on.png",
-        "text": "搜索"
+        "pagePath": "",
+        "iconPath": "icon-btmnav-add",
+        "selectedIconPath": "icon-btmnav-add",
+        "text": ""
+      },
+      {
+        "pagePath": "/pages/like/like",
+        "iconPath": "icon-btmnav-03",
+        "selectedIconPath": "icon-btmnav-03",
+        "text": "喜欢"
+      },
+      {
+        "pagePath": "/pages/mine/mine",
+        "iconPath": "icon-btmnav-04",
+        "selectedIconPath": "icon-btmnav-04",
+        "text": "我的"
       }
     ]
   },
   properties: {
-    pageStyle: {
+    tabbarStyle: {
       type: String,
       value: ''
     },
     selected : {
       type: String,
       value: 0,
+    },
+    istrue_scroll: {
+      type: Boolean,
+      value: false //判断页面上拉还是下拉
+    },
+    showitemadd: {
+      type: Boolean,
+      value: false //是否显示返回按钮/返回首页按钮
     }
   },
   attached() {
@@ -47,6 +67,25 @@ Component({
       } else {
         wx.switchTab({ url })
       }
-    }
+    },
+    //显示/隐藏pop
+    bindShowpop: function (e) {
+      let that = this;
+      that.setData({
+        showpop: true
+      })
+    },
+    bindHidepop: function (e) {
+      let that = this;
+      that.setData({
+        showpop: false
+      })
+    },
+    bindByurl: function (e) {
+      let url = e.currentTarget.dataset.url;
+      wx.navigateTo({
+        url: url
+      })
+    },
   }
 });

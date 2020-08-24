@@ -1,9 +1,9 @@
 <template name="loading">
 
-  <view class="showloading {{pageStyle}} {{isshowLoad?'load':''}}">
-    <image class="loadicon" src="../../images/{{pageStyle}}/loading.svg" wx:if="{{pageStyle}}"></image>
+  <view class="showloading {{isshowLoad?'load':''}}">
+    <icon class="loadicon icon iconfont icon-loading" />
     <view class="loadtext">
-      <text>客官！骚等..</text>
+      <text class="text">正在飞速加载中..</text>
     </view>
   </view>
 </template>

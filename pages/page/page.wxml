@@ -1,0 +1,12 @@
+<view class="wrapper bgcolor-base"></view>
+
+<navtitle id="c-bar" title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isTomine="{{isTomine}}" showLoad="{{showLoad}}"/>
+
+<view class="container bgcolor-base page">
+  <view class="index" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+    <view class="title_text">{{siteInfo.name}} {{siteInfo.version}}</view>
+
+    <view class="desc_text">{{siteInfo.description}}</view>
+<view class="authimg" data-src="{{siteInfo.authimg}}" catchtap="popSingleimg"><image lazy-load='true' mode="widthFix" src="{{siteInfo.authimg}}" style="width:500rpx"></image></view>
+  </view>
+</view>

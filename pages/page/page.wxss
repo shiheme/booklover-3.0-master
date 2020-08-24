@@ -1,0 +1,16 @@
+.title_text {
+  margin-top: 100rpx;
+  text-align: center;
+  font-size: 50rpx;
+}
+
+.desc_text {
+  text-align: center;
+  font-size: 30rpx;
+  opacity: 0.4;
+}
+
+.authimg {
+  margin: 100rpx 40rpx;
+  text-align: center;
+}

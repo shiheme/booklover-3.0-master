@@ -28,24 +28,13 @@ Component({
 
     isActive: false, //定义头部导航是否显示背景
     isGoback: true,
-    pageStyle: app.globalData.pageStyle
   },
   attached: function(options) {
-    var self = this;
-    self.setData({
-      pageBackground: app.globalData.pageBackground,
-      pageStyle: app.globalData.pageStyle
-      //skinSwitch: app.globalData.skinSwitch
-    })
+
   },
   pageLifetimes: {
     show: function() {
-      var self = this;
-      app.setNavBarBg(); //设置标题栏背景色
-      self.setData({
-        pageBackground: app.globalData.pageBackground,
-        pageStyle: app.globalData.pageStyle
-      });
+
     },
     hide: function() {
       // 页面被隐藏
@@ -67,10 +56,22 @@ Component({
         this.setData({
           listtype: 'category'
         })
+        if (options.posttype=='appver') {
         this.getPostList(options.posttype,{
-          categories: options.id,
+          appcats: options.id,
           page: this.data.page
         });
+        } else if (options.posttype == 'source') {
+          this.getPostList(options.posttype, {
+            sourcecats: options.id,
+            page: this.data.page
+          })
+        } else {
+          this.getPostList(options.posttype, {
+            categories: options.id,
+            page: this.data.page
+          });
+        };
         this.getCategories(options.catstype, this.data);
         this.getCategoryByID(options.catstype,options.id);
       }
@@ -127,9 +128,19 @@ Component({
         posts: []
       })
       if (this.data.options.id) {
-        this.getPostList(this.data.options.posttype,{
-          categories: this.data.options.id
-        });
+        if (this.data.options.posttype == 'appver') {
+          this.getPostList(this.data.options.posttype, {
+            appcats: this.data.options.id
+          });
+        } else if (this.data.options.posttype == 'source') {
+          this.getPostList(this.data.options.posttype, {
+            sourcecats: this.data.options.id
+          })
+        } else {
+          this.getPostList(this.data.options.posttype, {
+            categories: this.data.options.id
+          });
+        };
       }
       if (this.data.options.s) {
         this.getPostList(this.data.options.posttype,{
@@ -148,13 +159,26 @@ Component({
       })
       if (!this.data.isLastPage) {
         if (this.data.options.id) {
-          this.getPostList({
-            categories: this.data.options.id,
-            page: this.data.page
-          });
+          if (this.data.options.posttype == 'appver') {
+            this.getPostList(this.data.options.posttype, {
+              appcats: this.data.options.id,
+              page: this.data.page
+            });
+          } else if (this.data.options.posttype == 'source') {
+            this.getPostList(this.data.options.posttype, {
+              sourcecats: this.data.options.id,
+              page: this.data.page
+            })
+          } else {
+            this.getPostList(this.data.options.posttype, {
+              categories: this.data.options.id,
+              page: this.data.page
+            });
+          };
+          
         }
         if (this.data.options.s) {
-          this.getPostList({
+          this.getPostList(this.data.options.posttype,{
             search: this.data.options.s,
             page: this.data.page
           });
@@ -169,14 +193,14 @@ Component({
       if (this.data.options.id) {
         return {
           title: this.data.catetitle + ' - APP比比',
-          path: '/pages/list/list?id=' + this.data.options.id + '&isshare=1&posttype=' + this.data.options.posttype + '&catstype=' + this.data.options.catstype
+          path: '/pages/list/list?id=' + this.data.id + '&isshare=1&posttype=' + this.data.posttype + '&catstype=' + this.data.catstype
 
         }
       }
       if (this.data.options.s) {
         return {
           title: '关键词“' + this.data.options.s + '”的结果 - APP比比',
-          path: '/pages/list/list?id=' + this.data.options.id + '&isshare=1&posttype=' + this.data.options.posttype + '&s=' + this.data.options.s
+          path: '/pages/list/list?s=' + this.data.options.s + '&isshare=1&posttype=' + this.data.posttype
 
         }
       }
@@ -237,10 +261,24 @@ Component({
           })
         }
         if (this.data.isBottom) {
-          args.posts = [].concat(this.data.posts, res)
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            var excerpt = item.excerpt.rendered
+            item.date = API.getDateDiff(strdate);
+            item.excerpt.rendered = API.removeHTML(excerpt);
+            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
+            return item;
+          }))
           args.page = this.data.page + 1
         } else {
-          args.posts = [].concat(this.data.posts, res)
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            var excerpt = item.excerpt.rendered
+            item.date = API.getDateDiff(strdate);
+            item.excerpt.rendered = API.removeHTML(excerpt);
+            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
+            return item;
+          }))
           args.page = this.data.page + 1
         }
         this.setData(args)
@@ -283,7 +321,7 @@ Component({
 
     getAdvert: function() {
       API.listAdsense().then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.status === 200) {
             this.setData({
               advert: res.data
@@ -314,9 +352,9 @@ Component({
 
     //card触摸交互
     touchstart: function (e) {
-      var self = this,
+      let that = this,
         key = e.currentTarget.dataset.key,
-        posts = self.data.posts;
+        posts = that.data.posts;
 
       posts.forEach((v, i, array) => {
         v.app_celltouch = '0';
@@ -324,35 +362,35 @@ Component({
           v.app_celltouch = '1';
         }
       })
-      self.setData({
-        posts: self.data.posts,
+      that.setData({
+        posts: that.data.posts,
       })
     },
 
     touchmove: function (e) {
-      var self = this,
+      let that = this,
         key = e.currentTarget.dataset.key,
-        posts = self.data.posts;
+        posts = that.data.posts;
       setTimeout(function () {
         posts.forEach((v, i, array) => {
           v.app_celltouch = '0';
         })
-        self.setData({
-          posts: self.data.posts,
+        that.setData({
+          posts: that.data.posts,
         })
       }, 100);
 
     },
 
     touchend: function (e) {
-      var self = this,
+      let that = this,
         key = e.currentTarget.dataset.key,
-        posts = self.data.posts;
+        posts = that.data.posts;
       posts.forEach((v, i, array) => {
         v.app_celltouch = '0';
       })
-      self.setData({
-        posts: self.data.posts,
+      that.setData({
+        posts: that.data.posts,
       })
     },
   }

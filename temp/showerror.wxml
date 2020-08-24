@@ -1,6 +1,6 @@
 <template name="showerror">
-  <view class="showerror {{pageStyle}} {{isshowError?'show':'hide'}};">
-    <image src="../../images/{{pageStyle}}/error.svg" wx:if="{{pageStyle}}"></image>
-    <view class="errortext">加载失败，请检查网络或稍后刷新</view>
-  </view>
+	<view class="showerror {{isshowError?'show':'hide'}};">
+		<icon class="icon iconfont icon-error" />
+		<view class="errortext">加载失败，请检查网络或稍后刷新</view>
+	</view>
 </template>

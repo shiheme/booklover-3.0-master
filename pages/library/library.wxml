@@ -1,0 +1,141 @@
+<!--library.wxml-->
+<import src="../../temp/loading.wxml" />
+<import src="../../temp/showerror.wxml" />
+<import src="../../temp/itemcell.wxml" />
+<import src="../../temp/cats.wxml" />
+<view class="tabwrapper {{opentabwrapper?'on':''}}" catchtouchmove="{{opentabwrapper?'true':''}}">
+	<view class="tabwrapperbg bgcolor-sub"></view>
+	<view class="subwrapper">
+		<view class="close" style="position:relative;top:{{navBarHeight}}px;z-index:20;height:{{titleBarHeight}}px;">
+			<view bindtap="closetabwrapper" class="btn" style="height:{{titleBarHeight}}px;" wx:if="{{isTolist}}">
+				<icon class="icon iconfont icon-close" />
+			</view>
+		</view>
+		<wrapleft isShowabout="{{isShowabout}}" bind:myevent="toggleToast" />
+	</view>
+	<view class="mainwrapper" style="{{opentabwrapper?'height:'+(windowHeight-2*customBarHeight-2*titleBarHeight)+'px;margin-top:'+(customBarHeight+titleBarHeight)+'px':'height:100%'}}" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
+
+		<view class="wrapper bgcolor-base"></view>
+
+		<navtitle id="c-bar" title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isSearch="{{isSearch}}" isTolist="{{isTolist}}" showLoad="{{showLoad}}" bind:taplist="opentabwrapper" />
+		<!-- <scroll-view class="scroll-fixed" scroll-y="true"
+scroll-with-animation="true" 
+bindscroll="scroll" 
+bindscrolltolower="onReachBottom" 
+enable-back-to-top="true" 
+refresher-enabled="true" 
+refresher-default-style="none" 
+bindrefresherrefresh="onPullDownRefresh" 
+refresher-triggered="{{isshowLoad}}" 
+scroll-anchoring="{{true}}" 
+throttle="{{false}}" 
+upper-threshold="50" 
+lower-threshold="50" 
+> -->
+		<view class="container bgcolor-base page">
+			<view class="index" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+				<view class="menubarwrap {{isshowCnt?'show':'hide'}}">
+					<view class="menubarhead">
+						<view class="tit">
+							<text class="text">书架</text>
+						</view>
+						<view class="more">
+							<view class="gridctrols {{gridtype=='list'?'list':'other'}}" catchtap="bindGridchange">
+								<view class="gridbtn gridlist {{gridtype=='list'?'on':''}}">
+									<icon class="icon iconfont icon-gridlist" />
+									<text class="text">列表</text>
+								</view>
+								<view class="gridbtn gridwater {{gridtype=='water'?'on':''}}">
+									<icon class="icon iconfont icon-gridwater" />
+									<text class="text">网格</text>
+								</view>
+								<view class="line bgcolor-sub"></view>
+							</view>
+						</view>
+					</view>
+					<view class="menubarfoot">
+						<view class="catsbtn" catchtap="bindShowpop">
+							<icon class="icon iconfont icon-filter" />
+							<block wx:if="{{!catstxt&!statetxt}}"><text class="text">条件筛选</text></block>
+							<block wx:if="{{statetxt}}"><text class="text">{{statetxt}}</text></block>
+							<block wx:if="{{catstxt}}"><text class="text">{{catstxt}}</text></block>
+						</view>
+					</view>
+				</view>
+				<view class="movie_article itemarea {{isshowCnt?'show':'hide'}}" wx:if="{{posts.length>0}}">
+					<template is="posts" data="{{posts,posttype,gridtype,geziads,customBarHeight,windowWidth}}" />
+				</view>
+				<view class="last_text" wx:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
+				<view class="last_text" wx:if="{{!isLastPage&&posts.length>0}}">
+					<block wx:if="{{lasttip==true}}">
+						<icon class="icon iconfont icon-loading turn" />
+						<text class="text">加载更多内容中...</text>
+					</block>
+					<block wx:else>
+						<icon class="icon iconfont icon-error" />
+						<text class="text">出错啦！无法连接数据</text>
+					</block>
+				</view>
+			</view>
+			<template is="showerror" data="{{isshowError:isshowError}}"></template>
+		</view>
+		<!-- </scroll-view> -->
+
+		<view catchtouchmove="{{showpop?'true':''}}" class="popuparea {{showpop?'show':''}}" style="bottom: {{-windowHeight+2*customBarHeight}}px;height: {{windowHeight-3*customBarHeight}}px;">
+			<view class="popupareahead bgcolor-base-op95" style="height: {{windowHeight-60-3*customBarHeight}}px;">
+				<scroll-view scroll-y style="height: {{windowHeight-60-3*customBarHeight}}px;">
+				<view class='catsselect'>
+					<view class="tit hide">
+						排序方式
+					</view>
+					<view class='cellbox grid3 orderby hide'>
+						<radio-group bindchange="radioorderChange" class="checkboxgroup">
+							<label class="cell bgcolor-sub {{item.checked?'on bgcolor-base-face':''}}" style="width:{{(windowWidth-30)/3}}px;" wx:for="{{orderbyitem}}" wx:key="index">
+								<view class="cellhead">
+									<radio class="checkbox" value="{{item.value}}" checked="{{item.checked}}" />
+								</view>
+								<view class="cellbody">{{item.name}}</view>
+							</label>
+						</radio-group>
+					</view>
+					<view class="tit">
+						图书类型
+					</view>
+					<view class='cellbox grid2 state'>
+						<checkbox-group bindchange="checkstateChange" class="checkboxgroup">
+							<label class="cell bgcolor-sub {{item.checked?'on bgcolor-base-face':''}}" style="width:{{(windowWidth-40)/2}}px;" wx:for="{{state}}" wx:key="index">
+								<view class="cellhead">
+									<checkbox class="checkbox" value="{{item.id}}" checked="{{item.checked}}" />
+								</view>
+								<view class="cellbody">{{item.name}}</view>
+							</label>
+						</checkbox-group>
+					</view>
+					<view class="tit">
+						图书分类
+					</view>
+					<view class='cellbox grid3 category'>
+						<checkbox-group bindchange="checkcategoryChange" class="checkboxgroup">
+							<label class="cell bgcolor-sub {{item.checked?'on bgcolor-base-face':''}}" style="width:{{(windowWidth-40)/3}}px;" wx:for="{{category}}" wx:key="index">
+								<view class="cellhead">
+									<checkbox class="checkbox" value="{{item.id}}" checked="{{item.checked}}" />
+								</view>
+								<view class="cellbody">{{item.name}}</view>
+							</label>
+						</checkbox-group>
+					</view>
+				</view>
+				</scroll-view>
+			</view>
+			<view class="popupareafoot bgcolor-sub">
+				<view class="btn reset" catchtap="bindresetpost"><text class="text">清除</text></view>
+				<view class="btn sumbit" catchtap="{{selectchange?'bindUpdatepost':'bindHidepop'}}"><text class="text">完成</text></view>
+			</view>
+		</view>
+		<view class="popupbg {{showpop ? 'show':''}}" catchtap="bindHidepop" catchtouchmove="{{showpop?'true':''}}"></view>
+
+		<template is="loading" data="{{isshowLoad:isshowLoad}}"></template>
+		<tabbar class="tabbar" tabbarStyle="{{tabbarStyle}}" showitemadd="{{showitemadd}}" istrue_scroll="{{istrue_scroll}}" selected="1" />
+
+	</view><!-- end mainwrapper -->
+</view><!-- end tabwrapper -->

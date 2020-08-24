@@ -1,4 +1,5 @@
 const API = require('./base')
+var restapi = API.getRestAPI();
 
 /**
  * 获取站点信息
@@ -6,7 +7,7 @@ const API = require('./base')
  * @return {promise}
  */
 const getSiteInfo = function(data) {
-	return API.get('/wp-json/mp/v1/setting', data);
+  return API.get('/' + restapi +'/mp/v1/setting', data);
 }
 
 /**
@@ -15,7 +16,7 @@ const getSiteInfo = function(data) {
  * @return {promise}
  */
 const getStickyPosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/sticky', data);
+	return API.get('/' + restapi +'/mp/v1/posts/sticky', data);
 }
 
 /**
@@ -25,7 +26,7 @@ const getStickyPosts = function(data) {
  * @return {promise}
  */
 const getPostsList = function (posttype,data) {
-  return API.get('/wp-json/wp/v2/' + posttype, data, { token:false });
+  return API.get('/' + restapi +'/wp/v2/' + posttype, data, { token:false });
 }
 
 /**
@@ -34,7 +35,7 @@ const getPostsList = function (posttype,data) {
  * @return {promise}
  */
 const getPostsbyID = function(posttype,id){
-	return API.get('/wp-json/wp/v2/'+posttype+'/'+id, {}, { token:true });   
+	return API.get('/' + restapi +'/wp/v2/'+posttype+'/'+id, {}, { token:true });   
 }
 
 /**
@@ -44,7 +45,7 @@ const getPostsbyID = function(posttype,id){
  * @return {promise}
  */
 const getPagesList = function(data){
-	return API.get('/wp-json/wp/v2/pages', data);   
+	return API.get('/' + restapi +'/wp/v2/pages', data);   
 }
 
 /**
@@ -53,7 +54,7 @@ const getPagesList = function(data){
  * @return {promise}
  */
 const getPageByID = function(id){
-	return API.get('/wp-json/wp/v2/pages/'+id);   
+	return API.get('/' + restapi +'/wp/v2/pages/'+id);   
 }
 
 /**
@@ -63,7 +64,7 @@ const getPageByID = function(id){
  * @return {promise}
  */
 const getCategories = function(catstype,data){
-	return API.get('/wp-json/wp/v2/'+ catstype +'?orderby=id&order=asc', data);
+	return API.get('/' + restapi +'/wp/v2/'+ catstype +'?orderby=id&order=asc', data);
 }
 
 /**
@@ -72,7 +73,7 @@ const getCategories = function(catstype,data){
  * @return {promise}
  */
 const getCategoryByID = function (catstype,id){
-  return API.get('/wp-json/wp/v2/' + catstype +'/'+id);   
+  return API.get('/' + restapi +'/wp/v2/' + catstype +'/'+id);   
 }
 
 /**
@@ -82,7 +83,7 @@ const getCategoryByID = function (catstype,id){
  * @return {promise}
  */
 const getTags = function(data){
-	return API.get('/wp-json/wp/v2/tags?orderby=id&order=asc', data);   
+	return API.get('/' + restapi +'/wp/v2/tags?orderby=id&order=asc', data);   
 }
 
 /**
@@ -91,7 +92,7 @@ const getTags = function(data){
  * @return {promise}
  */
 const getTagByID = function(id){
-	return API.get('/wp-json/wp/v2/tags/'+id);   
+	return API.get('/' + restapi +'/wp/v2/tags/'+id);   
 }
 
 /**
@@ -100,7 +101,7 @@ const getTagByID = function(id){
  * @return {promise}
  */
 const getRandPosts = function(data){
-	return API.get('/wp-json/mp/v1/posts/rand', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/rand', data);   
 }
 
 /**
@@ -109,7 +110,16 @@ const getRandPosts = function(data){
  * @return {promise}
  */
 const getRelatePosts = function(data){
-	return API.get('/wp-json/mp/v1/posts/relate', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/relate', data);   
+}
+
+/**
+ * 获取热门文章列表
+ * @param  {object} args 参数,默认为空
+ * @return {promise}
+ */
+const getMostPosts = function(posttype,data){
+	return API.get('/' + restapi +'/mp/v1/posts/most?post_type=' + posttype, data);   
 }
 
 /**
@@ -118,7 +128,7 @@ const getRelatePosts = function(data){
  * @return {promise}
  */
 const getMostViewsPosts = function(data){
-	return API.get('/wp-json/mp/v1/posts/most?meta=views', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/most?meta=views', data);   
 }
 
 /**
@@ -127,7 +137,7 @@ const getMostViewsPosts = function(data){
  * @return {promise}
  */
 const getMostFavPosts = function(data){
-	return API.get('/wp-json/mp/v2/posts/most?meta=favs', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/most?meta=favs', data);   
 }
 
 /**
@@ -136,7 +146,7 @@ const getMostFavPosts = function(data){
  * @return {promise}
  */
 const getMostLikePosts = function(data){
-	return API.get('/wp-json/mp/v2/posts/most?meta=likes', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/most?meta=likes', data);   
 }
 
 /**
@@ -145,7 +155,7 @@ const getMostLikePosts = function(data){
  * @return {promise}
  */
 const getMostCommentPosts = function(data){
-	return API.get('/wp-json/mp/v2/posts/most?meta=comments', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/most?meta=comments', data);   
 }
 
 /**
@@ -154,7 +164,7 @@ const getMostCommentPosts = function(data){
  * @return {promise}
  */
 const getRecentCommentPosts = function(data){
-	return API.get('/wp-json/mp/v1/posts/comment', data);   
+	return API.get('/' + restapi +'/mp/v1/posts/comment', data);   
 }
 
 /**
@@ -163,7 +173,7 @@ const getRecentCommentPosts = function(data){
  * @return {promise}
  */
 const getComments = function(data) {
-	return API.get('/wp-json/mp/v1/comments', data);
+	return API.get('/' + restapi +'/mp/v1/comments', data);
 }
 
 /**
@@ -191,7 +201,7 @@ const Loginout = function() {
  * @return {promise}
  */
 const fav = function(data) {
-	return API.post('/wp-json/mp/v1/comments?type=fav', data, { token: true });
+	return API.post('/' + restapi +'/mp/v1/comments?type=fav', data, { token: true });
 }
 
 /**
@@ -201,7 +211,7 @@ const fav = function(data) {
  * @return {promise}
  */
 const like = function(data) {
-	return API.post('/wp-json/mp/v1/comments?type=like', data, { token: true });
+	return API.post('/' + restapi +'/mp/v1/comments?type=like', data, { token: true });
 }
 
 /**
@@ -211,7 +221,7 @@ const like = function(data) {
  * @return {promise}
  */
 const getFavPosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/comment?type=fav', data, { token: true });
+	return API.get('/' + restapi +'/mp/v1/posts/comment?type=fav', data, { token: true });
 }
 
 /**
@@ -221,7 +231,7 @@ const getFavPosts = function(data) {
  * @return {promise}
  */
 const getLikePosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/comment?type=like', data, { token: true });
+	return API.get('/' + restapi +'/mp/v1/posts/comment?type=like', data, { token: true });
 }
 
 /**
@@ -231,7 +241,7 @@ const getLikePosts = function(data) {
  * @return {promise}
  */
 const getCommentsPosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/comment?type=comment', data, { token: true });
+	return API.get('/' + restapi +'/mp/v1/posts/comment?type=comment', data, { token: true });
 }
 
 /**
@@ -241,7 +251,7 @@ const getCommentsPosts = function(data) {
  * @return {promise}
  */
 const addComment = function(data) {
-	return API.post('/wp-json/mp/v1/comments?type=comment', data, { token: true });
+	return API.post('/' + restapi +'/mp/v1/comments?type=comment', data, { token: true });
 }
 
 /**
@@ -251,7 +261,17 @@ const addComment = function(data) {
  * @return {promise}
  */
 const votePosts = function(data) {
-	return API.post('/wp-json/mp/v1/vote', data, { token: true });
+	return API.post('/' + restapi +'/mp/v1/vote', data, { token: true });
+}
+
+/**
+ * JWT认证
+ * @param  {object} args 参数, POST 文章 ID 及选项 ID
+ * TOKEN 参数为 true ,需要用户授权使用
+ * @return {promise}
+ */
+const jsonToken = function(data) {
+	return API.post('/' + restapi +'/mp/v1/jwt/token', data, { token: true });
 }
 
 /**
@@ -259,7 +279,7 @@ const votePosts = function(data) {
  * @param {*} data 
  */
 const subscribeMessage = function(data) {
-  return API.post('/wp-json/mp/v1/subscribe', data, { token: true });
+  return API.post('/' + restapi +'/mp/v1/subscribe', data, { token: true });
 }
 
 /**
@@ -268,47 +288,307 @@ const subscribeMessage = function(data) {
  * @return {promise}
  */
 const getCodeImg = function(data) {
-	return API.post('/wp-json/mp/v1/qrcode', data, { token: false });
+	return API.post('/' + restapi +'/mp/v1/qrcode', data, { token: false });
 }
 
 /**
  * 导航数据
  */
 const getMenuSetting = function(data) {
-	return API.get('/wp-json/mp/v1/menu', data);
+	return API.get('/' + restapi +'/mp/v1/menu', data);
 }
 
 /**
  * 首页广告数据
  */
 const indexAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=index', data);
+	return API.get('/' + restapi +'/mp/v1/advert?type=index', data);
 }
 
 /**
  * 列表广告数据
  */
 const listAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=list', data);
+	return API.get('/' + restapi +'/mp/v1/advert?type=list', data);
 }
 
 /**
  * 详情广告数据
  */
 const detailAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=detail', data);
+	return API.get('/' + restapi +'/mp/v1/advert?type=detail', data);
 }
 
 /**
  * 页面广告数据
  */
 const pageAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=page', data);
+	return API.get('/' + restapi +'/mp/v1/advert?type=page', data);
 }
+
+/**
+ * 图片上传
+ */
+const uploadMedia = function(files,token) {
+	return API.upload('/' + restapi +'/wp/v2/media', files, token);
+}
+
+/**
+ * 删除图片
+ */
+const deleteMedia = function(id,token) {
+	return API.vdelete('/' + restapi +'/wp/v2/media/' + id + '?force=true', {}, token);
+}
+
+const addPosts = function(data,token,posttype) {
+	return API.vpost('/' + restapi +'/wp/v2/' +posttype, data, token);
+}
+
+const getPosts = function(data,token) {
+	return API.vget('/' + restapi +'/wp/v2/posts', data, token);
+}
+
+const previewPosts = function(id,token) {
+	return API.vget('/' + restapi +'/wp/v2/posts/' + id, {}, token);
+}
+
+const updatePosts = function(id,token) {
+	return API.vpost('/' + restapi +'/wp/v2/posts/' + id, { status: 'publish' }, token);
+}
+
+const deletePosts = function(id,token) {
+	return API.vdelete('/' + restapi +'/wp/v2/posts/' + id + '?force=true', {}, token);
+}
+
+const transToVoice = function(data) {
+	return API.post('/' + restapi +'/mp/v1/voice', data, { token: false })
+}
+
+const insertAdsense = function(data) {
+	return API.get('/' + restapi +'/mp/v1/advert/insert', data);
+}
+
 // 获取特定slug的文章内容
 const getPostBySlug = function (posttype, slug) {
-  return API.get('/wp-json/wp/v2/' + posttype + '?slug=' + slug);
+  return API.get('/' + restapi +'/wp/v2/' + posttype + '?slug=' + slug);
 }
+
+const getAge = function (dateStr) {
+  var r = dateStr.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+  if (r == null)
+    return false;
+  var d = new Date(r[1], r[3] - 1, r[4]);
+  if (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3]
+      && d.getDate() == r[4]) {
+    var Y = new Date().getFullYear();
+    return (Y - r[1]);
+  }
+  return "";
+
+  // var publishTime = Date.parse(dateStr) / 1000,
+  // date = new Date(publishTime * 1000),
+  // Y = date.getFullYear(),
+  //   M = date.getMonth() + 1,
+  //   D = date.getDate();
+  //   if (M < 10) {
+  //     M = '0' + M;
+  //   }
+  //   if (D < 10) {
+  //     D = '0' + D;
+  //   }
+
+}
+
+const getBirth = function (dateStr) {
+  // var r = dateStr.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+  // if (r == null)
+  //   return false;
+  // var d = new Date(r[1], r[3] - 1, r[4]);
+  // if (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3]
+  //     && d.getDate() == r[4]) {
+  //   var Y = new Date().getFullYear();
+  //   return (Y - r[1]);
+  // }
+  // return "";
+
+  var publishTime = Date.parse(dateStr) / 1000,
+  date = new Date(publishTime * 1000),
+  Y = date.getFullYear().toString().substr(2, 2),
+    M = date.getMonth() + 1,
+    D = date.getDate();
+    if (M < 10) {
+      M = '0' + M;
+    }
+    if (D < 10) {
+      D = '0' + D;
+    }
+
+    return Y + '.' + M + '.' + D;
+
+}
+
+const getDateDiff = function (dateStr) {
+  var dateStr = dateStr.replace("T", " "),
+    publishTime = Date.parse(dateStr.replace(/-/gi, "/")) / 1000,
+    d_seconds,
+    d_minutes,
+    d_hours,
+    d_days,
+    timeNow = parseInt(new Date().getTime() / 1000),
+    d,
+    date = new Date(publishTime * 1000),
+    Y = date.getFullYear(),
+    M = date.getMonth() + 1,
+    D = date.getDate(),
+    H = date.getHours(),
+    m = date.getMinutes(),
+    s = date.getSeconds();
+  //小于10的在前面补0
+  if (M < 10) {
+    M = '0' + M;
+  }
+  if (D < 10) {
+    D = '0' + D;
+  }
+  if (H < 10) {
+    H = '0' + H;
+  }
+  if (m < 10) {
+    m = '0' + m;
+  }
+  if (s < 10) {
+    s = '0' + s;
+  }
+
+  d = timeNow - publishTime;
+  d_days = parseInt(d / 86400);
+  d_hours = parseInt(d / 3600);
+  d_minutes = parseInt(d / 60);
+  d_seconds = parseInt(d);
+
+  if (d_days > 0 && d_days < 3) {
+    return d_days + '天前';
+  } else if (d_days <= 0 && d_hours > 0) {
+    return d_hours + '小时前';
+  } else if (d_hours <= 0 && d_minutes > 0) {
+    return d_minutes + '分钟前';
+  } else if (d_seconds < 60) {
+    if (d_seconds <= 0) {
+      return '刚刚发表';
+    } else {
+      return d_seconds + '秒前';
+    }
+  } else if (d_days >= 3 && d_days < 30) {
+    return M + '月' + D + '日';
+  } else if (d_days >= 30) {
+    return Y + '年' + M + '月' + D + '日';
+  }
+
+  return publishTime;
+}
+
+const cutstr = function (str, len, flag) {
+  var str_length = 0;
+  var str_len = 0;
+  var str_cut = new String();
+  var str_len = str.length;
+  for (var i = 0; i < str_len; i++) {
+    var a = str.charAt(i);
+    str_length++;
+    if (escape(a).length > 4) {
+      //中文字符的长度经编码之后大于4  
+      str_length++;
+    }
+    str_cut = str_cut.concat(a);
+    if (str_length >= len) {
+      if (flag == 0) {
+        str_cut = str_cut.concat("...");
+      }
+      return str_cut;
+    }
+  }
+  //如果给定字符串小于指定长度，则返回源字符串；  
+  if (str_length < len) {
+    return str;
+  }
+}
+
+const removeHTML = function (s) {
+  var str = s.replace(/<\/?.+?>/g, "");
+  str = str.replace("[&hellip;]", "...");
+  str = str.replace(/[\r\n]/g, ""); //去掉回车换行    
+  return str.replace(/ /g, "");
+}
+
+const addxing = function (s) {
+  var str = s.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2");  
+  return str.replace(/ /g, "");
+}
+
+const isDuringDate = function (startDateStr, endDateStr) {
+  var curDate = new Date(),
+    startDate = new Date(startDateStr),
+    endDate = new Date(endDateStr);
+  if (curDate >= startDate && curDate <= endDate) {
+    return '1';
+  }
+  if (curDate < startDate) {
+    return '0';
+  }
+  if (curDate > endDate) {
+    return '2';
+  }
+}
+
+const mathRoundRate = function (num) {
+  var result = parseFloat(num);
+  result = Math.round(num * 2 * 10) / 10;
+   var str = result.toString();
+  var pos_decimal = str.indexOf('.');
+  if (pos_decimal < 0) {
+    pos_decimal = str.length;
+    str += '.';
+  }
+  while (str.length <= pos_decimal + 1) {
+    str += '0';
+  }
+  return str;
+}
+
+const formatNumber = function (num) {
+  if (num >= 0 && num < 10) {
+    return `0${num}`;
+  }
+  return num;
+}
+
+const formatTime =  function (time, showHour){
+  const h = time.getUTCHours();
+  const m = time.getUTCMinutes();
+  const s = time.getUTCSeconds();
+  if (showHour || h > 0) {
+    return [h, m, s].map(formatNumber).join(':');
+  } else {
+    return [m, s].map(formatNumber).join(':');
+  }
+}
+
+const cutspit = function(s, len) {
+  var arr = [];
+  var str = s.split('-');
+    arr.push({'field':str[0],'name':str[1]});
+  // str = [field:str[0],name:str[1]]
+  return arr;
+}
+
+// const cutspit = function(s, len) {
+//   // var arr = [];
+//   var str = s.split('-');
+//     // arr.push(str[0],str[1]);
+//   // str = [felid:str[0],name:str[1]]
+//   return str[len];
+// }
+
 
 API.getSiteInfo					    = getSiteInfo
 API.getStickyPosts			    = getStickyPosts
@@ -322,6 +602,7 @@ API.getTags						      = getTags
 API.getTagByID					    = getTagByID
 API.getRandPosts				    = getRandPosts
 API.getRelatePosts				  = getRelatePosts
+API.getMostPosts            = getMostPosts
 API.getMostViewsPosts		  	= getMostViewsPosts
 API.getMostFavPosts				  = getMostFavPosts
 API.getMostLikePosts			  = getMostLikePosts
@@ -336,6 +617,7 @@ API.getLikePosts				    = API.guard(getLikePosts)
 API.getCommentsPosts			  = API.guard(getCommentsPosts)
 API.addComment					    = API.guard(addComment)
 API.votePosts					      = API.guard(votePosts)
+API.jsonToken						= API.guard(jsonToken)
 API.subscribeMessage        = API.guard(subscribeMessage)
 API.getCodeImg					    = getCodeImg
 API.Loginout					      = Loginout
@@ -344,6 +626,25 @@ API.indexAdsense				    = indexAdsense
 API.listAdsense					    = listAdsense
 API.detailAdsense				    = detailAdsense
 API.pageAdsense					    = pageAdsense
+API.uploadMedia						= uploadMedia
+API.deleteMedia						= deleteMedia
+API.addPosts						= addPosts
+API.getPosts						= getPosts
+API.previewPosts					= previewPosts
+API.updatePosts						= updatePosts
+API.deletePosts						= deletePosts
+API.transToVoice					= transToVoice
+API.insertAdsense					= insertAdsense
 API.getPostBySlug           = getPostBySlug
+API.getAge                  = getAge
+API.getBirth                = getBirth
+API.getDateDiff             = getDateDiff
+API.cutstr                  = cutstr
+API.removeHTML              = removeHTML
+API.addxing                 = addxing
+API.isDuringDate            = isDuringDate
+API.mathRoundRate           = mathRoundRate
+API.formatTime              = formatTime
+API.cutspit                 = cutspit
 
 module.exports = API

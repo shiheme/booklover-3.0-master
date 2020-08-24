@@ -1,0 +1,545 @@
+/* 安全模式下隐藏视频和自定义APP文章 */
+.wp-block-video.safemode,
+.wp-block-audio.safemode,
+.su-posts-list-loop.safemode,
+.su-posts-single-loop.safemode {
+  display: none !important;
+}
+
+/* 定义画集样式 */
+
+._p,
+.wp-block-file {
+  margin: 0rpx 40rpx 40rpx 40rpx;
+  line-height: 58rpx;
+  opacity: 0.6;
+  font-size: 34rpx;
+}
+
+.wp-block-audio {
+  margin: 40rpx 40rpx 0 40rpx;
+}
+
+.wp-block-audio ._aud {
+  width: 100%;
+}
+
+.__pre {
+  border-left: 3px solid rgba(122, 122, 122, 0.3);
+  background-color: rgba(122, 122, 122, 0.1);
+  padding: 20rpx;
+}
+
+.__h2 {
+  margin-top: 80rpx !important;
+}
+
+.__h3 {
+  margin-top: 60rpx !important;
+}
+
+.__h4 {
+  margin-top: 40rpx !important;
+}
+
+.card {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 32rpx;
+  box-shadow: 0rpx 16rpx 120rpx -10rpx rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.wp-block-gallery {
+  position: relative;
+  width: 100%;
+  margin-top: 40rpx;
+  padding-top: 70rpx;
+  display: block;
+}
+
+.blocks-gallery-grid {
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.blocks-gallery-grid .blocks-gallery-item:first-child {
+  margin-left: 40rpx;
+}
+
+.blocks-gallery-grid .blocks-gallery-item:last-child {
+  margin-right: 40rpx;
+}
+
+.blocks-gallery-grid .blocks-gallery-item {
+  display: inline-block !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 18rpx;
+  width: 220rpx;
+}
+
+.blocks-gallery-grid .blocks-gallery-item ._ul-bef {
+  display: none;
+}
+
+.blocks-gallery-grid .blocks-gallery-item ._li {
+  width: 100% !important;
+}
+
+.blocks-gallery-grid .blocks-gallery-item ._img {
+  width: 220rpx !important;
+  border-radius: 10rpx;
+  position: relative;
+}
+
+.blocks-gallery-grid .blocks-gallery-item ._img::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 10rpx;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+  pointer-events: none;
+  border-color: rgba(123,123,123,.2);
+}
+
+.blocks-gallery-grid .blocks-gallery-item .blocks-gallery-item__caption {
+  line-height: 40rpx;
+  text-align: center;
+  display: block;
+}
+
+.blocks-gallery-grid .blocks-gallery-item .blocks-gallery-item__caption ._text {
+  font-size: 28rpx;
+  opacity: 0.4;
+  font-style: italic;
+}
+
+.blocks-gallery-caption {
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 70rpx;
+  z-index: 10;
+  display: block;
+}
+
+.blocks-gallery-caption .wxParse-inline {
+  line-height: 70rpx;
+  height: 70rpx;
+  display: block;
+}
+
+.blocks-gallery-caption ._text {
+  font-weight: bold;
+  font-size: 36rpx;
+  margin: 0 40rpx;
+  opacity: .6;
+}
+
+/* 定义default-loop的卡片样式 */
+
+.su-posts-default-loop {
+  margin-top: 40rpx !important;
+  width: 100%;
+}
+
+.su-posts-default-loop .su-post-tap {
+  display: block;
+  margin: 0 40rpx;
+}
+
+.su-posts-default-loop .su-post {
+  padding: 40rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-label {
+  line-height: 32rpx;
+  display: flex;
+}
+
+.su-posts-default-loop .su-post .su-post-label ._text {
+  opacity: 0.5;
+  font-weight: 600;
+  font-size: 30rpx;
+  margin-right: 10rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-title {
+  margin-top: 10rpx;
+  line-height: 60rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-title ._text {
+  font-weight: 500;
+  font-size: 50rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.su-posts-default-loop .su-post .su-post-excerpt {
+  margin-top: 10rpx;
+  line-height: 36rpx;
+}
+
+.su-posts-default-loop .su-post .su-post-excerpt ._p {
+  margin: 0rpx;
+  line-height: 40rpx;
+  opacity: 1;
+}
+
+.su-posts-default-loop .su-post .su-post-excerpt ._text {
+  font-size: 30rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  opacity: 0.4;
+}
+
+/* 定义single-loop的卡片样式 */
+
+.su-posts-single-loop {
+  margin-top: 40rpx !important;
+  width: 100%;
+  margin-bottom: -40rpx;
+}
+
+.su-posts-single-loop .su-post {}
+
+.su-posts-single-loop .su-post .su-post-tap {}
+
+.su-posts-single-loop .su-post .su-post-tap ._a_tree {
+  padding: 40rpx;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: rgba(122, 122, 122, 0.1);
+}
+
+.su-posts-single-loop .su-post .su-post-tap ._img {
+  position: relative;
+  width: 180rpx !important;
+  height: 180rpx !important;
+  overflow: hidden;
+}
+
+.su-posts-single-loop .su-post .su-post-tap ._img::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: rgba(123,123,123,.2);
+}
+
+.su-posts-single-loop .su-post .su-post-tap.iosapp ._img,
+.su-posts-single-loop .su-post .su-post-tap.iosapp ._img::after {
+  border-radius: 22.5%;
+}
+
+.su-posts-single-loop .su-post .su-post-tap.wxapp ._img,
+.su-posts-single-loop .su-post .su-post-tap.wxapp ._img::after {
+  border-radius: 50%;
+}
+
+.su-posts-single-loop .su-post .su-post-tap .su-post-title {
+  line-height: 58rpx;
+  margin-top: 30rpx;
+}
+
+.su-posts-single-loop .su-post .su-post-tap .su-post-title ._text {
+  font-weight: 500;
+  font-size: 40rpx;
+}
+
+.su-posts-single-loop .su-post .su-post-tap .su-post-excerpt {
+  line-height: 38rpx;
+  display: flex;
+}
+
+.su-posts-single-loop .su-post .su-post-tap .su-post-excerpt ._text {
+  font-size: 28rpx;
+  opacity: 0.4;
+  margin-rigth: 10rpx;
+}
+
+.su-posts-single-loop .su-post .su-post-tap .su-post-meta {
+  line-height: 42rpx;
+  margin-top: 50rpx;
+  margin-bottom: 20rpx;
+}
+
+.su-posts-single-loop .su-post .su-post-tap .su-post-meta ._text {
+  font-size: 30rpx;
+  padding: 8rpx 30rpx;
+  border-radius: 30rpx;
+  position: relative;
+}
+
+/* 定义list-loop的卡片样式 */
+
+.su-posts-list-loop {
+  margin-top: 40rpx !important;
+  width: 100%;
+}
+
+.su-posts-list-loop .su-post .su-post-tap>._a_tree {
+  padding: 0 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon {
+  display: flex;
+  position: relative;
+  margin-right: 20rpx;
+  overflow: hidden;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: rgba(123,123,123,.2);
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.iosapp,
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.iosapp::after {
+  border-radius: 22.5%;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.wxapp,
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon.wxapp::after {
+  border-radius: 50%;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon ._img {
+  width: 120rpx !important;
+  height: 120rpx !important;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-msg {
+  display: flex;
+  flex: auto;
+  flex-flow: column;
+  height: 160rpx;
+  justify-content: center;
+  border-width: 1rpx 0 0 0;
+  border-style: solid;
+  border-color: rgba(123,123,123,.2);
+}
+
+.su-posts-list-loop .su-post:nth-child(1) .su-post-msg {
+  border-top: none !important;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-title {
+  line-height: 38rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-title ._text {
+  font-size: 34rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-excerpt {
+  display: flex;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-excerpt ._text {
+  font-size: 28rpx;
+  opacity: 0.4;
+  margin-right: 10rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-meta {
+  line-height: 42rpx;
+  margin-top: 50rpx;
+  margin-bottom: 20rpx;
+}
+
+.su-posts-list-loop .su-post .su-post-tap .su-post-meta ._text {
+  font-size: 30rpx;
+  padding: 8rpx 30rpx;
+  border-radius: 30rpx;
+  position: relative;
+}
+
+/* 默认图片排版有间距，需要占满发布文章时增加fullwidth标签 */
+
+.wp-block-image {
+  position: relative;
+  margin: 40rpx 40rpx 0 40rpx;
+  overflow: hidden;
+}
+
+.wp-block-image .aligncenter ._img {
+  display: block;
+  margin: 0 auto;
+}
+
+.wp-block-image ._span {
+  line-height: 40rpx;
+  padding: 30rpx 40rpx;
+  display: block;
+}
+
+.wp-block-image .aligncenter ._span {
+  text-align: center;
+}
+
+.wp-block-image ._span ._text {
+  font-size: 26rpx;
+  opacity: 0.4;
+  font-style: italic;
+}
+
+.wp-block-image.maxwidth {
+  position: relative;
+  margin: 40rpx 40rpx 0 40rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0rpx 10rpx 30rpx -10rpx rgba(0, 0, 0, 0.2);
+}
+
+.wp-block-image.maxwidth::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 20rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: rgba(123,123,123,.2);
+  pointer-events: none;
+}
+
+.wp-block-image.fullwidth {
+  margin: 40rpx 0rpx 0 0;
+  border-radius: 0rpx;
+  box-shadow: none;
+}
+
+.wp-block-image.fullwidth::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0rpx;
+  border-width: 0rpx;
+  border-style: solid;
+  border-color: rgba(123,123,123,.2);
+  pointer-events: none;
+}
+
+.wp-block-image.maxwidth ._span {
+  line-height: 40rpx;
+  background-color: rgba(122, 122, 122, 0.1);
+  padding: 30rpx 40rpx;
+  display: block;
+  text-align: center;
+}
+
+.wp-block-image.maxwidth ._span ._text {
+  font-size: 26rpx;
+  opacity: 0.4;
+  font-style: italic;
+}
+
+.wp-block-image.fullwidth ._img,
+.wp-block-image.maxwidth ._img {
+  width: 100% !important;
+}
+
+.wp-block-image.fullwidth ._span {
+  display: none;
+}
+
+/* 视频默认竖版375:812比例，需要4:3或者1:1文章时增加video4-3/video1-1标签 */
+
+.wp-block-video {
+  margin: 40rpx 40rpx 0 40rpx;
+}
+
+.wp-block-video ._vid {
+  border-radius: 20rpx;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: 0rpx 10rpx 30rpx -10rpx rgba(0, 0, 0, 0.2);
+}
+
+.wp-block-video ._vid::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 20rpx;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: rgba(123,123,123,.2);
+}
+
+.wxParse-hr {
+  border-top-width: 1rpx;
+  border-top-style: solid;
+  margin: 40rpx 40rpx 0 40rpx;
+}
+
+.wp-block-image::after,
+.su-posts-list-loop .su-post .su-post-tap .su-post-msg,
+.blocks-gallery-grid .blocks-gallery-item ._img::after,
+.su-posts-default-loop .su-post .su-post-tap ._img::after,
+.su-posts-list-loop .su-post .su-post-tap .su-post-icon::after,
+.su-posts-single-loop .su-post .su-post-tap ._img::after,
+.wp-block-video ._vid::after {
+  border-color: rgba(122, 122, 122, 0.2);
+}
+
+.nolistyle {
+  opacity: 0.6;
+  font-size: 34rpx;
+}
+
+.nolistyle ._ul-bef,
+.nolistyle ._ol-bef {
+  display: none !important;
+}
+
+.nolistyle ._li {
+  margin: 10rpx 0;
+}
