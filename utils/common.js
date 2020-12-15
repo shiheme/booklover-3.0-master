@@ -32,11 +32,12 @@ module.exports = Behavior({
     isTolist: false, //定义头部导航是否显示内容列表
 
     showLoad: false,
+    waiting: true,
     opentabwrapper: false,
     scene: app.globalData.scene,
     showitemadd: app.globalData.showitemadd,
-    tabbarStyle:app.globalData.tabbarStyle,
- 
+    tabbarStyle: app.globalData.tabbarStyle,
+
     wrapperhide: app.globalData.wrapperhide,
     windowHeight: app.globalData.windowHeight,
     windowWidth: app.globalData.windowWidth,
@@ -57,31 +58,92 @@ module.exports = Behavior({
 
   },
   methods: {
-    //判断加载广告
-    adLoadgeziads() {
-      let that = this;
-      that.setData({
-        geziads: true
+    onShow: function () {
+      let user = app.globalData.user
+      if (!user) {
+        user = '';
+      }
+      this.setData({
+        user: user,
       })
+      console.log('user', this.data.user)
     },
-    adErrorgeziads(err) {
-      let that = this;
-      that.setData({
-        geziads: false
-      })
+    getSiteInfo: function () {
+      API.getSiteInfo().then(res => {
+          this.setData({
+            siteInfo: res
+          })
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
     },
-    
+
+    getAdvert: function () {
+      API.indexAdsense().then(res => {
+          // console.log(res)
+          if (res.status === 200) {
+            this.setData({
+              advert: res.data
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    getProfile: function (e) {
+      if (app.globalData.user) {
+        this.setData({
+          user: app.globalData.user
+        })
+      } else {
+        wx.showLoading({
+          title: '正在登录!',
+          mask: true
+        })
+        API.getProfile().then(res => {
+            console.log(res)
+            this.setData({
+              user: res
+            })
+            wx.hideLoading()
+          })
+          .catch(err => {
+            console.log(err)
+            wx.hideLoading()
+          })
+      }
+    },
+
+
     //显示/隐藏pop
     bindShowpop: function (e) {
-      let that = this;
+      let that = this,
+        popheight = e.currentTarget.dataset.popheight,
+        poptype = e.currentTarget.dataset.poptype,
+        popitem = e.currentTarget.dataset.popitem[0];
       that.setData({
-        showpop: true
+        popheight: popheight,
+        poptype: poptype,
+        popitem: popitem
       })
+      console.log(popitem)
+      setTimeout(function () {
+        that.setData({
+          showpop: true
+        });
+      }, 100);
+
     },
     bindHidepop: function (e) {
       let that = this;
       that.setData({
-        showpop: false
+        showpop: false,
+        pengyouquantip: false
       })
     },
     opentabwrapper: function (e) {
@@ -127,7 +189,7 @@ module.exports = Behavior({
       // console.log(href)
       // console.log(domain)
       //可以在这里进行一些路由处理
-      if (href.indexOf(domain) == -1) {
+      if (href.indexOf(domain) == -1 && href.indexOf("linktype=1") == -1) {
         wx.setClipboardData({
           data: href,
           success: function (res) {
@@ -141,6 +203,10 @@ module.exports = Behavior({
               }
             })
           }
+        })
+      } else if (href.indexOf(domain) == -1 && href.indexOf("linktype=1") != -1) {
+        wx.navigateTo({
+          url: href
         })
       } else {
 
@@ -179,13 +245,18 @@ module.exports = Behavior({
 
     bindDetail: function (e) {
       let id = e.currentTarget.id,
-      posttype = e.currentTarget.dataset.posttype;
+        posttype = e.currentTarget.dataset.posttype;
       wx.navigateTo({
         url: '/pages/detail/detail?id=' + id + '&posttype=' + posttype,
       })
     },
 
-
+    bindHandler: function (e) {
+      let url = e.currentTarget.dataset.url;
+      wx.navigateTo({
+        url: url,
+      })
+    },
   }
 
 })

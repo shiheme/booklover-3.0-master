@@ -1,0 +1,103 @@
+<scroll-view scroll-y style="height:100%">
+	<view class="wrap bgcolor-base">
+		<view class="head libmsg">
+			<view class="imagecover libcover" style="background-image:url('{{detail[0].meta.thumbnail}}');"></view>
+			<view class="libtitle">{{detail[0].title.rendered}}</view>
+			<view class="libisbn" wx:if="{{detail[0].book_isbn}}">ISBN：{{detail[0].book_isbn}}</view>
+		</view>
+		<view class="body">
+
+			<block wx:if="{{libtype=='download'}}">
+
+				<view class="videolookarea card libdownload bgcolor-sub">
+					<view class="hidecnt" wx:if="{{videolook}}">
+						<parser html="{{detail[0].book_videoadscnt}}" />
+					</view>
+					<view class="hidecntbtn" bindtap="readMore" wx:else>
+						<icon class="icon iconfont icon-lock" />
+						<text class="tit text">{{detail[0].book_videoadstit}}</text>
+					</view>
+				</view>
+			</block>
+			<block wx:else>
+				<view class="card libborrow bgcolor-sub">
+					<view class="card-cell">
+						<view class="card-cell-msg">
+							<view class="card-cell-base">
+								<view class="card-cell-title">借书人</view>
+							</view>
+							<view class="card-cell-more">
+								<text class="text">{{user[0].nickName}}</text>
+							</view>
+						</view>
+					</view>
+					<view class="card-cell">
+						<view class="card-cell-msg">
+							<view class="card-cell-base">
+								<view class="card-cell-title">用户等级</view>
+							</view>
+							<view class="card-cell-more">
+								<text class="text" wx:if="{{user[0].role=='subscriber'}}">订阅者</text>
+								<text class="text" wx:elif="{{user[0].role=='contributor'}}">贡献者</text>
+								<text class="text" wx:elif="{{user[0].role=='administrator'}}">管理员</text>
+								<text class="text" wx:else>工作者</text>
+							</view>
+						</view>
+					</view>
+					<view class="card-cell">
+						<view class="card-cell-msg">
+							<view class="card-cell-base">
+								<view class="card-cell-title">借阅单价</view>
+							</view>
+							<view class="card-cell-more">
+								<text class="text">¥{{detail[0].book_rent[0]}} /月</text>
+							</view>
+						</view>
+					</view>
+					<view class="card-cell">
+						<view class="card-cell-msg">
+							<view class="card-cell-base">
+								<view class="card-cell-title">借阅时间</view>
+							</view>
+							<view class="card-cell-more">
+								<text class="text">1个月</text>
+								<icon class="icon iconfont icon-arrow-right" />
+							</view>
+						</view>
+					</view>
+				</view>
+			</block>
+		</view>
+		<view class="foot">
+			<view class="tips" wx:if="{{libtype=='download'}}">
+				<text class="text">*本站不存储任何电子书，仅整理指向可用资源的网盘地址或平台，并会注明出处；</text>
+				<text class="text">*本站为非盈利性个人小程序，不对任何资源收取费用，亦不对任何资源的完整性负责；</text>
+				<text class="text">*如您对该资源有任何异议，请联系馆长。</text>
+			</view>
+			<view class="tips" wx:else>
+				<text class="text">* 确认上述内容无误后点击复制文本，联系馆长并粘贴预借信息；馆长收到信息后会回复预借是否成功，以及借书注意事项；</text>
+				<text class="text">* 预借成功的书籍会锁定三天，请在三天内前往共享书屋取书；</text>
+				<text class="text">* 馆长回复信息会有延迟，一般在晚上19:00-22:00回复；如超过一天未收到馆长客服服务信息，请加馆长为好友进行沟通；</text>
+				<text class="text">* 更多共享借阅书的常见问题请访问帮助。</text>
+			</view>
+		</view>
+
+	</view>
+	<view class="fixedbox bgcolor-base fixed" wx:if="{{libtype=='borrow'}}">
+		<view class="important">
+			<text class="text">纸质书暂时仅供建始县同城书友借阅</text>
+		</view>
+		<view class="box {{detail[0].book_pagestyle}}"
+			style="{{detail[0].book_foreground?'background:'+detail[0].book_foreground:''}}">
+
+			<view class="btn">
+				<button class="button" open-type="contact" />
+				<text class="text">联系馆长</text>
+			</view>
+			<view class="btn">
+				<button class="button" open-type="contact" />
+				<text class="text">加馆长为好友</text>
+			</view>
+		</view>
+	</view>
+</scroll-view>

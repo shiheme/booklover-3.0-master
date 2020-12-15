@@ -1,25 +1,14 @@
-/*
-  trees 递归子组件
-  github：https://github.com/jin-yufeng/Parser
-  docs：https://jin-yufeng.github.io/Parser
-  author：JinYufeng
-  update：2020/03/23
-*/
-const API = require('../../../../utils/api')
-var app = getApp()
-
+const errorImg = require('../libs/config.js').errorImg;
 Component({
   data: {
     canIUse: !!wx.chooseMessageFile,
-    windowWidth: app.globalData.windowWidth
+    placeholder: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='225'/>",
+    ctrl: []
   },
   properties: {
     nodes: Array,
-    safemode: {
-      type: String,
-      value: '' //帮助文档的路径
-    },
-    lazyLoad: Boolean
+    lazyLoad: Boolean,
+    loading: String
   },
   methods: {
     // 视频播放事件
@@ -30,13 +19,13 @@ Component({
           if (this.top.videoContexts[i].id != e.currentTarget.id)
             this.top.videoContexts[i].pause();
     },
-    // 图片点击事件
+    // 图片事件
     imgtap(e) {
-      var attrs = e.target.dataset.attrs;
+      var attrs = e.currentTarget.dataset.attrs;
       if (!attrs.ignore) {
         var preview = true;
         this.top.triggerEvent('imgtap', {
-          id: e.target.id,
+          id: e.currentTarget.id,
           src: attrs.src,
           ignore: () => preview = false
         })
@@ -51,11 +40,21 @@ Component({
         }
       }
     },
+    loadImg(e) {
+      var i = e.target.dataset.i;
+      if (this.data.lazyLoad && !this.data.ctrl[i])
+        this.setData({
+          [`ctrl[${i}]`]: 1
+        })
+      else if (this.data.loading && this.data.ctrl[i] != 2)
+        this.setData({
+          [`ctrl[${i}]`]: 2
+        })
+    },
     // 链接点击事件
     linkpress(e) {
       var jump = true,
-        attrs = e.currentTarget.dataset.attrs,
-        domain = API.getHost();
+        attrs = e.currentTarget.dataset.attrs;
       attrs.ignore = () => jump = false;
       this.top.triggerEvent('linkpress', attrs);
       if (jump) {
@@ -69,7 +68,7 @@ Component({
             this.top.navigateTo({
               id: attrs.href.substring(1)
             })
-          else if (attrs.href.indexOf(domain) == -1 && (attrs.href.indexOf('http') == 0 || attrs.href.indexOf('//') == 0))
+          else if (attrs.href.indexOf('http') == 0 || attrs.href.indexOf('//') == 0)
             wx.setClipboardData({
               data: attrs.href,
               success: () =>
@@ -77,41 +76,21 @@ Component({
                   title: '链接已复制'
                 })
             })
-          else if (attrs.href.indexOf('http') == -1 || attrs.href.indexOf('//') == -1)
-            wx.setClipboardData({
-              data: attrs.href,
-              success: () =>
-                wx.showToast({
-                  title: '文本已复制'
-                })
-            })
-          else if (attrs.href.indexOf(domain) == 0) {
-            var slug = API.getUrlFileName(attrs.href, domain);
-            var posttype = API.getUrlPosttypeName(attrs.href, domain);
-            if (slug == 'index') {
-              // console.log(slug)
-              // wx.switchTab({
-              //   url: '../index/index'
-              // })
-            } else {
-              API.getPostBySlug(posttype, slug).then(res => {
-                var postID = res[0].id;
-                wx.navigateTo({
-                  url: '../detail/detail?id=' + postID + '&posttype=' + posttype
-                })
-              })
-            }
-          } else
+          else
             wx.navigateTo({
               url: attrs.href,
+              fail() {
+                wx.switchTab({
+                  url: attrs.href,
+                })
+              }
             })
         }
       }
     },
     // 错误事件
     error(e) {
-      var context, src = '',
-        source = e.target.dataset.source,
+      var source = e.target.dataset.source,
         i = e.target.dataset.i,
         node = this.data.nodes[i];
       if (source == 'video' || source == 'audio') {
@@ -121,40 +100,23 @@ Component({
           return this.setData({
             [`nodes[${i}].i`]: index
           })
-        if (this.top) context = this.top.getVideoContext(e.target.id);
-      } else if (source == 'img')
-        context = {
-          setSrc: (newSrc) => src = newSrc
-        }
+      } else if (source == 'img' && errorImg) {
+        this.top.imgList.setItem(e.target.dataset.index, errorImg);
+        this.setData({
+          [`nodes[${i}].attrs.src`]: errorImg
+        })
+      }
       this.top && this.top.triggerEvent('error', {
         source,
         target: e.target,
-        context,
-        ...e.detail
+        errMsg: e.detail.errMsg
       })
-      if (source == 'img') {
-        var data = {
-          [`nodes[${i}].attrs.src`]: src
-        }
-        if (!src) data[`nodes[${i}].err`] = 1;
-        this.setData(data);
-      }
     },
     // 加载视频
     loadVideo(e) {
-      var i = e.target.dataset.i;
       this.setData({
-        [`nodes[${i}].lazyLoad`]: false,
-        [`nodes[${i}].attrs.autoplay`]: true
+        [`nodes[${e.target.dataset.i}].attrs.autoplay`]: true
       })
-    },
-    // 加载图片
-    loadImg(e) {
-      var data = e.target.dataset;
-      if (data.auto)
-        this.setData({
-          [`nodes[${data.i}].attrs.style`]: `${this.data.nodes[data.i].attrs.style};width:${e.detail.width}px`
-        })
     }
   }
 })

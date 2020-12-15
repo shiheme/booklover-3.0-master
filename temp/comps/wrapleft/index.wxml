@@ -1,53 +1,43 @@
-<view class="content">
+<view class="content" style="padding-top: {{customBarHeight}}px;">
 
-	<view class="setbox" style="padding-top: {{customBarHeight}}px;">
-		<view class="tit">界面</view>
-		<view class="setcell">
-			<view class="left">黑白模式</view>
-			<view class="right">
-
-				<switch bindchange="switchChange" color="#04BE02" class="switch" checked='{{skinSwitch}}' style="margin-right: -16rpx;" />
-
+	<view class="setbox">
+		<view class="searcharea">
+			<view class="searchbox">
+				<form catchreset="formReset" id="search-form">
+					<view class="searchwarp bgcolor-sub">
+						<view class="index-search container-class">
+							<!-- <icon class="icon" type="search" size="16" /> -->
+							<icon class="icon iconfont icon-search" />
+							<input id="search-input" name="input" bindconfirm="formSubmit" bindinput="onInput"
+								class="search-input input-class" confirmType="search" focus="{{autoFocus}}"
+								placeholder="{{placeHolder}}" placeholderClass="search-input-placeholder" value="{{searchKey}}"
+								wx:if="{{inputEnable}}"></input>
+							<view class="search-input" wx:else>{{placeHolder}}</view>
+							<icon class="icon" bindtap="onClear" type="clear" size="20" wx:if="{{searchKey}}" />
+						</view>
+						<view bindtap="formSubmit" class="searchtxt main-color" wx:if="{{keydown_number == 1}}">搜索</view>
+					</view>
+				</form>
 			</view>
-		</view>
-		<view class="setcell">
-			<view class="left">清爽卡片</view>
-			<view class="right">
-	
-				<switch bindchange="switchChange" color="#04BE02" class="switch" checked='{{skinSwitch}}' style="margin-right: -16rpx;" />
+			<view class="searchlogs" wx:if="{{searchLogs.length > 0}}">
+				<view class="recordtext" style="display:flex;">
+					<view class="title"><text class="text">搜索记录</text></view>
+					<view class="delicon bgcolor-sub" bindtap="deleteHistory"><icon class="icon iconfont icon-clear" /></view>
+				</view>
+				<view class="historybox">
+					<block wx:key="id" wx:for="{{searchLogs}}">
+						<view class="historylist bgcolor-sub" bindtap='historyValue' data-url="{{item[1]}}" data-key="{{item[0]}}"
+							data-cnt_tp="{{item[2]}}">
+							<text class="text">{{item[0]}}</text>
+						</view>
+					</block>
+				</view>
 			</view>
-		</view>
-		<view class="tit">导航</view>
-		<view class="setcell">
-			<view class="left">导航文字</view>
-			<view class="right">
-
-				<switch bindchange="switchChange" color="#04BE02" class="switch" checked='{{skinSwitch}}' style="margin-right: -16rpx;" />
-			</view>
-		</view>
-
-	</view>
-	<view class="copyright" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));">
-
-		<view class="about">
-			<text class="text">V3.0.0 共享图书小程序</text>
-		</view>
-		<view class="msg">
-			<view class="text hide">小程序基于[丸子开源RESTAPI]构建，</view>
-			<view class="text hide">[APP比比]提供原创模板输出。</view>
-		</view>
-		<view class="link" catchtap="toMini" data-appid="wxd7d56025a38fb8d7" data-path="pages/index/index?vianame='{{siteInfo.name}}'">
-			<icon class="icon iconfont icon-wxapp" />
-			<text class="text">[APP比比] 作品合集</text>
-		</view>
-		<view class="link">
-			<icon class="icon iconfont icon-github" />
-			<text class="text">[Github] 源码下载</text>
-		</view>
-		<view class="link">
-			<icon class="icon iconfont icon-spare" />
-			<text class="text">[微信] 打赏创作者</text>
 		</view>
 	</view>
-
+	<view class="topcmt" style="bottom:calc(96rpx + env(safe-area-inset-bottom));">
+		<block wx:for="{{posts}}" wx:for-index="index" wx:key="key">
+			<dataitem index="{{index}}" posttype="topcmt" item="{{posts}}" />
+		</block>
+	</view>
 </view>

@@ -1,0 +1,5 @@
+/* component/load-status/load-status.wxss */
+.nothing{
+  padding: 20rpx;
+  text-align: center;
+}

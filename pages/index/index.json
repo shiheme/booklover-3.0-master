@@ -1,13 +1,12 @@
 {
   "component": true,
-  "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
     "wrapleft": "../../temp/comps/wrapleft/index",
     "navtitle": "../../temp/comps/navtitle/index",
-    "tabbar": "../../temp/comps/tabbar/index",
-    "welcome": "../../temp/comps/welcome/welcome",
-    "videoimg": "../../temp/comps/videoimg/videoimg",
-    "audioring": "../../temp/comps/audioring/audioring"
+    "pop": "../../temp/comps/pop/pop",
+    "indexnav": "./comps/indexnav/indexnav",
+    "load-more": "../../temp/comps/load-more/index",
+    "data-list": "./comps/list/list"
   }
 }

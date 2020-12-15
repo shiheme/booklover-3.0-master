@@ -1,4 +1,3 @@
-
 //var myBehavior = require('../../../pages/index/index')
 var app = getApp()
 Component({
@@ -7,7 +6,7 @@ Component({
     navBarHeight: app.globalData.StatusBar,
     customBarHeight: app.globalData.CustomBar,
     titleBarHeight: app.globalData.TitleBar,
-    loading: 1
+    loading: false
   },
   properties: {
     //属性值可以在组件使用时指定
@@ -59,58 +58,19 @@ Component({
       type: Boolean,
       value: false
     },
-    // skinSwitch: {
-    //   type: Boolean,
-    //   value: true
-    // },
   },
   attached() {
-    //let pageContext = getCurrentPages()
-    // if (pageContext.length > 1) {
-    //   this.setData({
-    //     isShowHome: false
-    //   })
-    // } else {
-    //   this.setData({
-    //     isShowHome: true
-    //   })
-    // }
-    let that = this ;
+    let that = this;
     that.setData({
       navBarHeight: app.globalData.StatusBar,
       customBarHeight: app.globalData.CustomBar,
       titleBarHeight: app.globalData.TitleBar,
     })
 
-    
+
   },
   pageLifetimes: {
     show: function () {
-      var t = this
-      let { showNavigationBarLoading, hideNavigationBarLoading } = Object.assign({}, wx)
-      wx._showNavigationBarLoading || wx.__defineGetter__('showNavigationBarLoading', function () {
-        wx._showNavigationBarLoading = 1
-        return function (o) {
-          var p = getCurrentPages().pop() || {},
-            cb = p ? p.selectComponent('#c-bar') : false
-          cb && cb.setData && cb.setData({
-            loading: !0
-          })
-
-          return showNavigationBarLoading(o)
-        }
-      })
-      wx._hideNavigationBarLoading || wx.__defineGetter__('hideNavigationBarLoading', function () {
-        wx._hideNavigationBarLoading = 1
-        return function (o) {
-          var p = getCurrentPages().pop() || {},
-            cb = p ? p.selectComponent('#c-bar') : false
-          cb && cb.setData && cb.setData({
-            loading: !1
-          })
-          return hideNavigationBarLoading(o)
-        }
-      })
     },
     hide: function () {
       // 页面被隐藏
@@ -120,20 +80,26 @@ Component({
     }
   },
   methods: {
-    
+
     // 跳转至个人中心
-    redictMine: function(e) {
+    redictMine: function (e) {
       var url = e.currentTarget.dataset.item;
       wx.navigateTo({
         url: url
       })
     },
     taplistarea: function (e) {
-        var myEventDetail = {
-          opentabwrapper: true,
-        } // detail对象，提供给事件监听函数
-        var myEventOption = {} // 触发事件的选项
-        this.triggerEvent('taplist', myEventDetail, myEventOption) 
+      var myEventDetail = {
+        opentabwrapper: true,
+      } // detail对象，提供给事件监听函数
+      var myEventOption = {} // 触发事件的选项
+      this.triggerEvent('taplist', myEventDetail, myEventOption)
+    },
+    bindByurl: function (e) {
+      let url = e.currentTarget.dataset.url;
+      wx.navigateTo({
+        url: url
+      })
     },
   }
 })

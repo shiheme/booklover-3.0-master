@@ -1,0 +1,274 @@
+.itemwrap {
+  margin-top: 80rpx;
+}
+
+.searchtitle {
+  margin: 80rpx 50rpx;
+  font-size: 40rpx;
+  opacity: .8;
+  font-weight: bold;
+}
+
+.libraryctrl {
+  display: flex;
+}
+
+.libraryctrl {
+  display: flex;
+  margin: 80rpx 50rpx;
+}
+
+.librarycatsbtn {
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 10rpx 30rpx;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border-radius: 50rpx;
+}
+
+.librarycatsbtn .icon {
+  opacity: .6;
+  font-size: 1.4rem;
+  margin-right: 10rpx;
+}
+
+.librarycatsbtn .text {
+  opacity: .6;
+  font-weight: bold;
+  font-size: 32rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-right: 25rpx;
+  position: relative;
+}
+
+.librarycatsbtn .text:last-child {
+  margin-right: 0rpx;
+}
+
+.librarycatsbtn .text::after {
+  content: ',';
+  position: absolute;
+  right: -10rpx;
+}
+
+.librarycatsbtn .text:last-child::after {
+  content: '';
+  position: absolute;
+  right: -10rpx;
+}
+
+.gridctrols {
+  width: 150rpx;
+  margin-left: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50rpx;
+}
+
+.gridctrols .gridbtn {
+  opacity: .4;
+}
+
+.gridctrols .gridbtn.on {
+  opacity: 1;
+}
+
+.gridctrols .icon {
+  font-size: 1.4rem;
+}
+
+/* 留言框 */
+.talkfixed.fixedbox {
+  padding: 0;
+  height: 900rpx;
+  bottom: -780rpx;
+  padding-bottom: calc(0rpx + env(safe-area-inset-bottom));
+}
+
+.talkfixed .talkbox {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 50rpx;
+}
+
+.talkbox .addemoji {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40rpx;
+  margin-left: 20rpx;
+  padding: 10rpx 20rpx;
+}
+
+.talkbox .talkwarp {
+  position: relative;
+  flex: auto;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  border-radius: 40rpx;
+}
+
+.talkbox .talktxt {
+  margin-right: 15px;
+  font-weight: bold;
+  line-height: 32px;
+  white-space: nowrap;
+}
+
+.index-talk {
+  display: flex;
+  position: relative;
+  flex: auto;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10rpx 30rpx;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.talkinput {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 10rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  height: 52rpx;
+  padding: 4rpx 0;
+  width: 100%;
+}
+
+.emoji-move-in {
+  animation: emoji-move-in 0.3s forwards;
+}
+
+.emoji-move-out {
+  animation: emoji-move-out 0.3s forwards;
+}
+
+@keyframes emoji-move-in {
+  0% {
+    /* margin-bottom: -160rpx; */
+    transform: translateY(500rpx)
+  }
+
+  100% {
+    /* margin-bottom: 0rpx; */
+    transform: translateY(0rpx)
+  }
+}
+
+@keyframes emoji-move-out {
+  0% {
+    /* margin-bottom: 0rpx; */
+    transform: translateY(0rpx)
+  }
+
+  100% {
+    /* margin-bottom: -160rpx; */
+    transform: translateY(500rpx)
+  }
+}
+
+.emojibox {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+
+}
+
+.iconlist {
+  padding-left: 50rpx;
+
+}
+
+.iconlist .image {
+  display: inline-block;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+  margin-right: 30rpx;
+  margin-top: 20rpx;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.fixedbg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(255, 255, 255, .8);
+  z-index: -999;
+  left: 0;
+  top: 0;
+}
+
+.fixedbg.on {
+  z-index: 99;
+}
+
+.islibmsg {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: -180rpx;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: .3s;
+}
+
+.islibmsg.on {
+  top: -120rpx;
+  opacity: 1;
+  transition: 1s;
+}
+
+.islibmsg .text {
+  padding: 0rpx 30rpx !important;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: 0 50rpx;
+  border-radius: 24rpx !important;
+  background-color: #333333;
+  color: #ffffff !important;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%);
+  background-size: 300rpx 300rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+
+}
+
+.islibmsg .icon {
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: -15rpx;
+  left: 50%;
+  margin-left: -15rpx;
+  border-style: solid;
+  border-width: 15rpx 20rpx 0rpx 20rpx;
+  border-color: transparent;
+  font-size: 0;
+}

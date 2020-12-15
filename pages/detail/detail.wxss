@@ -11,16 +11,18 @@
 /* 交互按钮区域 */
 
 .ctlbtn {
-  padding: 60rpx 80rpx;
+  margin: 50rpx 50rpx 0 50rpx;
+  padding: 40rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 24rpx;
   /* border-width: 0 0 1rpx 0;
   border-style: solid; */
 }
 
 .ctlbtn .btnbox {
-  height: 120rpx;
+  height: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,7 +32,7 @@
 .ctlbtn .btnbox .button {
   position: absolute;
   width: 100%;
-  height: 120rpx;
+  height: 100rpx;
   border: none !important;
   opacity: 0;
   z-index: 15;
@@ -38,7 +40,7 @@
 
 .ctlbtn .buttoncover {
   width: 100%;
-  height: 120rpx;
+  height: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,11 +52,15 @@
 .ctlbtn .buttoncover .icon {
   width: 70rpx;
   height: 70rpx;
-  font-size: 2.2em;
+  font-size: 1.8rem;
 }
 
-.ctlbtn .buttoncover .icon.iconlike.liked {
-  color:red;
+.ctlbtn .buttoncover .icon.icon-like.liked {
+  color: red;
+}
+
+.ctlbtn .buttoncover .icon.icon-coll.faved {
+  color: blue;
 }
 
 .ctlbtn .buttoncover .text {
@@ -74,71 +80,12 @@
   left: 0;
 }
 
-/*不支持在线评论*/
-.commmsg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: column;
-  height: 600rpx;
-}
 
-.commmsg .codeimg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: column;
-  text-align: center;
-  line-height: 40rpx;
-}
-
-.commmsg .codeimg .image {
-  width: 200rpx;
-  height: 200rpx;
-}
-
-.commmsg .codeimg .text {
-  opacity: 0.6;
-  display: block;
-}
 
 .entrycontent {
-  padding: 40rpx 0;
+  padding: 50rpx 0 0;
 }
 
-.sourcecontent {
-  margin:30rpx 40rpx;
-}
-
-.sourcecontent .cardbody {
-  margin:30rpx 0;
-}
-
-.sourcecontent .cardhead .text {
-  font-size: 40rpx;
-  font-weight: 500;
-}
-
-.borrowcnt,
-.downloadcnt{
-  padding:30rpx;
-}
-.borrowcnt .card-cell-msg {
-  height:100rpx;
-}
-.sourcetip {
-  margin:30rpx 40rpx;
-  padding:30rpx;
-}
-.sourcetip .copyright {
-  font-size: 24rpx;
-  font-weight: bold;
-}
-
-.sourcetip .copyright .text {
-  /* margin-bottom:10rpx; */
-  display: block;
-}
 
 .detailbody.safemode video,
 .safemode .wp-block-video,
@@ -148,81 +95,6 @@
   display: none !important;
 }
 
-/*招财猫广告位*/
-
-.floatads {
-  position: fixed;
-  right: -200rpx;
-  bottom: calc(140rpx + env(safe-area-inset-bottom));
-  transition: 0.5s;
-  z-index: 100;
-  opacity: 1;
-}
-
-.floatads.active {
-  right: 30rpx;
-  transition: 0.5s;
-}
-
-.floatads .image {
-  width: 150rpx;
-  animation: music-move 1s 0.5s infinite alternate ease-in-out;
-  transform-origin: bottom;
-  opacity: 1;
-}
-
-.floatads .image.transactive {
-  opacity: 0.3;
-}
-
-@keyframes grow {
-  0% {
-    transform: scale(0);
-  }
-
-  60% {
-    transform: scale(1.15);
-  }
-
-  80% {
-    transform: scale(0.95);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes music-move {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  33% {
-    transform: rotate(-5deg);
-  }
-
-  66% {
-    transform: rotate(5deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-.floatads .close {
-  position: absolute;
-  width: 100%;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.posttip {
-  margin: 40rpx 40rpx 0 40rpx;
-}
 
 /*猜你喜欢*/
 .detail.star .posts-items {
@@ -266,73 +138,29 @@
 
 }
 
-/* .postsgroup .postscnt .postscell {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 10rpx;
-
-  margin-bottom: 10rpx;
-}
-
-.postsgroup .postscnt .postscell:nth-child(2) {
-  margin-left: 10rpx;
-}
-
-
-.postsgroup .postscnt .postscell .msg {
-
-  width: 100%;
-}
-
-.postsgroup .postscnt .postscell .msg .postscover {
-  width: 100%;
-
-}
-
-.postsgroup .postscnt .postscell .msg .postscover .image {
-  display: block;
-  width: 100%;
-}
-
-.postsgroup .postscnt .postscell .msg .base {
-  padding: 10rpx;
-  border-top: 1rpx solid rgba(123, 123, 123, .1);
-}
-
-.postsgroup .postscnt .postscell .msg .base .text {
-  line-height: 46rpx;
-  text-align: center;
-}
-
-.postsgroup .postscnt .postscell .msg .base .title {
-  font-weight: 600;
-  font-size: 30rpx;
-} */
 
 /*定义内容页面的列表高度*/
 .detail-cell-items {
-  margin: 30rpx;
+  margin: 0 50rpx;
   padding: 0 40rpx;
 }
 
-.detail-cell-items .card-cell-msg,
-.detail-cell-items .card-cell-msg .card-cell-base {
-  height: 96rpx;
+.detail-cell-items .card-cell-msg {
+  padding: 30rpx 0;
 }
 
 .detail-cell-items .card-cell-msg .card-cell-base .card-cell-title {
-  font-size: 27rpx;
+  font-size: 28rpx;
 }
 
 .detail-cell-items .card-cell-msg .card-cell-more .text {
-  font-size: 25rpx;
+  font-size: 28rpx;
 }
 
 /*定义图书内页的头部布局*/
+
 .detail .detailhead .card {
-  /* background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%);
-  background-size: 300rpx 300rpx; */
+  border-radius: 0rpx;
 }
 
 .detail .detailhead .card .cardimage .imagecover {
@@ -344,71 +172,57 @@
   background-position: 50% 50%;
   background-color: rgba(120, 120, 120, 0.1);
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
+  width: 320rpx;
+  height: 444rpx;
 }
 
-.detail .detailhead .card .basemsg {}
+.detail .detailhead .basemsg {}
 
-.detail .detailhead .card .basemsg .title {
+.detail .detailhead .basemsg .title {
   margin: 30rpx 60rpx 0rpx 60rpx;
   font-weight: 500;
   font-size: 44rpx;
-  line-height: 80rpx;
+  line-height: 70rpx;
   display: -webkit-box;
   overflow: hidden;
   word-break: break-all;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  text-align: center;
+  -webkit-line-clamp: 2;
 }
 
-.detail .detailhead .card .basemsg .subtitle {
-  margin: 10rpx 60rpx 0rpx 60rpx;
+.detail .detailhead .basemsg .subtitle {
+  margin: 0rpx 60rpx 40rpx 60rpx;
   font-size: 30rpx;
   display: -webkit-box;
   overflow: hidden;
   word-break: break-all;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.detail.plus .detailhead .basemsg .title {
   text-align: center;
 }
 
-.detail .cardfoot {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  background: rgba(20, 20, 20, 1);
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
-  display: none;
+.detail.plus .detailhead .basemsg .subtitle {
+  text-align: center;
 }
 
-.detail .cardfoot.showtxvideo {
-  display: flex;
+
+.detail .detailhead .label {
+  font-weight: 600;
+  margin: 10rpx 60rpx 0rpx 60rpx;
+  font-size: 32rpx;
+  line-height: 40rpx;
+  opacity: 0.4;
 }
 
-.detail .cardfoot .hidetxvideo {
-  position: absolute;
-  bottom: 60rpx;
-  margin: 0 auto;
-  height: 88rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(30, 30, 30, 1);
-  padding: 0 30rpx;
-  border-radius: 50rpx;
+.detail .detailhead .label .text::after {
+  content: '  ';
 }
 
-.detail .cardfoot .hidetxvideo .icon {
-  width: 50rpx;
-  height: 50rpx;
-  margin-right: 10rpx;
-}
-
-.detail .cardfoot .hidetxvideo .text {
-  color: rgba(255, 255, 255, .8);
+.detail .detailhead .label .text:last-child::after {
+  content: '';
 }
 
 /*评分*/
@@ -416,7 +230,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
-  margin: 30rpx 30rpx 0 30rpx;
+  margin: 50rpx 50rpx 0 50rpx;
 }
 
 .scoregroup .area {
@@ -494,255 +308,31 @@
 }
 
 /*影视内页喜欢头像列表*/
-.detailbody .postlike {
-  text-align: center;
+.detail .detailhead .postlike {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+}
+
+.detail .postlike {
   margin-top: 0rpx;
   padding: 0rpx;
 }
 
-.detailbody .postlike .likeli {
+.detail .postlike .likeli {
   display: inline-block;
-  margin: 0 -20rpx 0 0;
+  margin: 0 10rpx 0 0;
 }
 
-.detailbody .postlike .likeli .image {
+.detail .postlike .likeli .image {
   margin: 0rpx;
 }
 
-.detailbody .postlike .likeli .text {
+.detail .postlike .likeli .text {
   font-size: 26rpx;
   opacity: 0.6;
   margin-left: 30rpx;
-}
-
-/* 评论框 */
-
-.textareacontent {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 1300rpx;
-  border-radius: 16rpx 16rpx 0 0;
-  z-index: 110;
-}
-
-.textareacontent .textheaders {
-  width: 100%;
-  /* height: 96rpx; */
-  border-bottom: 1rpx solid rgba(123, 123, 123, .2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.textareacontent .textheaders .cancel {
-  color: #333;
-  font-size: 32rpx;
-  line-height: 96rpx;
-  margin-left: 40rpx;
-  /* float: left; */
-}
-
-.textareacontent .textheaders .publish {
-  font-size: 32rpx;
-  line-height: 96rpx;
-  margin-right: 40rpx;
-  position: relative;
-}
-
-.textareacontent .textheaders .publish .text {
-  color: #3ec382;
-  font-weight: bold;
-}
-
-.textareacontent .textheaders .publish .button {
-  position: absolute;
-  z-index: 10;
-}
-
-.textareacontent .textheaders .nopublish {
-  font-size: 32rpx;
-  line-height: 96rpx;
-  margin-right: 30rpx;
-}
-
-.textareacontent .textheaders .nopublish {
-  color: #999;
-}
-
-.textareacontent .textareabox {
-  /* height: 360rpx; */
-  position: relative;
-}
-
-.textareacontent .textareabox .textareainput {
-  position: relative;
-  padding: 20rpx 40rpx;
-}
-
-.textareacontent .textareabox .textareainput .textarea {
-  padding: 30rpx;
-  width: auto;
-  /* height: 150rpx; */
-  font-size: 30rpx;
-  line-height: 42rpx;
-  border: 1rpx solid rgba(123, 123, 123, .2);
-  border-radius: 10rpx;
-}
-
-.textareacontent .textareabox .textnum {
-  position: absolute;
-  font-size: 26rpx;
-  color: #999;
-  right: 40rpx;
-  bottom: -30rpx;
-}
-
-.pagemake {
-  background-color: rgba(0, 0, 0, .5);
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 105;
-}
-
-.comts-items {
-  margin: 30rpx 40rpx;
-  box-shadow: none!important;
-}
-
-.comts-items .comtstit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 30rpx;
-}
-
-.comts-items .comtstit .tit {
-  font-weight: bold;
-  font-size: 30rpx;
-}
-
-.comts-items .comtstit .sumbit {
-  position: relative;
-}
-
-.comts-items .comtstit .sumbit .sumbitimg {
-  padding: 14rpx 30rpx;
-  font-size: 30rpx;
-  color: #ffffff;
-  background: #8556de;
-  border-radius: 40rpx;
-  display: flex;
-  align-items: center;
-  position: relative;
-  z-index: 10;
-}
-
-.comts-items .comtstit .sumbit .sumbitimg .icon {
-  width: 44rpx;
-  height: 44rpx;
-}
-
-.comts-items .comtstit .sumbit .button {
-  position: absolute;
-  z-index: 15;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.comts-items .comtscnt {
-  padding: 0 30rpx;
-}
-
-.comts-items .comtscnt .nodatatext {
-  padding: 30rpx 0;
-  opacity: .4;
-}
-
-.cmtcell {
-  padding: 20rpx 0rpx;
-  border-bottom: 1rpx solid rgba(123, 123, 123, .2)
-}
-
-.cmtcell .cmtheader {
-  display: flex;
-  align-items: center;
-}
-
-.cmtcell .cmtheader .avatar {
-  width: 77rpx;
-  height: 77rpx;
-  overflow: hidden;
-  margin-right: 14rpx;
-  border-radius: 40rpx;
-}
-
-.cmtcell .cmtheader .avatar .image {
-  width: 77rpx;
-  height: 77rpx;
-}
-
-.cmtcell .cmtheader .basemsg {}
-
-.cmtcell .cmtheader .basemsg .name {
-  font-size: 30rpx;
-  font-weight: 500;
-  line-height: 40rpx;
-  opacity: .6;
-}
-
-.cmtcell .cmtheader .basemsg .date {
-  font-size: 22rpx;
-}
-
-.cmtcell .cmtheader .basemsg .date .text {
-  opacity: .4;
-}
-
-.cmtcell .cmtbody {
-  line-height: 44rpx;
-  margin: 30rpx 0 10rpx 0;
-}
-
-/* 评分 */
-.userrating {
-  /* text-align: center; */
-  line-height: 60rpx;
-  display: flex;
-  /* justify-content: center; */
-  padding: 30rpx 40rpx 20rpx 40rpx;
-  flex-flow: column;
-}
-
-.userrating .tit {
-  display: inline-block;
-  font-size: 32rpx;
-  margin-right: 10rpx;
-  opacity: .6;
-  line-height: 48rpx;
-  font-weight: 500;
-}
-
-.userrating .rating {
-  display: flex;
-  align-items: center;
-  margin-top: 10rpx;
-}
-
-.userrating .ratingtip {
-  font-size: 28rpx;
-  margin-left: 20rpx;
-  opacity: .6;
-}
-
-.userrating .rating .image {
-  height: 50rpx;
-  width: 50rpx;
-  margin-right: 10rpx;
 }
 
 .postshare {
@@ -782,8 +372,48 @@
 .audio {
   position: relative;
   width: 100%;
-  height: 240rpx;
 }
+
+.quotcopy {
+  margin: 50rpx 50rpx 0 50rpx;
+}
+
+.quotcopy .cardheader {
+  padding-bottom: 0rpx;
+}
+
+.quotcopy .basemsg .title {
+  position: relative;
+  margin-top: 10rpx;
+  font-weight: 500;
+  font-size: 42rpx;
+  line-height: 60rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.quotcopy .basemsg .title .text {
+  position: relative;
+  margin-left: 50rpx;
+  display: block;
+}
+
+.quotcopy .basemsg .title .text::before {
+  content: '“';
+  position: absolute;
+  font-size: 80rpx;
+  margin-left: -50rpx;
+  margin-top: 20rpx;
+  opacity: 0.8;
+}
+
+.quotcopy .cardfoot {
+  padding: 0 40rpx;
+}
+
 
 /* 头部书签样式 */
 
@@ -848,30 +478,39 @@
   transition: 0.3s;
 }
 
-.mainbutton {margin:0rpx 40rpx 40rpx 40rpx;
-padding:0 30rpx;}
+.mainbutton {
+  margin: 0rpx 40rpx 40rpx 40rpx;
+  padding: 0 30rpx;
+}
 
 .cupbox {
   position: fixed;
-  right:40rpx;
+  right: 40rpx;
   bottom: calc(150rpx + env(safe-area-inset-bottom));
-  width:88rpx;
+  width: 88rpx;
   border-radius: 44rpx;
-  background-color:rgba(245,245,245,1);
+  background-color: rgba(245, 245, 245, 1);
   z-index: 100;
 }
-.cupbox .box{
+
+.cupbox .box {
   display: flex;
   flex-flow: column;
 }
 
-.cupbox .box .btn{display: flex;
-align-items: center;
-justify-content: center;
-width:88rpx;
-height:88rpx;} 
-.cupbox .box .btn .icon{} 
-.cupbox .box .btn .text{display: none;} 
+.cupbox .box .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx;
+  height: 88rpx;
+}
+
+.cupbox .box .btn .icon {}
+
+.cupbox .box .btn .text {
+  display: none;
+}
 
 
 .hidecnt {
@@ -905,5 +544,165 @@ height:88rpx;}
   height: 60rpx;
 }
 
-.hidecntbtn .text {
+.hidecntbtn .text {}
+
+
+.sharebtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 300rpx;
+}
+
+.sharebtn .btnbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sharebtn .btnbox .button {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: none !important;
+  opacity: 0;
+  z-index: 15;
+}
+
+.sharebtn .btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.sharebtn .btn .icon {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+/* 底部喜欢区域 */
+.postlikearea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postlikebtn {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40rpx;
+
+}
+
+.postlikecell {
+  flex: auto;
+  margin-left: 30rpx;
+}
+
+.postlikecell .postlike {
+  margin-top: 0rpx;
+}
+
+.postlikecell .postlike .likeli {
+  display: inline-block;
+  margin: 0 10rpx 0 0;
+}
+
+.postlikecell .postlike .likeli .image {
+  margin: 0rpx;
+}
+
+.postlikecell .postlike .text {
+  min-width: 200rpx;
+  font-size: 28rpx;
+  opacity: 0.6;
+  margin-left: 0rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+/* 福利 */
+.acthead {
+  margin-bottom: 100rpx;
+}
+
+.actthumbnail {
+  position: relative;
+  height: 660rpx;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: rgba(120, 120, 120, 0.1);
+  display: flex;
+  align-items: flex-start;
+  padding: 0rpx;
+}
+
+/* 头部分享 */
+.detailshare {
+  position: fixed;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.detailshare .icon {
+  position: relative;
+  z-index: 10;
+  font-size: 1.4rem;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.detailshare .icon::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  left: -5rpx;
+  top: -5rpx;
+}
+
+.detailshare .button {
+  position: absolute;
+  z-index: 15;
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 45rpx;
+  opacity: 0;
+}
+
+.faqcard {
+  margin: 50rpx;
+  padding: 0 40rpx;
+}
+
+.faqcard .subtitle {
+  font-size: 32rpx;
+  opacity: .6;
+  padding: 40rpx 0 0;
+}
+
+.faqcard .card-cell-msg {
+  border: none;
 }

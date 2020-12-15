@@ -1,87 +1,49 @@
 <!--index.wxml-->
-
-
-<import src="../../temp/loading.wxml" />
-<import src="../../temp/showerror.wxml" />
-<import src="../../temp/indexcell.wxml" />
-<welcome class="welcomebox {{(isshowCnt&&isFirst)?'on':''}}" isshowCnt="{{isshowCnt}}" margintop="{{customBarHeight}}" bind:myevent="closewel" wx:if="{{isFirst}}" />
 <view class="tabwrapper {{opentabwrapper?'on':''}}" catchtouchmove="{{opentabwrapper?'true':''}}">
-	<view class="tabwrapperbg bgcolor-sub"></view>
-	<view class="subwrapper">
-		<view class="close" style="position:relative;top:{{navBarHeight}}px;z-index:20;height:{{titleBarHeight}}px;">
-			<view bindtap="closetabwrapper" class="btn" style="height:{{titleBarHeight}}px;" wx:if="{{isTolist}}">
-				<icon class="icon iconfont icon-close" />
-			</view>
-		</view>
-		<wrapleft isShowabout="{{isShowabout}}" bind:myevent="toggleToast" />
-	</view>
-	<view class="mainwrapper" style="{{opentabwrapper?'height:'+(windowHeight-2*customBarHeight-2*titleBarHeight)+'px;margin-top:'+(customBarHeight+titleBarHeight)+'px':'height:100%'}}" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
+  <view class="tabwrapperbg bgcolor-base"></view>
+  <view class="subwrapper">
+    <view class="close" style="position:relative;top:{{navBarHeight}}px;z-index:20;height:{{titleBarHeight}}px;">
+      <view bindtap="closetabwrapper" class="btn" style="height:{{titleBarHeight}}px;">
+        <icon class="icon iconfont icon-close" />
+      </view>
+    </view>
+    <wrapleft isShowabout="{{isShowabout}}" bind:myevent="toggleToast" />
+  </view>
+  <view class="mainwrapper" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
 
-		<view class="wrapper bgcolor-base"></view>
+    <view class="wrapper bgcolor-base"></view>
 
-		<navtitle id="c-bar" title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isSearch="{{isSearch}}" isTolist="{{isTolist}}" showLoad="{{showLoad}}" bind:taplist="opentabwrapper" />
-		<view class="container bgcolor-base page">
-			<view class="index" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
-				<view class="menubarwrap {{isshowCnt?'show':'hide'}}">
-					<view class="menubarhead">
-						<view class="tit">
-							<text class="text">发现</text>
-						</view>
-						<view class="catgoldarea">
-							<view class="catgold">
-								<view class="catgoldbody">
-									<image class="image" src="../../images/on/catgold-body.svg" />
-								</view>
-								<view class="catgoldact">
-									<image class="image" src="../../images/on/catgold-act2.svg" />
-								</view>
-							</view>
-							<view class="cattip">
-								<text class="text">喵～，点我订阅</text>
-							</view>
-						</view>
-					</view>
-					<view class="menubarfoot">
-						<view class="grid">
-							<view class="catsbtn" catchtap="bindShowpop">
-								<icon class="icon iconfont icon-top" />
-								<text class="text">榜单</text>
-							</view>
-							<view class="catsbtn" catchtap="bindShowpop">
-								<icon class="icon iconfont icon-audio" />
-								<text class="text">语录</text>
-							</view>
-							<view class="catsbtn" catchtap="bindShowpop">
-								<icon class="icon iconfont icon-dig" />
-								<text class="text">上墙</text>
-							</view>
-							<view class="catsbtn" catchtap="bindShowpop">
-								<icon class="icon iconfont icon-comt" />
-								<text class="text">评分</text>
-							</view>
-						</view>
-					</view>
-				</view>
-				<view class="index_article itemarea {{isshowCnt?'show':'hide'}}" wx:if="{{posts.length>0}}">
-					<template is="posts" data="{{posts,posttype,ani,audKey,customBarHeight,titleBarHeight,windowWidth}}" />
-				</view>
-				<view class="last_text" wx:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
-				<view class="last_text" wx:if="{{!isLastPage&&posts.length>0}}">
-					<block wx:if="{{lasttip==true}}">
-						<icon class="icon iconfont icon-loading turn" />
-						<text class="text">加载更多内容中...</text>
-					</block>
-					<block wx:else>
-						<icon class="icon iconfont icon-error" />
-						<text class="text">出错啦！无法连接数据</text>
-					</block>
-				</view>
-			</view>
-			<template is="showerror" data="{{isshowError:isshowError}}"></template>
-		</view>
+    <navtitle title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isSearch="{{isSearch}}"
+      isTolist="{{isTolist}}" isTomine="{{isTomine}}" bind:taplist="opentabwrapper" />
 
-		<template is="loading" data="{{isshowLoad:isshowLoad}}"></template>
-		<tabbar class="tabbar" tabbarStyle="{{tabbarStyle}}" showitemadd="{{showitemadd}}" istrue_scroll="{{istrue_scroll}}" selected="0" />
+    <view class="indexnavwrap" style="top:{{navBarHeight}}px">
+      <!-- 如果选项很多屏幕宽度不够，scroll设置为true滚动显示，否则scroll设置为false时使用flex布局均匀分布 -->
+      <indexnav tabs="{{indexnav}}" scroll="{{true}}" current="{{current}}" key="name"
+        bind:change="handleIndexnavChange" />
+    </view>
 
-	</view><!-- end mainwrapper -->
+    <!-- <block wx:if="{{categoryList}}"> -->
+    <view class="container">
+
+      <view class="swiperwrap">
+        <swiper indicator-dots="{{false}}" autoplay="{{false}}" current="{{current}}" style="height:100%;"
+          bindchange="handleIndexnavChange">
+          <block wx:for="{{indexnav}}" wx:key="id">
+            <swiper-item>
+              <data-list posttype="{{item.posttype}}" loaded="{{item.loaded}}" />
+            </swiper-item>
+          </block>
+        </swiper>
+      </view>
+    </view>
+
+    <view class="indexsubnav" catchtap="bindShowpop" data-poptype="index" data-popitem="" data-popheight="{{260}}">
+      <view class="navbtn main-bgcolor">
+        <icon class="icon iconfont icon-add" />
+      </view>
+    </view>
+
+    <pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" item="{{popitem}}" />
+
+  </view><!-- end mainwrapper -->
 </view><!-- end tabwrapper -->

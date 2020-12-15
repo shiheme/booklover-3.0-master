@@ -1,182 +1,89 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": true,
-		"es6": true,
-		"enhance": false,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": true,
-		"coverView": true,
-		"nodeModules": false,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": false,
-		"scopeDataCheck": false,
-		"uglifyFileName": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"compileHotReLoad": false,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useIsolateContext": true,
-		"useCompilerModule": true,
-		"userConfirmedUseCompilerModuleSwitch": true
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.12.1",
-	"appid": "wxd8a8c4377e238609",
-	"projectname": "%E6%AF%94%E6%AF%94%E4%B9%A6%E5%BD%B1%E9%9F%B3",
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"isGameTourist": false,
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"currentL": -1,
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": -1,
-					"name": "pages/category/category",
-					"pathName": "pages/category/category",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/search/search",
-					"pathName": "pages/search/search",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=23&posttype=posts",
-					"scene": 1011
-				},
-				{
-					"id": 3,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=3685&posttype=appver",
-					"scene": 1011
-				},
-				{
-					"id": -1,
-					"name": "pages/posts/posts",
-					"pathName": "pages/posts/posts",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/faq/faq",
-					"pathName": "pages/faq/faq",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 6,
-					"name": "pages/index/index",
-					"pathName": "pages/index/index",
-					"query": "",
-					"scene": 1011
-				},
-				{
-					"id": -1,
-					"name": "pages/source/source",
-					"pathName": "pages/source/source",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 8,
-					"name": "pages/add/add",
-					"pathName": "pages/add/add",
-					"query": "posttype=shop&catstype=shopcats",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/shop/shop",
-					"pathName": "pages/shop/shop",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=10710&posttype=star",
-					"scene": null
-				},
-				{
-					"id": 11,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=1500&posttype=library",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/star/star",
-					"pathName": "pages/star/star",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=3443&posttype=topic",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/library/library",
-					"pathName": "pages/library/library",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=3444&posttype=library&cnttype=download",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": false,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "bundle": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.12.1",
+  "appid": "wxd8a8c4377e238609",
+  "projectname": "%E6%AF%94%E6%AF%94%E4%B9%A6%E5%BD%B1%E9%9F%B3",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "isGameTourist": false,
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/detail/detail",
+          "pathName": "pages/detail/detail",
+          "query": "id=10711&posttype=movie",
+          "scene": null
+        },
+        {
+          "name": "pages/detail/detail",
+          "pathName": "pages/detail/detail",
+          "query": "id=10765&posttype=library",
+          "scene": null
+        },
+        {
+          "name": "pages/detail/detail",
+          "pathName": "pages/detail/detail",
+          "query": "id=1513&posttype=act",
+          "scene": null
+        },
+        {
+          "name": "pages/detail/detail",
+          "pathName": "pages/detail/detail",
+          "query": "id=1500&posttype=library",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

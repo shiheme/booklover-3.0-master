@@ -1,0 +1,35 @@
+/* pages/shop/components/categoryBar.wxss */
+.category-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.navitem {
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin: 0 20rpx;
+
+  font-size: 36rpx;
+  /* font-weight: bold; */
+  opacity: .4;
+}
+.navitem.current{
+  opacity: 1;
+  font-weight: bold;
+}
+.navitem.current::after{
+  content: '';
+  display: block;
+  width: 30rpx;
+  height: 6rpx;
+  border-radius: 6rpx;
+  background: #5CEB8E;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}

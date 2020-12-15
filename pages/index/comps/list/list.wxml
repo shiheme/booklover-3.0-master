@@ -1,0 +1,221 @@
+<!--index/component/list.wxml-->
+
+<scroll-view scroll-y="{{true}}" class="listwrap" bindscrolltolower="onReachBottom">
+  <view class="wrap" style="padding-top: {{customBarHeight}}px;" wx:if="{{posttype=='topic'}}">
+    <view class="cateswrap">
+      <scroll-view scroll-x style="width:100%;white-space: nowrap;" class="">
+        <view class="cates">
+          <view class="cateilist bgcolor-sub" bindtap="bindHandler"
+            data-url="/pages/list/list?posttype=library&library_state=&title=书籍&statetxt=&catstxt=">
+            <text class="text">全部书籍</text>
+          </view>
+          <block wx:for="{{state}}" wx:for-index="index" wx:key="id">
+            <view class="cateilist bgcolor-sub" bindtap="bindHandler"
+              data-url="/pages/list/list?posttype=library&library_state={{item.id}}&title=书籍&statetxt={{item.name}}">
+              <text class="text">{{item.name}}</text>
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="itemwrap">
+      <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
+        <view class="cardbox" wx:if="{{index%3 ==0  && index!=0}}">
+          <view class="card">
+            <ad-custom unit-id="adunit-959923baa2fde508"></ad-custom>
+          </view>
+        </view>
+        <view class="cardbox">
+          <dataitem index="{{index}}" posttype="{{posttype}}" item="{{posts}}" ani="{{ani}}" />
+          <!-- <audioring bind:myevent="setpost" index="{{index}}" audKey="{{audKey}}" waiting="{{waiting}}" type="index" item="{{posts}}" value="40" margintop="{{titleBarHeight}}" height="{{titleBarHeight+windowWidth}}" /> -->
+        </view>
+      </view>
+    </view>
+    <load-status length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+  </view>
+  <view class="wrap" style="padding-top: {{customBarHeight}}px;" wx:elif="{{posttype=='quot'}}">
+    <view class="itemwrap">
+      <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
+        <view class="cardbox" wx:if="{{index%3 ==0  && index!=0}}">
+          <view class="card">
+            <ad-custom unit-id="adunit-959923baa2fde508"></ad-custom>
+          </view>
+        </view>
+        <view class="cardbox">
+          <dataitem index="{{index}}" posttype="{{posttype}}" item="{{posts}}" />
+          <audioring bind:myevent="setpost" index="{{index}}" audKey="{{audKey}}" waiting="{{waiting}}" type="index"
+            item="{{posts}}" value="40" />
+        </view>
+      </view>
+    </view>
+    <load-status length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+  </view>
+  <view class="wrap"
+    style="padding-top: {{customBarHeight}}px;padding-bottom:calc(200rpx + env(safe-area-inset-bottom));" wx:else>
+    <view class="user-container">
+      <view class="user-information card-cell-wrap">
+        <view class="card-cell nouser" wx:if="{{!user && openid !=''}}">
+          <view class="card-cell-msg">
+            <view class="card-cell-base">
+              <view class="card-cell-title">爱书者</view>
+            </view>
+          </view>
+        </view>
+        <view class="card-cell" wx:else>
+          <view class="card-cell-icon bgcolor-sub">
+            <image class="image" lazyLoad src="{{user.avatarUrl}}"></image>
+          </view>
+          <view class="card-cell-msg">
+            <view class="card-cell-base">
+              <view class="card-cell-title">{{user.nickName}}</view>
+              <view class="card-cell-label bgcolor-sub">
+                <text class="text" wx:if="{{user.role=='subscriber'}}">订阅者</text>
+                <text class="text" wx:elif="{{user.role=='contributor'}}">贡献者</text>
+                <text class="text" wx:elif="{{user.role=='administrator'}}">管理员</text>
+                <text class="text" wx:else>工作者</text></view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="cardbox">
+        <view class="card usernav main-bgcolor nouser" wx:if="{{!user && openid !=''}}">
+          <view class="card-title"><text class="text">请先登录</text></view>
+          <button class="card-cell-btn button" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+        </view>
+        <view class="card usernav bgcolor-sub user-items card-cell-wrap" wx:else>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">点赞</view>
+              </view>
+              <view class="card-cell-more">
+                <text class="text main-color">2</text>
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=posts&title=我点赞的&tabid=1"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">收藏</view>
+              </view>
+              <view class="card-cell-more">
+                <text class="text main-color">6</text>
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=posts&title=我收藏的&tabid=2"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">评分</view>
+              </view>
+              <view class="card-cell-more">
+                <text class="text main-color">0</text>
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=posts&title=我评分的&tabid=3"
+              bindtap="bindHandler" />
+          </view>
+        </view>
+
+      </view>
+      <view class="cardbox">
+        <view class="card bgcolor-sub user-items card-cell-wrap">
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">我的福利</view>
+              </view>
+              <view class="card-cell-more">
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=act&title=福利"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">我的消息</view>
+              </view>
+              <view class="card-cell-more">
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=msg&title=消息"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">我的订阅</view>
+              </view>
+              <view class="card-cell-more">
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=rss&title=订阅"
+              bindtap="bindHandler" />
+          </view>
+
+        </view>
+      </view>
+      <view class="cardbox">
+        <view class="card bgcolor-sub user-items card-cell-wrap">
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">关于小程序</view>
+              </view>
+              <view class="card-cell-more">
+                <text class="text">V3.0.0</text>
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/page/page?posttype=about&title=关于"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">黑白风格</view>
+              </view>
+              <view class="card-cell-more">
+                <text class="text">跟随系统</text>
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/page/page?posttype=skin&title=关于"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">清除缓存</view>
+              </view>
+              <view class="card-cell-more">
+                <text class="text">{{currentSize}}</text>
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" bindtap="clear" />
+          </view>
+          <view class="card-cell" wx:if="{{user}}">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">退出</view>
+              </view>
+              <view class="card-cell-more">
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" bindtap="loginOut" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

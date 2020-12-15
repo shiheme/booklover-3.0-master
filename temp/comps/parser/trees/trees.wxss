@@ -2,48 +2,31 @@
 @import "external.wxss";
 
 /* 链接和图片效果 */
-
 ._a {
-  color: #366092;
   display: inline;
   padding: 1.5px 0 1.5px 0;
-  word-break: break-all;
-}
-
-._a ._a_tree {
-  display: inline;
-}
-
-._p ._a ._text {
   color: #366092;
-  display: inline;
-  padding: 1.5px 0 1.5px 0;
   word-break: break-all;
-  text-decoration: underline;
-  /* transition: 0.5s;
-  transform: scale(1); */
 }
 
 ._hover {
-  /* opacity: 0.7;
-  text-decoration: underline; */
-  transition: 0.3s;
-  transform: scale(0.96);
+  text-decoration: underline;
+  opacity: 0.7;
 }
 
 ._visited {
-  /* color: #551a8b; */
+  color: #551a8b;
 }
 
 ._img {
-  height: 50px;
+  display: inline-block;
   max-width: 100%;
+  overflow: hidden;
 }
 
 /* 内部样式 */
-
 :host {
-  display: block;
+  display: inline;
 }
 
 ._blockquote,
@@ -103,12 +86,16 @@
   font-weight: bold;
 }
 
-._ins {
-  text-decoration: underline;
+._image {
+  display: block;
+  width: 100%;
+  height: 360px;
+  margin-top: -360px;
+  opacity: 0;
 }
 
-._ul ._liwrap {
-  display: flex;
+._ins {
+  text-decoration: underline;
 }
 
 ._li {
@@ -117,15 +104,14 @@
 }
 
 ._ol-bef {
+  width: 36px;
   margin-right: 5px;
   text-align: right;
-  width: 36px;
 }
 
 ._ul-bef {
+  margin: 0 12px 0 23px;
   line-height: normal;
-  margin: 0 12px;
-
 }
 
 ._ol-bef,
@@ -136,18 +122,18 @@
 
 ._ul-p1 {
   display: inline-block;
-  height: 0.3em;
-  line-height: 0.3em;
-  overflow: hidden;
   width: 0.3em;
+  height: 0.3em;
+  overflow: hidden;
+  line-height: 0.3em;
 }
 
 ._ul-p2 {
+  display: inline-block;
+  width: 0.23em;
+  height: 0.23em;
   border: 0.05em solid black;
   border-radius: 50%;
-  display: inline-block;
-  height: 0.23em;
-  width: 0.23em;
 }
 
 ._q::before {
@@ -163,34 +149,33 @@
   vertical-align: sub;
 }
 
-/* ._sup {
+._sup {
   font-size: smaller;
   vertical-align: super;
-} */
+}
 
 .__bdi,
 .__bdo,
 .__ruby,
-.__rt,
-._svg {
+.__rt {
   display: inline-block;
 }
 
 ._video {
-  background-color: black;
-  display: inline-block;
-  height: 225px;
   position: relative;
+  display: inline-block;
   width: 300px;
+  height: 225px;
+  background-color: black;
 }
 
 ._video::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -15px 0 0 -15px;
+  content: '';
   border-color: transparent transparent transparent white;
   border-style: solid;
   border-width: 15px 0 15px 30px;
-  content: '';
-  left: 50%;
-  margin: -15px 0 0 -15px;
-  position: absolute;
-  top: 50%;
 }

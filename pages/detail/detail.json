@@ -4,7 +4,8 @@
   "usingComponents": {
     "navtitle": "../../temp/comps/navtitle/index",
     "parser": "../../temp/comps/parser/parser",
-    "txv-video": "plugin://tencentvideo/video",
+    "dataitem": "../../temp/comps/item/item",
+    "pop": "../../temp/comps/pop/pop",
     "audioring": "../../temp/comps/audioring/audioring"
   }
 }

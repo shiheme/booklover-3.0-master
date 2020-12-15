@@ -1,9 +1,5 @@
 const API_HOST = 'https://www.hellobeebee.com' // 更换为你的网站域名, 需要有 https 协议
 const RESTAPI = "booklover"; //要和后台设置的一致
-const templates = {
-  comments: ['fNlp81kLJvCKLNBdendgPG7Pe1lCJFKmIMHt2r76YZ0', 'zYvY02QIIrAD1snUHBHZzKdlWzN54lRX05KYvSSTvUk'], // 评论回复与审核模板ID
-  subscribe: ['lY9CntlXomutTwjGTbzzK1w6q9NTLNvft5fXZDSioS8'] // 资讯更新提醒模板ID
-}
 
 const Auth = require('./auth')
 
@@ -53,7 +49,7 @@ API.request = function(url, method = "GET", data = {}, args = {
 
   return new Promise(function(resolve, reject) {
 
-    url = API_HOST + url;
+    url = API_HOST + '/' + RESTAPI + url;
 
     if (args.token) {
       const token = API.token();
@@ -90,10 +86,11 @@ API.request = function(url, method = "GET", data = {}, args = {
           });
           // console.log(res.data.message);
           reject(res.data);
+          Auth.logout()
         }
       },
       fail: function(err) {
-        console.log(err);
+        console.log('error',err);
         reject(err);
       }
     })
@@ -113,7 +110,7 @@ API.request = function(url, method = "GET", data = {}, args = {
 
 API.vrequest = function(url, method = "GET", data={}, token) {
 	return new Promise(function(resolve, reject) {
-		url = API_HOST + url
+		url =  API_HOST + '/' + RESTAPI + url
 		//console.log(url)
 		//console.log(data)
 		wx.request({
@@ -171,16 +168,13 @@ API.getUser = function() {
 
 }
 
-
-var restapi = API.getRestAPI();
-
 API.login = function() {
   return new Promise(function(resolve, reject) {
     if (Auth.check()) {
       resolve(Auth.user());
     } else {
       Auth.login().then(data => {
-        API.post('/' + restapi + '/mp/v1/user/openid', data, {
+        API.post('/mp/v1/user/openid', data, {
           token: false
         }).then(res => {
           API.storageUser(res);
@@ -218,7 +212,7 @@ API.logout = function() {
 API.getUserInfo = function() {
   return new Promise(function(resolve, reject) {
     Auth.getUserInfo().then(data => {
-        API.post('/' + restapi + '/mp/v1/user/login', data, {
+        API.post('/mp/v1/user/login', data, {
           token: false
         }).then(res => {
           API.storageUser(res);
@@ -284,7 +278,7 @@ API.guard = function(fn) {
 
 API.upload = function (url, files = "", token) {
 	return new Promise(function (resolve, reject) {
-		url = API_HOST + url;
+		url =  API_HOST + '/' + RESTAPI + url;
 		if( !token ) {
 			wx.showModal({
 				title: '温馨提示',

@@ -1,8 +1,3 @@
-/**
- * Author : 丸子团队（波波、Chi、ONLINE.信）
- * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
- */
 // pages/list/list.js
 const PCB = require('../../utils/common');
 const API = require('../../utils/api')
@@ -12,10 +7,21 @@ Component({
   behaviors: [PCB],
   properties: {
     // 接受页面参数
-    posttype: String,
-    catstype: String,
     id: Number,
+    posttype: String,
+    library_cats: String,
+    library_state: String,
+    statetxt: String,
+    catstxt: String,
     s: String,
+    title: {
+      type: String,
+      value: ''
+    },
+
+    libid: Number,
+    libtit: String,
+    libcolor: String,
   },
   /**
    * 页面的初始数据
@@ -23,66 +29,75 @@ Component({
   data: {
     id: 0,
     page: 1,
+    hasnextpage: true,
+    loading: false,
+    per_page: 12,
     posts: [],
-    isLoadAll: false,
 
-    isActive: false, //定义头部导航是否显示背景
+    catstext: '',
+    statetext: '',
+    library_cats: '', //留空为全部
+    library_state: '', //留空为全部
+    catstype: 'library_cats', //图书分类
+    catsstate: 'library_state', //图书类型
+
+    showemoji: false,
+    islib: false,
+    placeholder: '说点什么吧～',
+
+    gridtype: 'list', //内容布局，在onload中设置，默认网格显示。water网格显示，list列表显示。布局会优先读取本地缓存
+
+    isActive: true, //定义头部导航是否显示背景
     isGoback: true,
   },
-  attached: function(options) {
+  attached: function (options) {
 
   },
-  pageLifetimes: {
-    show: function() {
 
-    },
-    hide: function() {
-      // 页面被隐藏
-    },
-    resize: function(size) {
-      // 页面尺寸变化
-    }
-  },
   methods: {
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
       this.setData({
         options: options
       })
-      // this.getAdvert()
-      if (options.id) {
+      if (wx.getStorageSync('sourcegridtype')) {
         this.setData({
-          listtype: 'category'
+          gridtype: wx.getStorageSync('sourcegridtype')
         })
-        if (options.posttype=='appver') {
-        this.getPostList(options.posttype,{
-          appcats: options.id,
-          page: this.data.page
-        });
-        } else if (options.posttype == 'source') {
-          this.getPostList(options.posttype, {
-            sourcecats: options.id,
-            page: this.data.page
-          })
-        } else {
-          this.getPostList(options.posttype, {
-            categories: options.id,
-            page: this.data.page
-          });
-        };
-        this.getCategories(options.catstype, this.data);
-        this.getCategoryByID(options.catstype,options.id);
+      } else {
+        this.setData({
+          gridtype: 'list'
+        })
       }
-      if (options.s) {
-        this.getPostList(options.posttype,{
+
+      this.getSiteInfo();
+      // this.getAdvert()
+      if (options.id && options.posttype == 'talk') {
+        this.getPostsbyID(options.posttype, options.id)
+      } else if (options.s && options.posttype == 'library') {
+        this.getPostList(options.posttype, {
           search: options.s,
-          page: this.data.page
+          page: this.data.page,
+          per_page: this.data.per_page
         });
         this.setData({
-          listtype: 'search',
-          searchtitle: '关键词“' + options.s + '”的结果'
+          searchtitle: '“' + options.s + '”的结果',
+          title: '搜索'
+        })
+      } else {
+        this.getPostList(options.posttype, {
+          library_cats: this.data.library_cats,
+          library_state: this.data.library_state,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        this.getCatstype(this.data.catstype, {
+          per_page: 20
+        });
+        this.setData({
+          title: options.title
         })
       }
     },
@@ -90,35 +105,35 @@ Component({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
       this.setData({
         isshowError: false,
         isshowCnt: false,
@@ -127,60 +142,31 @@ Component({
         isLastPage: false,
         posts: []
       })
-      if (this.data.options.id) {
-        if (this.data.options.posttype == 'appver') {
-          this.getPostList(this.data.options.posttype, {
-            appcats: this.data.options.id
-          });
-        } else if (this.data.options.posttype == 'source') {
-          this.getPostList(this.data.options.posttype, {
-            sourcecats: this.data.options.id
-          })
-        } else {
-          this.getPostList(this.data.options.posttype, {
-            categories: this.data.options.id
-          });
-        };
-      }
-      if (this.data.options.s) {
-        this.getPostList(this.data.options.posttype,{
-          search: this.data.options.s
-        });
-      }
-
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
-      this.setData({
-        lasttip: true
-      })
-      if (!this.data.isLastPage) {
-        if (this.data.options.id) {
-          if (this.data.options.posttype == 'appver') {
-            this.getPostList(this.data.options.posttype, {
-              appcats: this.data.options.id,
-              page: this.data.page
-            });
-          } else if (this.data.options.posttype == 'source') {
-            this.getPostList(this.data.options.posttype, {
-              sourcecats: this.data.options.id,
-              page: this.data.page
-            })
-          } else {
-            this.getPostList(this.data.options.posttype, {
-              categories: this.data.options.id,
-              page: this.data.page
-            });
-          };
-          
-        }
-        if (this.data.options.s) {
-          this.getPostList(this.data.options.posttype,{
+    onReachBottom: function () {
+      if (this.data.hasnextpage && !this.data.loading) {
+        this.setData({
+          page: this.data.page + 1
+        });
+        if (this.data.options.posttype == 'talk') {
+          // this.getPostsbyID(options.posttype, options.id)
+          this.getComments();
+        } else if (this.data.options.s && this.data.options.posttype == 'library') {
+          this.getPostList(options.posttype, {
             search: this.data.options.s,
-            page: this.data.page
+            page: this.data.page,
+            per_page: this.data.per_page
+          });
+        } else {
+          this.getPostList(this.data.options.posttype, {
+            library_cats: this.data.library_cats,
+            library_state: this.data.library_state,
+            page: this.data.page,
+            per_page: this.data.per_page
           });
         }
       }
@@ -189,208 +175,345 @@ Component({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
-      if (this.data.options.id) {
-        return {
-          title: this.data.catetitle + ' - APP比比',
-          path: '/pages/list/list?id=' + this.data.id + '&isshare=1&posttype=' + this.data.posttype + '&catstype=' + this.data.catstype
-
-        }
+    onShareAppMessage: function () {
+      return {
+        title: that.data.siteInfo.description + ' - ' + that.data.siteInfo.name,
+        path: '/pages/index/index'
       }
-      if (this.data.options.s) {
-        return {
-          title: '关键词“' + this.data.options.s + '”的结果 - APP比比',
-          path: '/pages/list/list?s=' + this.data.options.s + '&isshare=1&posttype=' + this.data.posttype
-
-        }
-      }
-      
     },
 
-    getCategoryByID: function(catstype,id) {
-      API.getCategoryByID(catstype,id).then(res => {
-          this.setData({
-            catetitle: res.name
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-
-    getCategories: function (catstype, data) {
-      API.getCategories(catstype, data).then(res => {
-        this.setData({
-          category: res
-        })
+    bindUpdatepost(e) {
+      var that = this;
+      console.log(e)
+      that.setData({
+        selectchange: e.detail.selectchange,
+        isreset: e.detail.isreset,
+        catstxt: e.detail.catstxt,
+        statetxt: e.detail.statetxt,
+        library_cats: e.detail.library_cats,
+        library_state: e.detail.library_state,
+        posts: e.detail.posts,
+        page: e.detail.page,
+        hasnextpage: e.detail.hasnextpage
       })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-
-    getPostList: function (posttype, data) {
-      // wx.showLoading({
-      //   title: '正在加载',
-      //   mask: true
-      // });
-      wx.showNavigationBarLoading({
-        complete() {
-          wx.showNavigationBarLoading({
-            complete() {
-              //console.log('showNavigationBarLoading')
-            }
-          })
-        }
-      })
-
-      if (this.data.page === 1) {
-        this.setData({
-          posts: []
+      this.getPostList(that.data.posttype, {
+        library_cats: that.data.library_cats,
+        library_state: that.data.library_state,
+        per_page: 12
+      });
+      if (that.data.isreset) {
+        this.getCatstype(that.data.catstype, {
+          per_page: 20
         });
-      };
+      }
+    },
+    getPostList: function (posttype, data) {
+      let that = this;
+
       API.getPostsList(posttype, data).then(res => {
-        let args = {}
-        //this.data.is_load = false
+          let args = {}
+          if (res.length < 10) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            item.date = API.getDateDiff(strdate);
+            return item;
+          }))
+          // args.page = this.data.page + 1
+
+          this.setData(args)
+          console.log(args)
+          wx.stopPullDownRefresh()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getCatstype: function (catstype, data) {
+      let that = this;
+      API.getCategories(catstype, data).then(res => {
+          this.setData({
+            category: res
+          })
+          this.getCatsstate(that.data.catsstate, {
+            per_page: 10
+          });
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getCatsstate: function (catstype, data) {
+      API.getCategories(catstype, data).then(res => {
+          this.setData({
+            state: res
+          })
+          // console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    bindGridchange: function (e) {
+      if (this.data.gridtype == 'list') {
+        this.setData({
+          gridtype: 'water'
+        })
+        //保存到本地
+        wx.setStorage({
+          key: "sourcegridtype",
+          data: "water"
+        })
+      } else {
+        this.setData({
+          gridtype: 'list'
+        })
+        //保存到本地
+        wx.setStorage({
+          key: "sourcegridtype",
+          data: "list"
+        })
+      }
+    },
+    getPostsbyID: function (posttype, id) {
+      let that = this;
+
+      API.getPostsbyID(posttype, id).then(res => {
+
+          that.setData({
+            id: id,
+            detail: res,
+          })
+          if (this.data.options.libid != '') {
+            that.setData({
+              islib: true,
+              focus: true,
+            })
+
+          }
+          // console.log('index.post')
+          console.log(this.data.detail)
+
+          if (res.comments != 0) {
+            this.getComments()
+          }
+
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getComments: function () {
+      API.getComments({
+        id: this.data.id,
+        page: this.data.page
+      }).then(res => {
+        let data = {}
+
+        // data.isshowCnt = true
+        // data.isshowLoad = false
+
         if (res.length < 10) {
           this.setData({
-
-            isLastPage: true,
-            // loadtext: '到底啦',
-            // showloadmore: false
+            hasnextpage: false,
+            // showloadmore: false,
           })
         }
-        if (this.data.isBottom) {
-          args.posts = [].concat(this.data.posts, res.map(function (item) {
-            var strdate = item.date
-            var excerpt = item.excerpt.rendered
-            item.date = API.getDateDiff(strdate);
-            item.excerpt.rendered = API.removeHTML(excerpt);
-            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
-            return item;
-          }))
-          args.page = this.data.page + 1
-        } else {
-          args.posts = [].concat(this.data.posts, res.map(function (item) {
-            var strdate = item.date
-            var excerpt = item.excerpt.rendered
-            item.date = API.getDateDiff(strdate);
-            item.excerpt.rendered = API.removeHTML(excerpt);
-            item.isDuringDate = API.isDuringDate(item.app_starttime, item.app_endtime);
-            return item;
-          }))
-          args.page = this.data.page + 1
-        }
-        this.setData(args)
-        this.setData({
-          isshowCnt: true,
-          isshowLoad: false,
-          //triggered: false
-        })
 
-        // wx.hideLoading();
-        wx.hideNavigationBarLoading({
-          complete() {
-            //console.log('hideNavigationBarLoading')
+
+        var face = this.data.detail.face_emoji;
+        var reg = /\[.+?\]/g;
+        //var content = "[(1904)%#333333%书目:哈利·波特与火焰杯]";
+        var regdt = /\[\((.+?)\]/g;
+
+        data.posts = [].concat(this.data.posts, res.map(function (item) {
+          var content = item.content;
+
+          content = content.replace(regdt, function () {
+            var regc = /\[\((.+?)\)/g;
+            regc = regc.exec(content)[1].trim();
+            var regc1 = /书目:(.+?)\]/g;
+            regc1 = regc1.exec(content)[1].trim();
+            // var regc2 = /\%(.+?)\%/g;
+            if ((/\%(.+?)\%/g).exec(content)) {
+              var regc2 = (/\%(.+?)\%/g).exec(content)[1].trim();
+              console.log(regc2)
+            }
+
+            console.log(content)
+
+            var str = '<div><a class="talktolibrary" style="background-color:' + regc2 + '" href="/pages/detail/detail?id=' + regc + '&posttype=library" bgcolor="" >来自《' + regc1 + '》</a></div>'
+            return str;
+          });
+          content = content.replace(reg, function (a, b) {
+            return face[a];
+          });
+
+          item.content = content;
+          return item;
+        }))
+
+        this.setData(data)
+        console.log(data.posts)
+        console.log('data.comments')
+      })
+    },
+
+    //显示或隐藏功能菜单
+    ShowEmoji: function () {
+      this.setData({
+        showemoji: true,
+        showfixed: true,
+        showfixbg: true,
+      })
+    },
+    //点击非留言区隐藏功能菜单
+    HideEmoji: function () {
+      this.setData({
+        showemoji: false,
+        showfixed: true,
+        showfixbg: true,
+        focus: true,
+      })
+    },
+
+    addComment: function (e) {
+      console.log(e)
+      let args = {}
+      let that = this
+      if (that.data.islib) {
+        var libmsg = '[(' + this.data.options.libid + ')%' + this.data.options.libcolor + '%书目:' + this.data.options.libtit + ']'
+      } else {
+        var libmsg = ''
+      }
+      args.id = this.data.detail.id
+      args.content = libmsg + this.data.talkKey
+      args.parent = this.data.parent
+      if (!this.data.user) {
+        wx.showModal({
+          title: '提示',
+          content: '必须授权登录才可以评论',
+          success: function (res) {
+            if (res.confirm) {
+              that.getProfile();
+            }
           }
         })
-        wx.stopPullDownRefresh()
-      })
-        .catch(err => {
-          console.log(err)
-          if (this.data.page == 1) {
-            this.setData({
-              isshowError: true,
-              isshowLoad: false,
-              isshowCnt: false,
-              //triggered: false
-            })
-          } else {
-            this.setData({
-              lasttip: false
-            })
-          }
-          wx.hideNavigationBarLoading({
-            complete() {
-              //console.log('hideNavigationBarLoading')
+      } else if (args.content.length === 0) {
+        wx.showModal({
+          title: '提示',
+          content: '评论内容不能为空'
+        })
+      } else {
+        API.addComment(args).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+              this.setData({
+                page: 1,
+                talkKey: "",
+                comments: [],
+                placeholder: ""
+              })
+              setTimeout(function () {
+                wx.showModal({
+                  title: '温馨提示',
+                  content: res.message
+                })
+              }, 900)
+              this.getComments()
+            } else if (res.status === 500) {
+              wx.showModal({
+                title: '提示',
+                content: '评论失败，请稍后重试。'
+              })
+            } else {
+              wx.showModal({
+                title: '提示',
+                content: '必须授权登录才可以评论',
+                success: function (res) {
+                  if (res.confirm) {
+                    that.getProfile();
+                  }
+                }
+              })
             }
           })
-        })
-
-    },
-
-    getAdvert: function() {
-      API.listAdsense().then(res => {
-          // console.log(res)
-          if (res.status === 200) {
-            this.setData({
-              advert: res.data
+          .catch(err => {
+            console.log(err)
+            wx.showModal({
+              title: '提示',
+              content: '评论失败，请稍后重试。'
             })
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+          })
+      }
     },
-
-    bindCateByID: function (e) {
-      let id = e.currentTarget.id;
+    bindInputContent: function (e) {
+      if (e.detail.value.length > 0) {
+        this.setData({
+          talkKey: e.detail.value,
+          iscanpublish: true
+        })
+      } else {
+        this.setData({
+          iscanpublish: false
+        })
+      }
+    },
+    bindFocus: function (e) {
       this.setData({
-        showpop: false
-      })
-      wx.redirectTo({
-        url: '/pages/list/list?id=' + id + '&posttype=' + this.data.posttype + '&catstype=' + this.data.catstype,
+        showemoji: false,
+        showfixbg: true,
       })
     },
-
-    bindDetail: function (e) {
-      let id = e.currentTarget.id;
-      wx.navigateTo({
-        url: '/pages/detail/detail?id=' + id + '&posttype=' + this.data.posttype,
-      })
-    },
-
-    //card触摸交互
-    touchstart: function (e) {
-      let that = this,
-        key = e.currentTarget.dataset.key,
-        posts = that.data.posts;
-
-      posts.forEach((v, i, array) => {
-        v.app_celltouch = '0';
-        if (i == key) {
-          v.app_celltouch = '1';
-        }
-      })
-      that.setData({
-        posts: that.data.posts,
-      })
-    },
-
-    touchmove: function (e) {
-      let that = this,
-        key = e.currentTarget.dataset.key,
-        posts = that.data.posts;
-      setTimeout(function () {
-        posts.forEach((v, i, array) => {
-          v.app_celltouch = '0';
+    bindBlur: function (e) {
+      if (!this.data.showemoji) {
+        this.setData({
+          showfixed: false,
+          showfixbg: false,
         })
-        that.setData({
-          posts: that.data.posts,
-        })
-      }, 100);
-
+      }
     },
-
-    touchend: function (e) {
+    keyboardheightchange: function (e) {
       let that = this,
-        key = e.currentTarget.dataset.key,
-        posts = that.data.posts;
-      posts.forEach((v, i, array) => {
-        v.app_celltouch = '0';
-      })
+        keyboardheight = e.detail.height,
+        keyboardduration = e.detail.duration;
+
       that.setData({
-        posts: that.data.posts,
+        keyboardheight: keyboardheight,
+        keyboardduration: keyboardduration,
+      });
+
+      console.log('keyboardheight:' + keyboardheight)
+      // console.log('keyboardduration:'+keyboardduration)
+    },
+    getemojival: function (e) {
+      if (this.data.talkKey) {
+        this.setData({
+          talkKey: this.data.talkKey + e.currentTarget.dataset.title,
+          iscanpublish: true
+        })
+      } else {
+        this.setData({
+          talkKey: e.currentTarget.dataset.title,
+          iscanpublish: true
+        })
+      }
+    },
+    onClear: function () {
+      this.setData({
+        talkKey: '',
+        iscanpublish: false,
+      })
+    },
+    HideFixedAll: function () {
+      this.setData({
+        showfixed: false,
+        showfixbg: false,
+        showemoji: false,
       })
     },
   }

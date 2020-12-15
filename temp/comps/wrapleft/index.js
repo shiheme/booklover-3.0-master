@@ -5,36 +5,48 @@ const app = getApp()
 Component({
   behaviors: [PCB],
   data: {
-    navBarHeight: app.globalData.StatusBar,
-    customBarHeight: app.globalData.CustomBar,
-    titleBarHeight: app.globalData.TitleBar,
-    loading: 1
+    // navBarHeight: app.globalData.StatusBar,
+    // customBarHeight: app.globalData.CustomBar,
+    // titleBarHeight: app.globalData.TitleBar,
+    // loading: 1,
+
+    placeHolder: '输入你要查找的内容',
+    searchLogs: [],
+    inputEnable: true,
+    autoFocus: false,
+    keydown_number: 0,
+    posttype: "library",
   },
   properties: {
     //属性值可以在组件使用时指定
-    isShowabout: {
-      type: Boolean,
-      value: false //是否显示个人中心
-    },
-    
+    // isShowabout: {
+    //   type: Boolean,
+    //   value: false //是否显示个人中心
+    // },
+
     // skinSwitch: {
     //   type: Boolean,
     //   value: true
     // },
   },
   attached() {
-    let that = this ;
-    that.setData({
-      navBarHeight: app.globalData.StatusBar,
-      customBarHeight: app.globalData.CustomBar,
-      titleBarHeight: app.globalData.TitleBar,
-    })
-    this.getSiteInfo();
-    
+    // let that = this ;
+    // that.setData({
+    //   navBarHeight: app.globalData.StatusBar,
+    //   customBarHeight: app.globalData.CustomBar,
+    //   titleBarHeight: app.globalData.TitleBar,
+    // })
+    // this.getSiteInfo();
+
   },
   pageLifetimes: {
     show: function () {
+      var self = this;
 
+      var searchlogs = wx.getStorageSync('searchlogs') || [];
+      self.setData({
+        searchLogs: searchlogs
+      })
     },
     hide: function () {
       // 页面被隐藏
@@ -43,34 +55,150 @@ Component({
       // 页面尺寸变化
     }
   },
+  ready() {
+    this.refresh();
+  },
   methods: {
-    getSiteInfo: function () {
-      API.getSiteInfo().then(res => {
-          this.setData({
-            siteInfo: res
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    refresh: function () {
+      this.setData({
+        posts: []
+      });
+      this.getComments({
+        post_type: 'library',
+        page: 1
+      });
     },
+
+    onInput: function (e) {
+      this.setData({
+        searchKey: e.detail.value,
+      })
+      if (e.detail.cursor != 0) {
+        this.setData({
+          keydown_number: 1
+        })
+      } else {
+        this.setData({
+          keydown_number: 0
+        })
+      }
+    },
+    formSubmit: function (e) {
+      if (this.data.keydown_number == 1) {
+        var url = '/pages/list/list'
+        var key = this.data.searchKey;
+        var posttype = this.data.posttype;
+
+        var cnt_tp = "";
+
+
+        url = url + '?s=' + key + '&posttype=' + posttype;
+
+        let arr = this.data.searchLogs;
+        // 判断数组中是否已存在
+        if (arr.length >= 1) {
+          arr = arr.filter(function (log) {
+            return log[0] !== key;
+          });
+        }
+        if (arr.length > 10) {
+          arr.pop(); //去除最后一个
+        }
+        arr.unshift([key, url, cnt_tp]);
+        wx.setStorageSync('searchlogs', arr);
+        //存储搜索记录
+        url = url + '?s=' + key + '&posttype=' + posttype;
+        wx.navigateTo({
+          url: url
+        })
+
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '请输入内容',
+          showCancel: false,
+        });
+      }
+    },
+    //点击历史也记录到缓存顺序中
+    historyValue: function (e) {
+      let url = e.currentTarget.dataset.url;
+      let key = e.currentTarget.dataset.key;
+      let cnt_tp = e.currentTarget.dataset.cnt_tp;
+
+      let arr = this.data.searchLogs;
+      // 判断数组中是否已存在
+      if (arr.length >= 1) {
+        arr = arr.filter(function (log) {
+          return log[0] !== key;
+        });
+      }
+      if (arr.length > 10) {
+        arr.pop(); //去除最后一个
+      }
+      arr.unshift([key, url, cnt_tp]);
+      wx.setStorageSync('searchlogs', arr);
+      wx.setStorage({
+        key: "searchlogs",
+        data: arr
+      })
+      wx.navigateTo({
+        url: url
+      })
+    },
+    //清除搜索记录
+    deleteHistory: function () {
+      //清除当前数据
+      this.setData({
+        searchLogs: []
+      });
+      //清除缓存数据
+      wx.removeStorageSync('searchlogs')
+    },
+
+    onClear: function () {
+      this.setData({
+        searchKey: '',
+      })
+    },
+    // getSiteInfo: function () {
+    //   API.getSiteInfo().then(res => {
+    //       this.setData({
+    //         siteInfo: res
+    //       })
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
+
+    getComments: function (args) {
+      API.getComments(args).then(res => {
+        let args = {}
+        args.posts = [].concat(this.data.posts, res)
+        this.setData(args)
+        console.log('args', res)
+      })
+    },
+
+
     // 跳转至个人中心
-    redictMine: function(e) {
+    redictMine: function (e) {
       var url = e.currentTarget.dataset.item;
       wx.navigateTo({
         url: url
       })
     },
-    
-    getSiteInfo: function () {
-      API.getSiteInfo().then(res => {
-          this.setData({
-            siteInfo: res
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+
+    // getSiteInfo: function () {
+    //   API.getSiteInfo().then(res => {
+    //       this.setData({
+    //         siteInfo: res
+    //       })
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
   }
 })

@@ -1,0 +1,565 @@
+/* index/component/item.wxss */
+@import "../../../app.wxss";
+
+.basemsg {
+  width: 100%;
+}
+
+.basemsg .title {
+  margin-top: 10rpx;
+  font-weight: 500;
+  font-size: 42rpx;
+  line-height: 60rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.basemsg .label {
+  font-weight: 600;
+  font-size: 32rpx;
+  line-height: 40rpx;
+  opacity: 0.4;
+}
+
+.basemsg .subtitle {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  opacity: 0.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* 列表通用样式 */
+.works-items {
+  /* margin: 30rpx;
+  padding: 10rpx 30rpx; */
+}
+
+.worksgroup {
+  width: 100%;
+}
+
+.worksgroup .worktit {
+  padding: 20rpx 0 0 0;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.worksgroup .workcnt .workcell {
+  position: relative;
+  border-bottom: 1rpx solid rgba(123, 123, 123, .2);
+}
+
+.worksgroup .workcnt .workcell:last-child {
+  border-bottom: none;
+}
+
+.worksgroup .workcnt .workcell .head {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex: auto;
+  padding: 30rpx 40rpx 0 40rpx;
+  bottom: -10rpx;
+}
+
+.worksgroup .workcnt .workcell .msg {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+
+.workcover {
+  width: 150rpx;
+  height: 207rpx;
+  position: relative;
+  border-radius: 5rpx;
+  /* margin-right: 20rpx; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: rgba(120, 120, 120, 0.1);
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.worksgroup .workcnt .workcell .msg .base {
+  margin-left: 30rpx;
+  flex: 1;
+}
+
+.worksgroup .workcnt .workcell .msg .base .text {
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.worksgroup .workcnt .workcell .msg .base .title {
+  font-weight: bold;
+  font-size: 36rpx;
+  line-height: 45rpx;
+  margin-bottom: 5rpx;
+}
+
+.worksgroup .workcnt .workcell .msg .base .subtitle {
+  font-size: 24rpx;
+  opacity: .8;
+}
+
+.worksgroup .workcnt .workcell .more {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-left: 40rpx;
+}
+
+.worksgroup .workcnt .workcell .more .dbscore {
+  font-style: italic;
+  font-size: 48rpx;
+  font-weight: bold;
+}
+.works-items .worksgroup .foot {
+  position: relative;
+  z-index: 10;
+  margin-top: -40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0rpx 30rpx 10rpx 30rpx;
+}
+
+.works-items .worksgroup .foot .bg {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: .08;
+}
+
+.works-items .worksgroup .foot .cats {
+  position: relative;
+  z-index: 2;
+}
+
+
+.starlist .works-items,
+.movielist .works-items {
+  margin: 0rpx;
+  padding: 0rpx;
+}
+
+.starlist .works-items,
+.movielist .works-items {
+  margin: 0rpx;
+  padding: 0rpx;
+}
+
+.starlist .works-items .worksgroup .workcnt .workcell,
+.movielist .works-items .worksgroup .workcnt .workcell {
+  flex-flow: column;
+}
+
+.starlist .cardbox,
+.movielist .cardbox {}
+
+/* 定义评分列表 */
+.topcmtlist {}
+
+.topcmtlist .card {
+  position: absolute;
+  /* position: relative; */
+  margin-bottom: 80rpx;
+  overflow: visible;
+  bottom: 0;
+  left: 50rpx;
+  right: 40rpx;
+}
+
+.topcmtlist .card::after {
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: -15rpx;
+  left: 50rpx;
+  border-style: solid;
+  border-width: 15rpx 20rpx 0rpx 20rpx;
+  border-color: transparent;
+  font-size: 0;
+}
+
+.topcmtlist .cardbody {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx;
+}
+
+.topcmtlist .cardbody .post_cnt {
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 30rpx;
+  /* opacity: .6; */
+}
+
+.topcmtlist .cardbody .post_cnt .text {
+  opacity: .7;
+}
+
+.topcmtlist .cardbody .post_cnt .strong {
+  opacity: 1;
+}
+
+.topcmtlist .cardbody .post_thumb {
+  width: 80rpx;
+  height: 112rpx;
+  margin-left: 30rpx;
+}
+
+.topcmtlist .cardbody .post_thumb .workcover {
+  width: 80rpx;
+  height: 112rpx;
+}
+
+.topcmtlist .cardfoot {
+  position: absolute;
+  left: 40rpx;
+  bottom: -80rpx;
+  height: 56rpx;
+}
+
+.topcmtlist .cardfoot .image {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 56rpx;
+}
+
+/* 定义发现列表 */
+.topiclist .postlike {
+  margin-top: 20rpx;
+}
+
+.topiclist .workcell {
+  position: absolute !important;
+  bottom: -10rpx !important;
+  right: 0rpx;
+  /* transform:translateX(0px); */
+  transform: translateX(400rpx);
+  transition: .6s;
+  border-bottom: none;
+  padding: 0rpx;
+}
+
+.topiclist.ani .workcell0 {
+  left: auto;
+  /* right: 380rpx; */
+  transform: translateX(-380rpx);
+  transition: .6s;
+}
+
+.topiclist.ani .workcell1 {
+  left: auto;
+  /* right: 240rpx; */
+  transform: translateX(-240rpx);
+  transition: .6s;
+}
+
+.topiclist.ani .workcell2 {
+  left: auto;
+  /* right: 160rpx; */
+  transform: translateX(-160rpx);
+  transition: .6s;
+}
+
+.topiclist.ani .workcell3 {
+  left: auto;
+  /* right: 60rpx; */
+  transform: translateX(-60rpx);
+  transition: .6s;
+}
+
+.topiclist.ani .workcell4 {
+  left: auto;
+  /* right: -20rpx; */
+  transform: translateX(20rpx);
+  transition: .6s;
+}
+
+.topiclist .workcell0 .workcover {
+  width: 150rpx;
+  height: 208rpx;
+
+}
+
+.topiclist .workcell1 .workcover {
+  width: 180rpx;
+  height: 250rpx;
+}
+
+.topiclist .workcell2 .workcover {
+  width: 165rpx;
+  height: 228rpx;
+}
+
+.topiclist .workcell3 .workcover {
+  width: 140rpx;
+  height: 200rpx;
+}
+
+.topiclist .workcell4 .workcover {
+  width: 130rpx;
+  height: 180rpx;
+}
+
+.topiclist .workcnt {
+  position: relative !important;
+  height: 300rpx !important;
+}
+
+/* 定义语录列表 */
+.quotlist .basemsg .title {
+  position: relative;
+}
+
+.quotlist .basemsg .title .text {
+  position: relative;
+  margin-left: 50rpx;
+  display: block;
+}
+
+.quotlist .basemsg .title .text::before {
+  content: '“';
+  position: absolute;
+  font-size: 80rpx;
+  margin-left: -50rpx;
+  margin-top: 20rpx;
+  opacity: 0.8;
+}
+
+.quotlist .workcnt {
+  display: flex;
+  margin: 0 40rpx;
+}
+
+.quotlist .workmsg {
+  text-align: right;
+  flex: auto;
+  display: flex;
+  flex-flow: column;
+}
+
+.quotlist .workmsg .auth {
+  position: relative;
+  margin-left: 30rpx;
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+  opacity: .8;
+}
+
+.quotlist .workmsg .auth::before {
+  content: '——';
+  position: absolute;
+  margin-left: -65rpx;
+  opacity: 0.3;
+}
+
+.quotlist .workmsg .title {
+  font-weight: bold;
+  font-size: 36rpx;
+}
+
+.quotlist .workcell {
+  width: 150rpx;
+  margin-left: 30rpx;
+}
+
+/* 定义书籍列表样式 */
+.librarylist {}
+
+
+.librarylist.water .msg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.librarylist.water .msg .workcover {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 10;
+}
+
+.librarylist.water .msg .workcover .dbscore {
+  display: block;
+  position: absolute;
+  right: 20rpx;
+  bottom: 10rpx;
+  font-style: italic;
+  font-size: 48rpx;
+  font-weight: bold;
+}
+
+.librarylist.water .cardfoot.lib {
+  display: flex;
+  flex-flow: column;
+  height: 120rpx;
+}
+
+.librarylist.water .cardfoot.lib .title,
+.librarylist.water .cardfoot.lib .subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.librarylist.water .cardfoot.lib .title {
+  margin: 20rpx 0 5rpx 0;
+}
+
+.librarylist.water .cardfoot.lib .title .text {
+  padding: 0rpx 30rpx;
+  font-size: 32rpx;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  font-weight: bold;
+}
+
+.librarylist.water .cardfoot.lib .subtitle .text {
+  padding: 0rpx 30rpx;
+  font-size: 24rpx;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  opacity: .6;
+}
+
+
+/* 定义帮助列表样式 */
+.faqlist .basemsg .subtitle {
+  padding: 0 40rpx;
+}
+
+.faqlist .cardfoot {
+  padding: 0 30rpx;
+}
+
+/* 定义福利列表样式 */
+.actlist {}
+
+.actlist .card {
+  position: relative;
+}
+
+.actlist .card .cardheader {
+  position: relative;
+  height: 460rpx;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: rgba(120, 120, 120, 0.1);
+  display: flex;
+  align-items: flex-start;
+  padding: 0rpx;
+}
+
+.actlist .card .cardheader .shopmsg {
+  margin: 30rpx;
+}
+
+.actlist .card .cardheader .shopmsg .state {
+  font-size: 34rpx;
+  font-weight: bold;
+  line-height: 48rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  border-radius: 50rpx;
+  padding: 16rpx 40rpx;
+
+}
+
+.actlist .card .cardheader .shopmsg .state0 {
+  background: rgba(200, 200, 200, .5);
+  color: rgba(30, 30, 30, .5);
+}
+
+.actlist .card .cardheader .shopmsg .state1 {
+  background: #13c471;
+  color: rgba(255, 255, 255, 1);
+}
+
+.actlist .card .cardheader .shopmsg .state2 {
+  background: rgba(230, 230, 230, 1);
+  color: rgba(30, 30, 30, .5);
+}
+
+.actlist .card .cardheader .postlike {
+  margin: 30rpx 0;
+  height: 80rpx;
+}
+
+.actlist .cardbody {
+  padding: 30rpx;
+}
+
+.actlist .cardfoot {
+  position: absolute;
+  top: 340rpx;
+  left: 0;
+}
+
+.actlist .cardfoot .icon,
+.actlist .cardfoot .text {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+/* 定义留言互动的样式 */
+.talklist {}
+
+.talklist .cardheader .msg {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.talklist .cardheader .msg .image {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 28rpx;
+  margin-right: 10rpx;
+}
+
+.talklist .cardheader .msg .text {
+  font-size: 32rpx;
+  opacity: .4;
+  margin-right: 20rpx;
+}
+
+.talklist .cardbody {
+  padding: 0 40rpx 40rpx;
+}
+
+.talklist .cardbody .main {
+  line-height: 50rpx;
+  font-size: 32rpx;
+}

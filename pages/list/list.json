@@ -1,8 +1,10 @@
 {
   "component": true,
-  "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
-    "navtitle": "../../temp/comps/navtitle/index"
+    "navtitle": "../../temp/comps/navtitle/index",
+    "dataitem": "../../temp/comps/item/item",
+    "pop": "../../temp/comps/pop/pop",
+    "load-status": "../../temp/comps/load-status/load-status"
   }
 }

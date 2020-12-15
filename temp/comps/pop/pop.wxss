@@ -1,0 +1,462 @@
+/* index/component/item.wxss */
+@import "../../../app.wxss";
+
+.librarywrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.librarywrap .head .close.btn {
+  width: 88rpx;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+  margin-left: 30rpx;
+}
+
+.librarywrap .head .close.btn .icon {
+  align-items: center;
+  width: 50rpx;
+  height: 50rpx;
+  position: relative;
+  z-index: 15;
+  overflow: visible;
+  font-size: 1.4rem;
+}
+
+.librarywrap .head .title {
+  width: 100%;
+  font-size: 34rpx;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 1;
+  position: absolute;
+  left: 0rpx;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  transition: 1s;
+}
+
+.librarywrap .head .title .text {
+  margin-left: 160rpx;
+}
+
+
+.librarywrap .body {
+  height: 0;
+  /* 充满剩余空间 */
+  flex-grow: 1;
+}
+
+/* POPUP弹层 */
+
+.popupbg {
+  position: fixed;
+  left: 0;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  z-index: 105;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.popupbg.show {
+  bottom: 0;
+}
+
+.popuparea {
+  position: fixed;
+  z-index: 110;
+  width: 100%;
+  bottom: 0;
+  transform: translateY(110%);
+  padding-bottom: calc(env(safe-area-inset-bottom));
+  transition-duration: 0.3s;
+  /* transition-delay: 0.3s; */
+  /* backface-visibility: hidden; */
+  border-radius: 24rpx 24rpx 0 0;
+  overflow: hidden;
+}
+
+.popuparea.show {
+  transition-duration: 0.3s;
+  transform: translateY(0);
+  /* transition-delay: 0.3s; */
+}
+
+.popuparea .popupareahead {
+  position: relative;
+}
+
+.popuparea .popupareafoot {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1rpx solid rgba(123, 123, 123, .2);
+  padding-bottom: calc(env(safe-area-inset-bottom));
+}
+
+.popuparea .popupareafoot .btn {
+  flex: 50%;
+  height: 80rpx;
+  border-radius: 10rpx;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.popuparea .popupareafoot .btn.sumbit {
+  margin-left: 10rpx;
+  border-left: 1rpx solid rgba(123, 123, 123, .2);
+}
+
+.popuparea .popupareafoot .text {
+  font-size: 34rpx;
+}
+
+/* 首页加号弹层 */
+.indexnav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 0;
+}
+
+.indexnav .card-cell {
+  /* width: 33%; */
+}
+
+.indexnav .card-cell .card-cell-msg {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.indexnav .card-cell-msg {
+  border-top: none !important;
+}
+
+.indexnav .card-cell-msg .icon {
+  opacity: .8;
+}
+
+.indexnav .card-cell-base {
+  align-items: center;
+}
+
+.indexnav .card-cell-base .card-cell-title {
+  font-size: 28rpx;
+  opacity: .6;
+}
+
+/* 书籍列表页筛选弹层样式 */
+.catsselect {
+  padding: 50rpx 0 0;
+}
+
+.catsselect .tit {
+  font-weight: 600;
+  font-size: 36rpx;
+  margin-top: 10rpx;
+  text-align: center;
+  opacity: .8;
+}
+
+.catsselect .cellbox {
+  padding: 50rpx;
+}
+
+.catsselect .cellbox .checkboxgroup {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.catsselect .cellbox .checkboxgroup::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  box-sizing: border-box;
+}
+
+.catsselect .cellbox .cell {
+  position: relative;
+  height: 80rpx;
+  font-size: 28rpx;
+  border-radius: 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.catsselect .cellbox.category .cell {
+  height: 80rpx;
+}
+
+
+/* .catsselect .cellbox .cell::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  box-sizing: border-box;
+  border-width: 0 0 1rpx 0;
+  border-style: solid;
+  border-color: rgba(123, 123, 123, .3);
+} */
+
+.catsselect .cellbox .cell .cellhead {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.catsselect .cellbox .cell .cellhead .checkbox {
+  opacity: 0;
+}
+
+.catsselect .cellbox .cell .cellbody {
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0rpx 20rpx;
+}
+
+.catsselect .cellbox .cell.on {
+  font-weight: 500;
+}
+
+/* 书籍内页评星弹层样式 */
+.comts-items {
+  margin: 30rpx 40rpx;
+  box-shadow: none !important;
+}
+
+.comts-items .comtstit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.comts-items .comtstit .tit {
+  font-weight: bold;
+  font-size: 36rpx;
+  opacity: .8;
+}
+
+.comts-items .comtscnt .nodatatext {
+  padding: 30rpx 0;
+  opacity: .4;
+  text-align: center;
+}
+
+.cmtcell {
+  padding: 30rpx 0rpx;
+  border-bottom: 1rpx solid rgba(123, 123, 123, .2)
+}
+
+.cmtcell .cmtheader {
+  display: flex;
+  align-items: center;
+}
+
+.cmtcell .cmtheader .avatar {
+  width: 77rpx;
+  height: 77rpx;
+  overflow: hidden;
+  margin-right: 20rpx;
+  border-radius: 40rpx;
+}
+
+.cmtcell .cmtheader .avatar .image {
+  width: 77rpx;
+  height: 77rpx;
+}
+
+.cmtcell .cmtheader .basemsg {
+  flex: auto;
+}
+
+.cmtcell .cmtheader .basemsg .name {
+  font-size: 32rpx;
+  font-weight: bold;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.cmtcell .cmtheader .starrate {
+  width: 220rpx;
+}
+
+.cmtcell .cmtheader .starrate .icon {
+  transform: scale(1.5);
+  transform-origin: 0 50%;
+  margin-left: 20rpx;
+}
+
+.cmtcell .cmtheader .basemsg .name {
+  font-size: 30rpx;
+  font-weight: 500;
+  line-height: 40rpx;
+  opacity: .6;
+}
+
+.cmtcell .cmtheader .basemsg .date {
+  font-size: 22rpx;
+}
+
+.cmtcell .cmtheader .basemsg .date .text {
+  opacity: .4;
+}
+
+.cmtcell .cmtbody {
+  line-height: 44rpx;
+  margin: 30rpx 0 10rpx 0;
+}
+
+/* 评分 */
+.userrating {
+  /* text-align: center; */
+  /* line-height: 60rpx; */
+  display: flex;
+  /* justify-content: center; */
+  padding: 0 50rpx;
+  align-items: center;
+}
+
+.userrating .tit {
+  display: none;
+}
+
+.userrating .rating {
+  display: flex;
+  align-items: center;
+  /* margin-top: 10rpx; */
+}
+
+.userrating .ratingtip {
+  font-size: 28rpx;
+  margin-left: 20rpx;
+  opacity: .6;
+}
+
+.userrating .rating .image {
+  height: 50rpx;
+  width: 50rpx;
+  margin-right: 10rpx;
+}
+
+/* 评论框 */
+.textareaform {
+  /* position: absolute;
+  bottom: 0rpx; */
+  width: 100%;
+  height: 120rpx;
+  /* z-index: 10; */
+}
+
+.textareabox {
+  width: 100%;
+  height: 120rpx;
+  box-shadow: 0 -20rpx 20rpx rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.textareabox .publishbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 50rpx;
+}
+
+.textareabox .publishbtn .publish {
+  position: relative;
+  padding: 20rpx 40rpx;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+}
+
+.textareabox .publishbtn .publish .text {
+  opacity: .4;
+}
+
+.textareabox .publishbtn .publish.on {
+  background-color: #5CEB8E
+}
+
+.textareabox .publishbtn .publish.on .text {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.sharepengyouquan {
+  position: fixed;
+  font-size: 26rpx;
+  right: 20rpx;
+  width: 220rpx;
+  height: 100rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  opacity: .8;
+  z-index: 110;
+}
+
+.sharepengyouquan::after {
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -15rpx;
+  right: 100rpx;
+  border-style: solid;
+  border-width: 0rpx 20rpx 15rpx 20rpx;
+  border-color: transparent;
+  font-size: 0;
+}
+
+.sharepengyouquan .cnt {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sharepengyouquan .text {}
+
+.sharepengyouquan .icon {
+  border: 1rpx solid rgba(123, 123, 123, .3);
+  border-radius: 20rpx;
+  height: 40rpx;
+  width: 70rpx;
+  margin-left: 10rpx;
+
+}

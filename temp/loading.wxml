@@ -1,9 +1,0 @@
-<template name="loading">
-
-  <view class="showloading {{isshowLoad?'load':''}}">
-    <icon class="loadicon icon iconfont icon-loading" />
-    <view class="loadtext">
-      <text class="text">正在飞速加载中..</text>
-    </view>
-  </view>
-</template>

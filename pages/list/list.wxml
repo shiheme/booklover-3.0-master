@@ -1,82 +1,85 @@
 <!--pages/list/list.wxml-->
-<!--index.wxml-->
-<import src="../../temp/loading.wxml" />
-<import src="../../temp/showerror.wxml" />
-<import src="../../temp/itemcell.wxml" />
-<import src="../../temp/cats.wxml" />
 
 <view class="wrapper bgcolor-base"></view>
 
-<navtitle id="c-bar" title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" showLoad="{{showLoad}}"/>
+<navtitle id="c-bar" title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
 
 <view class="container bgcolor-base page">
-  <view class="index" style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
-    <view class="menubarwrap {{isshowCnt?'show':'hide'}}">
-      <view class="menubarhead" wx:if="{{listtype=='category'}}">
-        <view class="tit">
-          <block wx:if="{{posttype=='star'}}">
-            <text class="text">星档案</text>
-          </block>
-          <block wx:elif="{{posttype=='movie'}}">
-            <text class="text">库</text>
-          </block>
-        </view>
-        <view class="more" catchtap="bindShowpop">
-          <text class="text">{{catetitle}}</text>
-          </view>
-      </view>
-      <view class="menubarhead" wx:if="{{listtype=='search'}}">
-        <view class="tit">
-          <block wx:if="{{posttype=='posts'}}">
-            <text class="text">在福利社中</text>
-          </block>
-          <block wx:elif="{{posttype=='source'}}">
-            <text class="text">在作品中</text>
-          </block>
-          <block wx:elif="{{posttype=='appver'}}">
-            <text class="text">在应用中</text>
-          </block>
-        </view>
-        <view class="desc">
-          <text class="text">{{searchtitle}}</text>
-        </view>
-      </view>
-    </view>
-    <view class="index_article itemarea {{isshowCnt?'show':'hide'}}" wx:if="{{posts.length>0}}">
-      <template is="posts" data="{{posts,customBarHeight,windowWidth}}" />
-    
-    </view>
-    <view class="index_article {{isshowCnt?'show':'hide'}}" wx:if="{{isLastPage&&posts.length==0}}">
-      <view class="noncnt">
-        <icon class="icon iconfont icon-noncnt" />
-      </view>
-      <view class="last_text">对不起! 你查看的内容没有找到</view>
-    </view>
-    <view class="last_text" wx:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
-    <view class="last_text" wx:if="{{!isLastPage&&posts.length>0}}">
-      <block wx:if="{{lasttip==true}}">
-						<icon class="icon iconfont icon-loading turn" />
-						<text class="text">加载更多内容中...</text>
-					</block>
-					<block wx:else>
-						<icon class="icon iconfont icon-error" />
-						<text class="text">出错啦！无法连接数据</text>
-					</block>
-    </view>
-  </view>
 
-  <template is="showerror" data="{{isshowError:isshowError}}"></template>
+  <view class="wrap"
+    style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+    <view class="searchtitle" wx:if="{{searchtitle}}">
+      <text class="text">{{searchtitle}}</text>
+    </view>
+    <view class="libraryctrl" wx:if="{{posttype=='library' && !searchtitle}}">
+      <view class="librarycatsbtn bgcolor-sub" catchtap="bindShowpop" data-poptype="librarycats" data-popitem=""
+        data-popheight="{{(windowHeight-3*customBarHeight-60)*2}}">
+        <icon class="icon iconfont icon-list" />
+        <block wx:if="{{!catstxt&!statetxt}}"><text class="text">所有类型书籍</text></block>
+        <block wx:if="{{statetxt}}"><text class="text">{{statetxt}}</text></block>
+        <block wx:if="{{catstxt}}"><text class="text">{{catstxt}}</text></block>
+      </view>
+      <view class="gridctrols bgcolor-sub" catchtap="bindGridchange">
+        <view class="gridbtn gridlist {{gridtype=='list'?'on':''}}">
+          <icon class="icon iconfont icon-gridlist" />
+        </view>
+        <view class="gridbtn gridwater {{gridtype=='water'?'on':''}}">
+          <icon class="icon iconfont icon-gridwater" />
+        </view>
+        <view class="line bgcolor-sub"></view>
+      </view>
+    </view>
+    <view class="itemwrap {{gridtype=='water'&&posttype=='library'?'libtypewater':'libtypelist'}}">
+      <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
+        <view class="cardbox" style="{{gridtype=='water'&&posttype=='library'?'width:'+(windowWidth-70)/2+'px;':''}}">
+          <dataitem index="{{index}}" posttype="{{posttype}}" gridtype="{{gridtype}}" item="{{posts}}" />
+        </view>
+      </view>
+    </view>
+    <load-status length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+  </view>
 
 </view>
 
-<view class="popuparea {{showpop ? 'show':''}}">
-  <view class="popupareahead bgcolor-base-op95">
-    <template is="cats" data="{{category:category}}" />
-  </view>
-  <view class="popupareafoot bgcolor-sub" catchtap="bindHidepop">
-    <text class="text">取消</text>
-  </view>
-</view>
-<view class="popupbg {{showpop ? 'show':''}}" catchtap="bindHidepop"></view>
+<view class="fixedbox bgcolor-base fixed talkfixed" wx:if="{{posttype=='talk'}}"
+  style="{{keyboardheight?'transform: translateY(-'+(keyboardheight)*2+'rpx);transition:'+keyboardduration+'s;':''}}{{showfixed?'transform: translateY(-734rpx);transition:0.25s;':''}}">
+  <form catchsubmit="addComment">
+    <view class="islibmsg {{showfixbg||keyboardheight?'on':''}}" wx:if="{{islib}}">
+      <view class="text" style="background-color:{{options.libcolor}}">来自《{{options.libtit}}》<icon class="icon"
+          style="border-top-color: {{options.libcolor}} !important;"></icon>
+      </view>
 
-<template is="loading" data="{{isshowLoad:isshowLoad}}"></template>
+    </view>
+    <view class="talkbox">
+      <view class="talkwarp bgcolor-sub">
+        <view class="index-talk container-class">
+          <input class="talkinput" fixed="true" adjust-position="{{false}}" confirm-type="send"
+            cursor-spacing="{{showemoji?100:20}}" maxlength="100" name="inputComment" value="{{talkKey}}"
+            focus="{{focus}}" showConfirmBar="{{false}}" placeholder="{{placeholder}}" bindinput="bindInputContent"
+            bindblur="bindBlur" bindfocus="bindFocus" bindkeyboardheightchange="keyboardheightchange" />
+          <icon class="icon" bindtap="onClear" type="clear" size="20" wx:if="{{iscanpublish}}" />
+        </view>
+        <view bindtap="addComment" class="talktxt main-color" wx:if="{{iscanpublish}}">发布</view>
+      </view>
+
+      <view class="addemoji bgcolor-sub" catchtap="ShowEmoji" wx:if="{{!showemoji||keyboardheight}}">
+        <icon class="icon iconfont icon-emoji" />
+      </view>
+      <view class="addemoji bgcolor-sub" catchtap="HideEmoji" wx:else>
+        <icon class="icon iconfont icon-library" />
+      </view>
+    </view>
+    <view class="emojibox {{!showemoji||keyboardheight ? 'emoji-move-out' : 'emoji-move-in'}}">
+      <view class="iconlist">
+        <block wx:key="id" wx:for="{{detail.talk_emoji}}">
+          <image class="image" src="{{item.guid}}" id="{{item.ID}}" data-title="{{item.post_title}}"
+            catchtap="getemojival" />
+        </block>
+      </view>
+    </view>
+  </form>
+</view>
+<view class="fixedbg {{showfixbg||keyboardheight?'on':''}}" catchtap="HideFixedAll"></view>
+
+<pop showpop="{{showpop}}" poptype="{{poptype}}" item="{{popitem}}" category="{{category}}" state="{{state}}"
+  height="{{popheight}}" bind:myevent="bindUpdatepost" />

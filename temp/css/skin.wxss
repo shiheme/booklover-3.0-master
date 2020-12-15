@@ -1,16 +1,26 @@
+.main-color {color:rgba(92, 235, 142,1)}
+.main-bgcolor {background-color:rgba(92, 235, 142,1);color:rgba(255,255,255,1)}
+
 /* 定义白色系风格 */
 .bgcolor-base {background-color: rgba(255, 255, 255, 1);color: rgba(0, 0, 0, 1);}
 .bgcolor-sub {background-color: rgb(245, 245, 245, 1);color: rgba(0, 0, 0, 1);}
 .bgcolor-base-op95 {background: rgba(255, 255, 255, 0.95);color: rgba(0, 0, 0, 1);}
 .bgcolor-sub-op20 {background: rgba(245, 245, 245, 0.2);color: rgba(0, 0, 0, 1);}
-
+.borcolor-left-base {border-left-color: rgba(245, 245, 245,1);}
+.borcolor-bottom-base {border-bottom-color: rgba(245, 245, 245,1);}
+.borcolor-bottom-base::after {border-bottom-color: rgba(245,245,245,1) !important;}
+.borcolor-top-base::after {border-top-color: rgba(245,245,245,1) !important;}
+.bgcolor-base-op60::after {background: rgba(255, 255, 255, 0.6);}
 
 .bgcolor-base-face {background-color: rgba(30,30,30,1);color:rgba(255,255,255,1);}
 .bgcolor-base-face-op20 {background-color: rgba(30,30,30,.2);color:rgba(255,255,255,1);}
 .bgcolor-base-face-op30 {background-color: rgba(30,30,30,.3);color:rgba(255,255,255,1);}
 .bgcolor-base-face-op50 {background-color: rgba(30,30,30,.5);color:rgba(255,255,255,1);}
+.borcolor-left-base-face {border-left-color: rgba(30,30,30,1);}
 
 /* .color-base-face {color:rgba(255,255,255,1);} */
+.color-base-op80 {opacity: .8;}
+.color-base-op40 {opacity: .4;}
 
 @media(prefers-color-scheme:dark){
 
@@ -18,11 +28,17 @@
   .bgcolor-sub {background-color: rgb(30, 30, 30, 1);color: rgba(255,255,255, 1);}
   .bgcolor-base-op95 {background: rgba(20,20,20, 0.95);color: rgba(255,255,255, 1);}
   .bgcolor-sub-op20 {background: rgba(30,30,30, 0.2);color: rgba(255,255,255, 1);}
-  
+  .borcolor-left-base {border-left-color: rgba(30,30,30,1);}
+  .borcolor-bottom-base {border-bottom-color: rgba(30,30,30,1);}
+  .borcolor-bottom-base::after {border-bottom-color: rgba(30,30,30,1) !important;}
+  .borcolor-top-base::after {border-top-color: rgba(30,30,30,1) !important;}
+  .bgcolor-base-op60::after {background: rgba(30,30,30, 0.6);}
+
   .bgcolor-base-face {background-color: rgba(245,245,245,1);color:rgba(0,0,0,1);}
   .bgcolor-base-face-op20 {background-color: rgba(245,245,245,.2);color:rgba(0,0,0,1);}
   .bgcolor-base-face-op30 {background-color: rgba(245,245,245,.3);color:rgba(0,0,0,1);}
   .bgcolor-base-face-op50 {background-color: rgba(245,245,245,.5);color:rgba(0,0,0,1);}
+  .borcolor-left-base-face {border-left-color: rgba(245,245,245,1);}
   
 }
 

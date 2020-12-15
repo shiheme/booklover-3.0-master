@@ -1,0 +1,407 @@
+<!-- 定义评分列表 -->
+<view class="topcmtlist" wx:if="{{posttype=='topcmt'}}">
+	<view catchtap="bindDetail" class="card borcolor-top-base bgcolor-sub" data-posttype="{{item[index].post.post_type}}"
+		id="{{item[index].post.ID}}" data-key="{{i}}" animation="{{num==index?showpic:hidepic}}">
+		<view class="cardbody">
+			<view class="post_cnt">
+				<text class="text">{{item[index].author.name}}给</text>
+				<text class="text strong">《{{item[index].post.post_title}}》</text>
+				<text class="text">评了</text>
+				<icon class="iconrating staricon{{(item[index].rating)*10}} icon" />
+				<text class="text">{{item[index].rating?item[index].rating:'0'}}星</text>
+			</view>
+			<view class="post_thumb">
+				<view class="workcover libcover"
+					style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].post_thumbnail}}');">
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot">
+			<view class="avatar">
+				<image class="image" src="{{item[index].author.avatar}}"></image>
+			</view>
+		</view>
+	</view>
+</view>
+
+<!-- 定义发现列表结构 -->
+<view class="topiclist {{ani?'ani':''}}" wx:if="{{posttype=='topic'}}">
+	<view catchtap="bindDetail" class="card bgcolor-sub bgline {{item[index].book_tolibrary[0].book_pagestyle}}"
+		style="{{item[index].book_tolibrary[0].book_foreground?'background-color:'+item[index].book_tolibrary[0].book_foreground:''}}"
+		data-posttype="{{item[index].type}}" id="{{item[index].id}}" data-key="{{index}}">
+		<view class="cardheader">
+			<view class="basemsg">
+				<view class="title">
+					<text class="text">{{item[index].title.rendered}}</text>
+				</view>
+			</view>
+			<view class="postlike">
+				<view class="atr">
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/dSopHk1ugJSOsibaBuupsUuF3Zbiadhiaknqc63Az4YrU3gUdteuBotrQH16xWyHSn0zibCLf3DYj2P2lqEXnqUt0Q/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/wGjIFJMibwkX7BfdQtP35zW3cQf8XoiaKpShxpVPGCKo195XTeM7WSpRcfsI4UCZGZiaFFJJWoBH6GdBcId2ZdaoA/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epL20ZUxNv1NO1LTS4ZIonccwOymVSkK90o5icibJ3V3en3KibiaoPDBrktYaOlyIeZPicVOcia5STmnh0A/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/x8Ve0VtmJ5ib0KiaI1tZ7G5JuG1e4h4XoicBNH0bZ5zr22MvBs0OQ85zWAYdHlljy440S85xu6eq4G0IsT8R8N8QA/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJwOpZU9IoxyVgEQSDhkKMDpH79WSahE9lBTK38VItZY0y6UXUm4OZWfib3d9q5AGTMgV0ShYaESmQ/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/37dNoAJgDoblkXhArD89rTdjz7gqwsWnpeR2pr7K5icvVutVhbbDoftckiaIX39vsUriayCU4k1CZW0IG0GOGzSOg/132" />
+					</view>
+				</view>
+				<text class="text">最近点了赞</text>
+			</view>
+
+		</view>
+		<view class="cardbody">
+			<view class="worksgroup">
+				<view class="workcnt">
+					<block wx:key="index" wx:for="{{item[index].book_tolibrary}}" wx:for-item='cell'>
+						<block wx:if="{{index<5}}">
+							<view class="workcell workcell{{index}}">
+								<view class="workcover libcover" style="background-image:url('{{cell.book_thumb}}');"></view>
+							</view>
+						</block>
+					</block>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot"
+			style="{{item[index].book_tolibrary[0].book_foreground?'background-color:'+item[index].book_tolibrary[0].book_foreground:''}}">
+			<view class="postmsg">
+				<view class="data">
+					<view class="item">
+						<icon class="icon iconfont icon-eye" />
+						<text class="text">{{item[index].meta.views}}</text>
+					</view>
+					<view class="item">
+						<icon class="icon iconfont icon-like" />
+						<text class="text">{{item[index].likes}}</text>
+					</view>
+
+				</view>
+				<view class="time hide">
+					{{item[index].date}}
+				</view>
+			</view>
+		</view>
+	</view>
+
+</view>
+
+<!-- 定义语录列表结构 -->
+<view id="vids{{index}}" class="quotlist" wx:if="{{posttype=='quot'}}">
+	<view catchtap="bindDetail" class="card bgcolor-sub bgline {{item[index].book_tolibrary[0].book_pagestyle}}"
+		style="{{item[index].book_tolibrary[0].book_foreground?'background-color:'+item[index].book_tolibrary[0].book_foreground:''}}"
+		data-posttype="{{item[index].type}}" id="{{item[index].id}}" data-key="{{index}}">
+		<view class="cardheader">
+			<view class="basemsg">
+				<view class="title">
+					<text class="text">{{item[index].title.rendered}}</text>
+				</view>
+			</view>
+
+		</view>
+		<view class="cardbody">
+			<view class="worksgroup">
+				<view class="workcnt">
+					<view class="workmsg">
+						<text class="text auth">{{item[index].book_tolibrary[0].book_author}}</text>
+						<text class="text title">《{{item[index].book_tolibrary[0].book_title}}》</text>
+					</view>
+					<view class="workcell">
+						<view class="workcover libcover"
+							style="background-image:url('{{item[index].book_tolibrary[0].book_thumb}}');"></view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot"
+			style="{{item[index].book_tolibrary[0].book_foreground?'background-color:'+item[index].book_tolibrary[0].book_foreground:''}}">
+			<view class="postmsg">
+				<view class="data">
+					<view class="item">
+						<icon class="icon iconfont icon-eye" />
+						<text class="text">{{item[index].meta.views}}</text>
+					</view>
+					<view class="item">
+						<icon class="icon iconfont icon-like" />
+						<text class="text">{{item[index].likes}}</text>
+					</view>
+
+				</view>
+				<view class="time hide">
+					{{item[index].date}}
+				</view>
+			</view>
+		</view>
+	</view>
+
+</view>
+
+<!-- 定义书籍列表结构（格子） -->
+<!-- <view class="moviewater" wx:if="{{posttype == 'library' && gridtype == 'water'}}">
+	<block wx:for="{{posts}}" wx:for-index="i" wx:key="key">
+		<block wx:if="{{i==5 && geziads==true}}">
+			<view class="moviecell bgcolor-sub" style="width:{{(windowWidth-50)/3}}px;">
+				<ad-custom unit-id="adunit-aa5302a48410634f" bindload="adLoadgeziads" binderror="adErrorgeziads"></ad-custom>
+			</view>
+		</block>
+		<block wx:else>
+			<view class="moviecell bgcolor-sub {{item[index].book_pagestyle}}" catchtap="bindDetail" data-posttype="{{item[index].type}}"
+				id="{{item[index].id}}" data-key="{{i}}">
+				<view class="msg bgline"
+					style="width:{{(windowWidth-50)/3}}px;{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}">
+					<view class="postscover libcover"
+						style="background-image:url('{{item[index].meta.thumbnail}}');width:{{(windowWidth-45)/5}}px;height:{{138*((windowWidth-45)/5)/100}}px;">
+						<view class="dbscore" wx:if="{{item[index].book_dbscore}}">{{item[index].book_dbscore}}</view>
+					</view>
+					<view class="base bgcolor-sub">
+						<view class="tit">{{item[index].title.rendered}}</view>
+					</view>
+				</view>
+			</view>
+		</block>
+	</block>
+</view> -->
+<!-- 定义书籍列表结构（列表） -->
+<view class="librarylist {{gridtype}}" wx:if="{{posttype == 'library' && gridtype == 'list'}}">
+	<view catchtap="bindDetail" class="card bgcolor-sub bgline works-items {{item[index].book_pagestyle}}"
+		style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}"
+		data-posttype="{{item[index].type?item[index].type:posttype}}" id="{{item[index].id}}" data-key="{{i}}">
+		<view class="cardbody">
+			<view class="worksgroup">
+				<view class="workcnt">
+					<view class="workcell">
+						<view class="head">
+							<view class="msg">
+								<view class="workcover libcover"
+									style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].book_thumb}}');width:150rpx;height:208rpx;">
+								</view>
+								<view class="base">
+									<view class="text title">
+										{{item[index].title.rendered?item[index].title.rendered:item[index].book_title}}</view>
+									<view class="text subtitle">
+										{{item[index].excerpt.rendered}}
+									</view>
+								</view>
+							</view>
+							<view class="more">
+								<text class="dbscore main-color">{{item[index].book_dbscore}}</text>
+							</view>
+						</view>
+
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot lib"
+			style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}">
+			<view class="postmsg">
+				<view class="data">
+					<view class="item">
+						<icon class="icon iconfont icon-eye" />
+						<text class="text">{{item[index].meta.views}}</text>
+					</view>
+					<view class="item">
+						<icon class="icon iconfont icon-like" />
+						<text class="text">{{item[index].likes}}</text>
+					</view>
+
+				</view>
+				<view class="time hide">
+					{{item[index].date}}
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+
+<view class="librarylist {{gridtype}}" wx:if="{{posttype == 'library' && gridtype == 'water'}}">
+	<view catchtap="bindDetail" class="card bgcolor-sub bgline works-items {{item[index].book_pagestyle}}"
+		style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}"
+		data-posttype="{{item[index].type?item[index].type:posttype}}" id="{{item[index].id}}" data-key="{{i}}">
+		<view class="cardbody">
+			<view class="worksgroup">
+				<view class="workcnt">
+					<view class="workcell">
+						<view class="head">
+							<view class="msg">
+								<view class="workcover libcover"
+									style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].book_thumb}}');width:150rpx;height:208rpx;">
+									<text class="dbscore main-color">{{item[index].book_dbscore}}</text>
+								</view>
+							</view>
+						</view>
+
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot lib"
+			style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}">
+			<view class="title">
+				<text class="text">{{item[index].title.rendered?item[index].title.rendered:item[index].book_title}}</text>
+			</view>
+			<view class="subtitle">
+				<text class="text">{{item[index].excerpt.rendered}}</text></view>
+		</view>
+	</view>
+</view>
+
+<!-- 定义福利列表结构 -->
+<view class="actlist" wx:if="{{posttype == 'act'}}">
+	<view catchtap="bindDetail" class="card bgcolor-sub" data-posttype="{{item[index].type?item[index].type:posttype}}"
+		id="{{item[index].id}}" data-key="{{i}}">
+		<view class="cardheader" style="background-image:url({{item[index].meta.thumbnail}});">
+			<view class="shopmsg hide">
+				<text class="state state0 text" wx:if="{{item[index].isDuringDate == '0' }}">未开始</text>
+				<text class="state state1 text" wx:elif="{{item[index].isDuringDate == '1' }}">进行中</text>
+				<text class="state state2 text" wx:elif="{{item[index].isDuringDate == '2' }}">已结束</text>
+			</view>
+			<view class="shopmsg">
+				<text class="state state1 text">进行中</text>
+			</view>
+			<view class="postlike hide" wx:if="{{item[index].post_likes.length>5}}">
+				<block wx:for="{{item.post_likes}}" wx:for-item="cell" wx:key="index">
+					<block wx:if="{{index<6}}">
+						<view class="likeli">
+							<image class="image" src="{{cell.avatar}}" alt="{{cell.name}}"></image>
+						</view>
+					</block>
+				</block>
+			</view>
+			<view class="postlike">
+				<view class="atr">
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/dSopHk1ugJSOsibaBuupsUuF3Zbiadhiaknqc63Az4YrU3gUdteuBotrQH16xWyHSn0zibCLf3DYj2P2lqEXnqUt0Q/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/wGjIFJMibwkX7BfdQtP35zW3cQf8XoiaKpShxpVPGCKo195XTeM7WSpRcfsI4UCZGZiaFFJJWoBH6GdBcId2ZdaoA/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epL20ZUxNv1NO1LTS4ZIonccwOymVSkK90o5icibJ3V3en3KibiaoPDBrktYaOlyIeZPicVOcia5STmnh0A/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/x8Ve0VtmJ5ib0KiaI1tZ7G5JuG1e4h4XoicBNH0bZ5zr22MvBs0OQ85zWAYdHlljy440S85xu6eq4G0IsT8R8N8QA/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJwOpZU9IoxyVgEQSDhkKMDpH79WSahE9lBTK38VItZY0y6UXUm4OZWfib3d9q5AGTMgV0ShYaESmQ/132" />
+					</view>
+					<view class="likeli">
+						<image class="image"
+							src="https://wx.qlogo.cn/mmopen/vi_32/37dNoAJgDoblkXhArD89rTdjz7gqwsWnpeR2pr7K5icvVutVhbbDoftckiaIX39vsUriayCU4k1CZW0IG0GOGzSOg/132" />
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cardbody">
+			<view class="basemsg">
+				<view class="label">
+					<!-- <block wx:key="index" wx:for="{{item.category}}" wx:for-item='cell'>
+                  <text>#{{cell.name}}</text>
+                </block> -->
+					{{item[index].act_starttime}}至{{item[index].act_endtime}}
+				</view>
+				<view class="title">{{item[index].title.rendered}}<block wx:if="{{item[index].act_shopname}}">
+						-{{item[index].act_shopname}}</block>
+				</view>
+				<view class="subtitle">
+					<block wx:if="{{item[index].act_shopads}}">{{item[index].act_shopads}}</block>
+					<block wx:else>{{item[index].excerpt.rendered}}</block>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot" style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}">
+			<view class="postmsg">
+				<view class="data">
+					<view class="item">
+						<icon class="icon iconfont icon-eye" />
+						<text class="text">{{item[index].meta.views}}</text>
+					</view>
+					<view class="item">
+						<icon class="icon iconfont icon-like" />
+						<text class="text">{{item[index].likes}}</text>
+					</view>
+
+				</view>
+				<view class="time hide">
+					{{item[index].date}}
+				</view>
+			</view>
+		</view>
+
+	</view>
+</view>
+
+<!-- 定义帮助列表结构 -->
+<view class="faqlist" wx:if="{{posttype == 'faq'}}">
+	<view catchtap="bindDetail" class="card bgcolor-sub" data-posttype="{{item[index].type?item[index].type:posttype}}"
+		id="{{item[index].id}}" data-key="{{i}}">
+		<view class="cardheader">
+			<view class="basemsg">
+				<view class="title">
+					<text class="text">{{item[index].title.rendered}}</text>
+				</view>
+			</view>
+		</view>
+		<view class="cardbody">
+			<view class="basemsg">
+				<view class="subtitle">
+					<text class="text">{{item[index].excerpt.rendered}}</text>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot">
+			<view class="card-cell">
+				<view class="card-cell-msg">
+					<view class="card-cell-base">
+						<view class="card-cell-title"></view>
+					</view>
+					<view class="card-cell-more">
+						<text class="text">详情</text>
+						<icon class="icon iconfont icon-arrow-right" />
+					</view>
+				</view>
+				<button class="card-cell-btn button" data-url="/pages/about/about" bindtap="bindHandler" />
+			</view>
+		</view>
+	</view>
+</view>
+
+<!-- 定义留言列表结构 -->
+
+<view class="talklist" wx:if="{{posttype == 'talk'}}">
+	<view class="card bgcolor-sub">
+		<view class="cardheader">
+			<view class="msg">
+				<image class="image" src="{{item[index].author.avatar}}" />
+				<text class="text strong">{{item[index].author.name}}</text>
+				<text class="text">{{item[index].date}}</text>
+			</view>
+		</view>
+		<view class="cardbody">
+			<view class="main">
+				<parser safemode="{{siteInfo.safemode == '1' ? 'safemode':''}}" html="{{item[index].content}}" />
+			</view>
+		</view>
+	</view>
+</view>

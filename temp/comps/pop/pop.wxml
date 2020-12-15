@@ -1,0 +1,253 @@
+<view class="popuparea {{showpop?'show':''}}"
+  style="height:{{height+100}}rpx;{{poptype=='librarydownload'||poptype=='libraryborrow'?'padding-bottom:0;':''}}">
+  <view class="popupareahead bgcolor-base-op95"
+    style="{{poptype=='librarydownload'||poptype=='libraryborrow'?'height:'+(height+100)+'rpx':'height:'+(height)+'rpx'}}">
+
+    <scroll-view scroll-y
+      style="position:relative;z-index:5;{{poptype=='libraryrate'?'height:'+(height-120)+'rpx;':'height:100%'}}">
+      <block wx:if="{{poptype == 'index'}}">
+
+        <view class="card indexnav card-cell-wrap" style="height:{{height}}rpx">
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-auth" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">订阅提醒</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=rss&title=订阅"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-auth" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">常见问题</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=faq&title=常见问题"
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-auth" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">留言互动</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button"
+              data-url="/pages/list/list?posttype=talk&title=留言互动&id=2077&libid=&libtit=&libcolor="
+              bindtap="bindHandler" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-auth" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">联系馆长</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button" open-type="contact" />
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{poptype == 'librarycats'}}">
+        <view class='catsselect'>
+
+          <view class="tit">
+            图书类型
+          </view>
+          <view class='cellbox grid3 state'>
+            <checkbox-group bindchange="checkstateChange" class="checkboxgroup">
+              <label class="cell bgcolor-base {{item.checked?'on bgcolor-base-face':''}}"
+                style="width:{{(windowWidth-65)/3}}px;" wx:for="{{state}}" wx:key="index">
+                <view class="cellhead">
+                  <checkbox class="checkbox" value="{{item.id}}" checked="{{item.checked}}" />
+                </view>
+                <view class="cellbody">{{item.name}}</view>
+              </label>
+            </checkbox-group>
+          </view>
+          <view class="tit">
+            图书分类
+          </view>
+          <view class='cellbox grid3 category '>
+            <checkbox-group bindchange="checkcategoryChange" class="checkboxgroup">
+              <label class="cell bgcolor-base {{item.checked?'on bgcolor-base-face':''}}"
+                style="width:{{(windowWidth-65)/3}}px;" wx:for="{{category}}" wx:key="index">
+                <view class="cellhead">
+                  <checkbox class="checkbox" value="{{item.id}}" checked="{{item.checked}}" />
+                </view>
+                <view class="cellbody">{{item.name}}</view>
+              </label>
+            </checkbox-group>
+          </view>
+        </view>
+
+      </block>
+      <block wx:if="{{poptype == 'libraryshare'}}">
+        <view class="card indexnav card-cell-wrap" style="height:{{height}}rpx">
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-group" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">发送给朋友</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button" open-type='share' plain="true" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-pengyouquan" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">分享到朋友圈</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button" bindtap="bindpengyouquan" />
+          </view>
+          <view class="card-cell">
+            <view class="card-cell-msg">
+              <view class="card-cell-icon">
+                <icon class="icon iconfont icon-poster" />
+              </view>
+              <view class="card-cell-base">
+                <view class="card-cell-title">生成海报</view>
+              </view>
+            </view>
+            <button class="card-cell-btn button" catchtap="downloadPrefix" />
+          </view>
+
+        </view>
+      </block>
+      <block wx:if="{{poptype == 'libraryrate'}}">
+        <view class="comts-items ">
+          <view class="comtsgroup">
+            <view class="comtstit">
+              <view class="tit">4条评星</view>
+            </view>
+            <view class="comtscnt">
+              <view class="nodatatext" wx:if="{{comments.length==0}}">
+                <text class="text">做第一个评星的人吧～</text>
+              </view>
+              <view class="cmtcell" wx:for="{{comments}}" wx:for-item="cell" wx:key="index">
+                <view class="cmtheader">
+                  <view class="avatar">
+                    <image class="image" src="{{cell.author.avatar}}"></image>
+                  </view>
+                  <view class="basemsg">
+                    <view class="name">{{cell.author.name}}</view>
+                    <view class="date">
+                      <text class="text">{{cell.date}}</text>
+                    </view>
+                  </view>
+                  <view class="starrate">
+                    <icon class="iconrating staricon{{(cell.rating)*10}} icon" />
+                  </view>
+                </view>
+                <view class="cmtbody hide">
+                  {{cell.content}}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{poptype == 'librarydownload'}}">
+        <view class="librarywrap bgcolor-base">
+          <view class="head" style="position:relative;z-index:20;height:{{titleBarHeight}}px;">
+            <view bindtap="bindHidepop" class="close btn" style="height:{{titleBarHeight}}px;">
+              <icon class="icon iconfont icon-close" />
+            </view>
+            <view class="title" style="height:{{titleBarHeight}}px;">
+              <text class="text">电子书</text>
+            </view>
+
+          </view>
+          <view class="body">
+            <library detail="{{detail}}" libtype="download" wx:if="{{detail!=''}}" />
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{poptype == 'libraryborrow'}}">
+        <view class="librarywrap bgcolor-base">
+          <view class="head" style="position:relative;z-index:20;height:{{titleBarHeight}}px;">
+            <view bindtap="bindHidepop" class="close btn" style="height:{{titleBarHeight}}px;">
+              <icon class="icon iconfont icon-close" />
+            </view>
+            <view class="title" style="height:{{titleBarHeight}}px;">
+              <text class="text">纸质书</text>
+            </view>
+
+          </view>
+          <view class="body">
+            <library detail="{{detail}}" user="{{user}}" libtype="borrow" wx:if="{{detail!=''}}" />
+          </view>
+        </view>
+      </block>
+
+    </scroll-view>
+    <form catchsubmit="addComment" class="textareaform" wx:if="{{poptype=='libraryrate'}}">
+      <view class="textareabox bgcolor-base">
+        <view class="userrating">
+          <view class="tit"></view>
+          <view class="rating">
+            <block wx:for="{{rating}}" wx:key="index">
+              <image class="image" catchtap='userrating' id='{{index+1}}' data-in='use_sc2'
+                src='../../../images/on/star_on.svg'></image>
+            </block>
+            <block wx:for="{{rating_none}}" wx:key="index">
+              <image class="image" catchtap='userrating' id='{{index+1}}' data-in='use_sc'
+                src='../../../images/on/star_default.svg'></image>
+            </block>
+            <text class="ratingtip">{{ratingtip}}</text>
+          </view>
+
+        </view>
+        <view class="publishbtn">
+          <view class="publish on" bindtap="addComment" wx:if="{{iscanpublish}}">
+            <text class="text">发布</text>
+          </view>
+          <view class="publish bgcolor-sub" wx:else>
+            <text class="text">发布</text>
+          </view>
+        </view>
+      </view>
+    </form>
+
+  </view>
+
+
+  <block wx:if="{{poptype=='librarycats'}}">
+    <view class="popupareafoot bgcolor-base">
+      <view class="btn reset" catchtap="bindResetpost"><text class="text">清除</text></view>
+      <view class="btn sumbit" catchtap="{{selectchange?'bindUpdatepost':'bindHidepop'}}"><text class="text">完成</text>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{poptype=='librarydownload'||poptype=='libraryborrow'}}"></block>
+  <block wx:else>
+    <view class="popupareafoot bgcolor-base" catchtap="bindHidepop">
+      <text class="text">取消</text>
+    </view>
+  </block>
+</view>
+<view class="popupbg {{showpop ? 'show':''}}" catchtap="bindHidepop" catchtouchmove="{{showpop?'true':''}}"></view>
+
+<view class="sharepengyouquan borcolor-bottom-base bgcolor-sub" style="top:{{customBarHeight}}px;"
+  wx:if="{{pengyouquantip}}">
+  <view class="cnt"><text class="text">点击按钮</text>
+    <icon class="icon iconfont icon-more" />
+  </view>
+  <view class="cnt"><text class="text">选择分享到朋友圈</text></view>
+</view>

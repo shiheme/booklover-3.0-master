@@ -2,27 +2,22 @@
 	<view class="navigate-bar" style="position:relative;top:{{navBarHeight}}px;z-index:2;height:{{titleBarHeight}}px;">
 		<view class="gobackbtn btn" style="height:{{titleBarHeight}}px;" wx:if="{{isGoback}}">
 			<navigator class="navigate-icon" style="height:{{titleBarHeight}}px;" open-type="navigateBack" wx:if="{{isshare==0}}">
-				<icon class="icon iconfont icon-back" />
+				<icon class="icon iconfont icon-back bgcolor-base-op60" />
 			</navigator>
 			<navigator class="navigate-icon" style="height:{{titleBarHeight}}px;" open-type="switchTab" url="/pages/index/index" wx:else>
-				<icon class="icon iconfont icon-home" />
+				<icon class="icon iconfont icon-home bgcolor-base-op60" />
 				</navigator>
 		</view>
-		<view bindtap='taplistarea' class="listbtn btn" style="height:{{titleBarHeight}}px;" wx:if="{{isTolist}}">
+		<view bindtap='bindByurl' class="listbtn btn" data-url="/pages/mine/mine" style="height:{{titleBarHeight}}px;" wx:if="{{isTomine}}">
 			<icon class="icon iconfont icon-hamburger" />
 		</view>
-		<view bindtap='tapsearcharea' class="searchbtn btn" style="height:{{titleBarHeight}}px;" wx:if="{{isSearch}}">
+		
+		<view bindtap='taplistarea' class="searchbtn btn" style="height:{{titleBarHeight}}px;" wx:if="{{isSearch}}">
 			<icon class="icon iconfont icon-search" />
 		</view>
 
 		<view class="navigate-title color-base-op80" style="height:{{titleBarHeight}}px;">
 			<text class="text">{{title}}</text>
-			<view class="sk-three-bounce {{loading ? 'load' : ''}}">
-				<view class="sk-child sk-bounce1 bgcolor-base-face-op50 "></view>
-				<view class="sk-child sk-bounce2 bgcolor-base-face-op50 "></view>
-				<view class="sk-child sk-bounce3 bgcolor-base-face-op50 "></view>
-			</view>
-
 		</view>
 	</view>
 	<view class="header-title-bg bgcolor-base-op95" style="position:absolute;background:{{bgcolor}};left:0;top:0;right:0;height:{{customBarHeight}}px; z-index:1;"></view>

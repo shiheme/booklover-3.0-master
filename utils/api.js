@@ -1,5 +1,28 @@
 const API = require('./base')
-var restapi = API.getRestAPI();
+
+// 定义首页切换菜单
+const getIndexnav = function() {
+  return new Promise((resolve, reject) => {
+   const result =[{
+        name: '发现',
+        id: 0,
+        posttype: 'topic',
+        catstype: '',
+      }, {
+        name: '语录',
+        id:1,
+        posttype: 'quot',
+        catstype: '',
+      }, {
+        name: '我的',
+        id:2,
+          posttype: 'mine',
+        catstype: '',
+      }];
+      resolve(result);
+      console.log("分类列表", result);
+  });
+}
 
 /**
  * 获取站点信息
@@ -7,7 +30,7 @@ var restapi = API.getRestAPI();
  * @return {promise}
  */
 const getSiteInfo = function(data) {
-  return API.get('/' + restapi +'/mp/v1/setting', data);
+  return API.get('/mp/v1/setting', data);
 }
 
 /**
@@ -16,7 +39,7 @@ const getSiteInfo = function(data) {
  * @return {promise}
  */
 const getStickyPosts = function(data) {
-	return API.get('/' + restapi +'/mp/v1/posts/sticky', data);
+	return API.get('/mp/v1/posts/sticky', data);
 }
 
 /**
@@ -26,7 +49,7 @@ const getStickyPosts = function(data) {
  * @return {promise}
  */
 const getPostsList = function (posttype,data) {
-  return API.get('/' + restapi +'/wp/v2/' + posttype, data, { token:false });
+  return API.get('/wp/v2/' + posttype, data, { token:false });
 }
 
 /**
@@ -35,7 +58,7 @@ const getPostsList = function (posttype,data) {
  * @return {promise}
  */
 const getPostsbyID = function(posttype,id){
-	return API.get('/' + restapi +'/wp/v2/'+posttype+'/'+id, {}, { token:true });   
+	return API.get('/wp/v2/'+posttype+'/'+id, {skip_cache:1}, { token:true });   
 }
 
 /**
@@ -45,7 +68,7 @@ const getPostsbyID = function(posttype,id){
  * @return {promise}
  */
 const getPagesList = function(data){
-	return API.get('/' + restapi +'/wp/v2/pages', data);   
+	return API.get('/wp/v2/pages', data);   
 }
 
 /**
@@ -54,7 +77,7 @@ const getPagesList = function(data){
  * @return {promise}
  */
 const getPageByID = function(id){
-	return API.get('/' + restapi +'/wp/v2/pages/'+id);   
+	return API.get('/wp/v2/pages/'+id);   
 }
 
 /**
@@ -64,7 +87,7 @@ const getPageByID = function(id){
  * @return {promise}
  */
 const getCategories = function(catstype,data){
-	return API.get('/' + restapi +'/wp/v2/'+ catstype +'?orderby=id&order=asc', data);
+	return API.get('/wp/v2/'+ catstype +'?orderby=id&order=asc', data);
 }
 
 /**
@@ -73,7 +96,7 @@ const getCategories = function(catstype,data){
  * @return {promise}
  */
 const getCategoryByID = function (catstype,id){
-  return API.get('/' + restapi +'/wp/v2/' + catstype +'/'+id);   
+  return API.get('/wp/v2/' + catstype +'/'+id);   
 }
 
 /**
@@ -83,7 +106,7 @@ const getCategoryByID = function (catstype,id){
  * @return {promise}
  */
 const getTags = function(data){
-	return API.get('/' + restapi +'/wp/v2/tags?orderby=id&order=asc', data);   
+	return API.get('/wp/v2/tags?orderby=id&order=asc', data);   
 }
 
 /**
@@ -92,7 +115,7 @@ const getTags = function(data){
  * @return {promise}
  */
 const getTagByID = function(id){
-	return API.get('/' + restapi +'/wp/v2/tags/'+id);   
+	return API.get('/wp/v2/tags/'+id);   
 }
 
 /**
@@ -101,7 +124,7 @@ const getTagByID = function(id){
  * @return {promise}
  */
 const getRandPosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/rand', data);   
+	return API.get('/mp/v1/posts/rand', data);   
 }
 
 /**
@@ -110,7 +133,7 @@ const getRandPosts = function(data){
  * @return {promise}
  */
 const getRelatePosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/relate', data);   
+	return API.get('/mp/v1/posts/relate', data);   
 }
 
 /**
@@ -119,7 +142,7 @@ const getRelatePosts = function(data){
  * @return {promise}
  */
 const getMostPosts = function(posttype,data){
-	return API.get('/' + restapi +'/mp/v1/posts/most?post_type=' + posttype, data);   
+	return API.get('/mp/v1/posts/most?post_type=' + posttype, data);   
 }
 
 /**
@@ -128,7 +151,7 @@ const getMostPosts = function(posttype,data){
  * @return {promise}
  */
 const getMostViewsPosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/most?meta=views', data);   
+	return API.get('/mp/v1/posts/most?meta=views', data);   
 }
 
 /**
@@ -137,7 +160,7 @@ const getMostViewsPosts = function(data){
  * @return {promise}
  */
 const getMostFavPosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/most?meta=favs', data);   
+	return API.get('/mp/v1/posts/most?meta=favs', data);   
 }
 
 /**
@@ -146,7 +169,7 @@ const getMostFavPosts = function(data){
  * @return {promise}
  */
 const getMostLikePosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/most?meta=likes', data);   
+	return API.get('/mp/v1/posts/most?meta=likes', data);   
 }
 
 /**
@@ -155,7 +178,7 @@ const getMostLikePosts = function(data){
  * @return {promise}
  */
 const getMostCommentPosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/most?meta=comments', data);   
+	return API.get('/mp/v1/posts/most?meta=comments', data);   
 }
 
 /**
@@ -164,7 +187,7 @@ const getMostCommentPosts = function(data){
  * @return {promise}
  */
 const getRecentCommentPosts = function(data){
-	return API.get('/' + restapi +'/mp/v1/posts/comment', data);   
+	return API.get('/mp/v1/posts/comment', data);   
 }
 
 /**
@@ -173,7 +196,7 @@ const getRecentCommentPosts = function(data){
  * @return {promise}
  */
 const getComments = function(data) {
-	return API.get('/' + restapi +'/mp/v1/comments', data);
+	return API.get('/mp/v1/comments', data);
 }
 
 /**
@@ -201,7 +224,7 @@ const Loginout = function() {
  * @return {promise}
  */
 const fav = function(data) {
-	return API.post('/' + restapi +'/mp/v1/comments?type=fav', data, { token: true });
+	return API.post('/mp/v1/comments?type=fav', data, { token: true });
 }
 
 /**
@@ -211,7 +234,7 @@ const fav = function(data) {
  * @return {promise}
  */
 const like = function(data) {
-	return API.post('/' + restapi +'/mp/v1/comments?type=like', data, { token: true });
+	return API.post('/mp/v1/comments?type=like', data, { token: true });
 }
 
 /**
@@ -221,7 +244,7 @@ const like = function(data) {
  * @return {promise}
  */
 const getFavPosts = function(data) {
-	return API.get('/' + restapi +'/mp/v1/posts/comment?type=fav', data, { token: true });
+	return API.get('/mp/v1/posts/comment?type=fav', data, { token: true });
 }
 
 /**
@@ -231,7 +254,7 @@ const getFavPosts = function(data) {
  * @return {promise}
  */
 const getLikePosts = function(data) {
-	return API.get('/' + restapi +'/mp/v1/posts/comment?type=like', data, { token: true });
+	return API.get('/mp/v1/posts/comment?type=like', data, { token: true });
 }
 
 /**
@@ -241,7 +264,7 @@ const getLikePosts = function(data) {
  * @return {promise}
  */
 const getCommentsPosts = function(data) {
-	return API.get('/' + restapi +'/mp/v1/posts/comment?type=comment', data, { token: true });
+	return API.get('/mp/v1/posts/comment?type=comment', data, { token: true });
 }
 
 /**
@@ -251,7 +274,7 @@ const getCommentsPosts = function(data) {
  * @return {promise}
  */
 const addComment = function(data) {
-	return API.post('/' + restapi +'/mp/v1/comments?type=comment', data, { token: true });
+	return API.post('/mp/v1/comments?type=comment', data, { token: true });
 }
 
 /**
@@ -261,7 +284,7 @@ const addComment = function(data) {
  * @return {promise}
  */
 const votePosts = function(data) {
-	return API.post('/' + restapi +'/mp/v1/vote', data, { token: true });
+	return API.post('/mp/v1/vote', data, { token: true });
 }
 
 /**
@@ -271,7 +294,7 @@ const votePosts = function(data) {
  * @return {promise}
  */
 const jsonToken = function(data) {
-	return API.post('/' + restapi +'/mp/v1/jwt/token', data, { token: true });
+	return API.post('/mp/v1/jwt/token', data, { token: true });
 }
 
 /**
@@ -279,7 +302,7 @@ const jsonToken = function(data) {
  * @param {*} data 
  */
 const subscribeMessage = function(data) {
-  return API.post('/' + restapi +'/mp/v1/subscribe', data, { token: true });
+  return API.post('/mp/v1/subscribe', data, { token: true });
 }
 
 /**
@@ -288,89 +311,89 @@ const subscribeMessage = function(data) {
  * @return {promise}
  */
 const getCodeImg = function(data) {
-	return API.post('/' + restapi +'/mp/v1/qrcode', data, { token: false });
+	return API.post('/mp/v1/qrcode', data, { token: false });
 }
 
 /**
  * 导航数据
  */
 const getMenuSetting = function(data) {
-	return API.get('/' + restapi +'/mp/v1/menu', data);
+	return API.get('/mp/v1/menu', data);
 }
 
 /**
  * 首页广告数据
  */
 const indexAdsense = function(data) {
-	return API.get('/' + restapi +'/mp/v1/advert?type=index', data);
+	return API.get('/mp/v1/advert?type=index', data);
 }
 
 /**
  * 列表广告数据
  */
 const listAdsense = function(data) {
-	return API.get('/' + restapi +'/mp/v1/advert?type=list', data);
+	return API.get('/mp/v1/advert?type=list', data);
 }
 
 /**
  * 详情广告数据
  */
 const detailAdsense = function(data) {
-	return API.get('/' + restapi +'/mp/v1/advert?type=detail', data);
+	return API.get('/mp/v1/advert?type=detail', data);
 }
 
 /**
  * 页面广告数据
  */
 const pageAdsense = function(data) {
-	return API.get('/' + restapi +'/mp/v1/advert?type=page', data);
+	return API.get('/mp/v1/advert?type=page', data);
 }
 
 /**
  * 图片上传
  */
 const uploadMedia = function(files,token) {
-	return API.upload('/' + restapi +'/wp/v2/media', files, token);
+	return API.upload('/wp/v2/media', files, token);
 }
 
 /**
  * 删除图片
  */
 const deleteMedia = function(id,token) {
-	return API.vdelete('/' + restapi +'/wp/v2/media/' + id + '?force=true', {}, token);
+	return API.vdelete('/wp/v2/media/' + id + '?force=true', {}, token);
 }
 
 const addPosts = function(data,token,posttype) {
-	return API.vpost('/' + restapi +'/wp/v2/' +posttype, data, token);
+	return API.vpost('/wp/v2/' +posttype, data, token);
 }
 
 const getPosts = function(data,token) {
-	return API.vget('/' + restapi +'/wp/v2/posts', data, token);
+	return API.vget('/wp/v2/posts', data, token);
 }
 
 const previewPosts = function(id,token) {
-	return API.vget('/' + restapi +'/wp/v2/posts/' + id, {}, token);
+	return API.vget('/wp/v2/posts/' + id, {}, token);
 }
 
 const updatePosts = function(id,token) {
-	return API.vpost('/' + restapi +'/wp/v2/posts/' + id, { status: 'publish' }, token);
+	return API.vpost('/wp/v2/posts/' + id, { status: 'publish' }, token);
 }
 
 const deletePosts = function(id,token) {
-	return API.vdelete('/' + restapi +'/wp/v2/posts/' + id + '?force=true', {}, token);
+	return API.vdelete('/wp/v2/posts/' + id + '?force=true', {}, token);
 }
 
 const transToVoice = function(data) {
-	return API.post('/' + restapi +'/mp/v1/voice', data, { token: false })
+	return API.post('/mp/v1/voice', data, { token: false })
 }
 
 const insertAdsense = function(data) {
-	return API.get('/' + restapi +'/mp/v1/advert/insert', data);
+	return API.get('/mp/v1/advert/insert', data);
 }
 
 // 获取特定slug的文章内容
 const getPostBySlug = function (posttype, slug) {
-  return API.get('/' + restapi +'/wp/v2/' + posttype + '?slug=' + slug);
+  return API.get('/wp/v2/' + posttype + '?slug=' + slug);
 }
 
 const getAge = function (dateStr) {
@@ -589,7 +612,7 @@ const cutspit = function(s, len) {
 //   return str[len];
 // }
 
-
+API.getIndexnav = getIndexnav
 API.getSiteInfo					    = getSiteInfo
 API.getStickyPosts			    = getStickyPosts
 API.getPostsList				    = getPostsList
