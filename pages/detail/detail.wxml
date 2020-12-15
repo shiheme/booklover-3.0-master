@@ -1,3 +1,5 @@
+<!--内页合集-->
+
 <view class="wrapper bgcolor-base"></view>
 
 <block wx:if="{{detail.type=='library' || detail.type=='movie' || detail.type=='films'}}">

@@ -1,6 +1,6 @@
 // index/component/list.js
-const PCB = require('../../../../utils/common');
-const API = require('../../../../utils/api');
+const PCB = require('../../../utils/common');
+const API = require('../../../utils/api');
 const app = getApp()
 
 Component({

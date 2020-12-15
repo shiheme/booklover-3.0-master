@@ -1,4 +1,4 @@
-<!--index.wxml-->
+<!--首页-->
 <view class="tabwrapper {{opentabwrapper?'on':''}}" catchtouchmove="{{opentabwrapper?'true':''}}">
   <view class="tabwrapperbg bgcolor-base"></view>
   <view class="subwrapper">
@@ -30,7 +30,7 @@
           bindchange="handleIndexnavChange">
           <block wx:for="{{indexnav}}" wx:key="id">
             <swiper-item>
-              <data-list posttype="{{item.posttype}}" loaded="{{item.loaded}}" />
+              <datalist posttype="{{item.posttype}}" loaded="{{item.loaded}}" />
             </swiper-item>
           </block>
         </swiper>

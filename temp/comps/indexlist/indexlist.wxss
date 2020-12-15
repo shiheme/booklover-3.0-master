@@ -1,5 +1,4 @@
-/* index/component/list.wxss */
-@import "../../../../app.wxss";
+@import "../../../app.wxss";
 
 .listwrap {
   height: 100%;

@@ -1,4 +1,4 @@
-// component/load-status/load-status.js
+// component/loadstatus/loadstatus.js
 Component({
   /**
    * 组件的属性列表

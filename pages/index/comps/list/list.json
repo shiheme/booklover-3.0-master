@@ -1,8 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "dataitem": "../../../../temp/comps/item/item",
-    "audioring": "../../../../temp/comps/audioring/audioring",
-    "load-status": "../../../../temp/comps/load-status/load-status"
-  }
-}

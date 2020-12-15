@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "dataitem": "../item/item",
+    "audioring": "../audioring/audioring",
+    "loadstatus": "../loadstatus/loadstatus"
+  }
+}

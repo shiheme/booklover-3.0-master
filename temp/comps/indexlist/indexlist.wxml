@@ -31,7 +31,7 @@
         </view>
       </view>
     </view>
-    <load-status length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+    <loadstatus length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
   </view>
   <view class="wrap" style="padding-top: {{customBarHeight}}px;" wx:elif="{{posttype=='quot'}}">
     <view class="itemwrap">
@@ -48,7 +48,7 @@
         </view>
       </view>
     </view>
-    <load-status length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+    <loadstatus length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
   </view>
   <view class="wrap"
     style="padding-top: {{customBarHeight}}px;padding-bottom:calc(200rpx + env(safe-area-inset-bottom));" wx:else>

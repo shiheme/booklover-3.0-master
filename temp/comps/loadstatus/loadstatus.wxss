@@ -1,4 +1,4 @@
-/* component/load-status/load-status.wxss */
+/* component/loadstatus/loadstatus.wxss */
 .nothing{
   padding: 20rpx;
   text-align: center;

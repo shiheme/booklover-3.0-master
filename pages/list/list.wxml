@@ -1,4 +1,4 @@
-<!--pages/list/list.wxml-->
+<!--列表页面合集-->
 
 <view class="wrapper bgcolor-base"></view>
 
@@ -36,7 +36,7 @@
         </view>
       </view>
     </view>
-    <load-status length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+    <loadstatus length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
   </view>
 
 </view>

@@ -1,4 +1,4 @@
-/* pages/shop/components/categoryBar.wxss */
+
 .category-wrap {
   display: flex;
   flex-direction: row;

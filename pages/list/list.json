@@ -5,6 +5,6 @@
     "navtitle": "../../temp/comps/navtitle/index",
     "dataitem": "../../temp/comps/item/item",
     "pop": "../../temp/comps/pop/pop",
-    "load-status": "../../temp/comps/load-status/load-status"
+    "loadstatus": "../../temp/comps/loadstatus/loadstatus"
   }
 }
