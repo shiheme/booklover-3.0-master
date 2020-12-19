@@ -47,14 +47,15 @@ Component({
         options: options
       })
 
-      console.log(this.data.options)
+      this.getSiteInfo();
+      // console.log(this.data.options)
       // console.log('option')
       if (this.data.scene == 1011 || this.data.scene == 1047 || this.data.scene == 1124) {
         this.setData({
           showOfficial: true
         })
       }
-      this.getSiteInfo();
+      
       if (options.posttype) {
         this.getPostsbyID(options.posttype, options.id)
         // this.getRelatePosts(options.posttype, options.id)
@@ -80,6 +81,7 @@ Component({
     /**
      * 生命周期函数--监听页面显示
      */
+
     onShow: function () {
       let user = app.globalData.user
       if (!user) {
@@ -88,7 +90,7 @@ Component({
       this.setData({
         user: user,
       })
-      console.log('user', this.data.user)
+      // console.log('user', this.data.user)
     },
 
     //自定义组件中通信
@@ -158,14 +160,14 @@ Component({
      */
     onShareAppMessage: function () {
       return {
-        title: this.data.detail.title.rendered + ' - 建始同城共享书',
+        title: this.data.detail.title.rendered + ' - ' + this.data.siteinfo.name,
         path: '/pages/detail/detail?id=' + this.data.detail.id + '&isshare=1&posttype=' + this.data.posttype
       }
     },
 
     onShareTimeline: function () {
       return {
-        title: this.data.detail.title.rendered + ' - 建始同城共享书',
+        title: this.data.detail.title.rendered + ' - ' + this.data.siteinfo.name,
         query: 'id=' + this.data.detail.id + '&isshare=1&posttype=' + this.data.posttype,
         imageUrl: this.data.detail.meta.thumbnail
       }
@@ -280,7 +282,7 @@ Component({
               })
             })
 
-            console.log(this.data.post_likes)
+            // console.log(this.data.post_likes)
           } else if (res.status === 202) {
             wx.showToast({
               title: '取消点赞!',
@@ -298,7 +300,7 @@ Component({
                 post_likes: res.post_likes
               })
             })
-            console.log(this.data.post_likes)
+            // console.log(this.data.post_likes)
 
           } else {
             wx.showModal({
@@ -312,45 +314,7 @@ Component({
         })
     },
 
-    subscribeMessage: function (template, status) {
-      let args = {}
-      args.openid = this.data.user.openId
-      args.template = template
-      args.status = status
-      args.pages = getCurrentPages()[0].route
-      args.platform = wx.getSystemInfoSync().platform
-      args.program = 'WeChat'
-      API.subscribeMessage(args).then(res => {
-          // console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-
-    bindSubscribe: function () {
-      let that = this
-      let templates = API.template().comments
-      wx.requestSubscribeMessage({
-        tmplIds: templates,
-        success(res) {
-          if (res.errMsg == "requestSubscribeMessage:ok") {
-            for (let i = 0; i < templates.length; i++) {
-              let template = templates[i]
-              that.subscribeMessage(template, "accept")
-            }
-            wx.showToast({
-              title: "订阅完成",
-              icon: 'success',
-              duration: 1000
-            })
-          }
-        },
-        fail: function (res) {
-          // console.log(res)
-        }
-      })
-    },
+    
 
     // 跳转至地图
     redictAmap: function (e) {

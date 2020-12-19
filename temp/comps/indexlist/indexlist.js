@@ -14,6 +14,8 @@ Component({
       type: String
     },
 
+    siteinfo:{type:Array},
+
     // 是否加载，loaded 设置为 true 就加载数据，false时表示还未加载
     loaded: {
       type: Boolean,
@@ -33,13 +35,14 @@ Component({
 
     page: 1,
     hasnextpage: true,
-    loading: false
+    loading: false,
   },
 
   ready() {
     if (this.data.loaded) {
       this.refresh();
     }
+    
   },
 
 
@@ -51,6 +54,8 @@ Component({
         // hasNextPage: true
         // posts: []
       });
+// console.log(this.data.siteinfo)
+      
       if(this.data.posttype=='topic'){
         this.getCatsstate(this.data.catsstate, {
           per_page: 10
@@ -58,6 +63,7 @@ Component({
       this.getPostsList(this.data.posttype, {
           per_page: 10
         });
+console.log(this.data.siteinfo)
       } else if(this.data.posttype=='quot') {
         this.getPostsList(this.data.posttype, {
           per_page: 10
@@ -66,6 +72,7 @@ Component({
         this.onShow();
       }
     },
+    
     onShow: function() {
       let that = this;
       let user = app.globalData.user
@@ -76,28 +83,22 @@ Component({
         user: user,
       })
       console.log('user',this.data.user)
-      
-      
-      
-      //获取缓存使用情况
-      wx.getStorageInfo({
-        success(res) {
-          var currentSize = res.currentSize;
-          if (currentSize < 1024) {
-            that.setData({
-              currentSize: currentSize + 'Kb'
-            });
-          } else {
-            currentSize = currentSize / 1024;
-            currentSize = String(currentSize).replace(/^(.*\..{2}).*$/, "$1");
-            currentSize = parseFloat(currentSize);
-            that.setData({
-              currentSize: currentSize + 'Mb'
-            });
-          }
-          console.log('size',res.currentSize);
-        }
-      })
+
+      this.refreshmsg();
+
+    },
+    refreshmsg: function(){
+        API.getProfile().then(res => {
+            // console.log(res)
+            this.setData({
+              user_likes: res.user_likes,
+              user_fav:res.user_fav,
+              user_comment:res.user_comment,
+            })
+          })
+          .catch(err => {
+            console.log(err)
+          })
     },
     getPostsList: function (posttype, data) {
       let that = this;
@@ -117,7 +118,7 @@ Component({
           }))
           args.page = this.data.page + 1
           this.setData(args)
-          console.log(args);
+          // console.log(args);
           wx.stopPullDownRefresh()
         })
         .then(res => {
@@ -125,7 +126,7 @@ Component({
           that.setData({
             ani: true
           });
-          console.log(that.data.ani)
+          // console.log(that.data.ani)
         }, 200);
       })
         .catch(err => {
@@ -166,7 +167,7 @@ Component({
     //自定义组件中通信
     setpost: function (e) {
       let that = this;
-      console.log(e)
+      // console.log(e)
       that.setData({
         posts: e.detail.item,
         audKey: e.detail.audKey,
@@ -178,7 +179,7 @@ Component({
           this.setData({
             state: res
           })
-          console.log(res)
+          // console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -187,15 +188,46 @@ Component({
     
     loginOut: function() {
       API.Loginout();
-      this.onLoad();
     },
 
-    clear: function(e) {
-      wx.clearStorageSync();
-      wx.showToast({
-        title: '清除完毕',
+    subscribeMessage: function (template, status) {
+      let args = {}
+      args.openid = this.data.user.openId
+      args.template = template
+      args.status = status
+      args.pages = getCurrentPages()[0].route
+      args.platform = wx.getSystemInfoSync().platform
+      args.program = 'WeChat'
+      API.subscribeMessage(args).then(res => {
+          // console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    bindSubscribe: function () {
+      let that = this
+      let templates = API.template().subscribe
+      wx.requestSubscribeMessage({
+        tmplIds: templates,
+        success(res) {
+          if (res.errMsg == "requestSubscribeMessage:ok") {
+            for (let i = 0; i < templates.length; i++) {
+              let template = templates[i]
+              that.subscribeMessage(template, "accept")
+            }
+            wx.showToast({
+              title: "订阅完成",
+              icon: 'success',
+              duration: 1000
+            })
+          }
+        },
+        fail: function (res) {
+          // console.log(res)
+        }
       })
-      this.onLoad();
     },
   }
 });

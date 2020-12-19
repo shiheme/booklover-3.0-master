@@ -33,13 +33,8 @@
 					<view class="card bgcolor-sub bgline {{detail.book_pagestyle}}" id="{{detail.id}}"
 						style="{{detail.book_foreground?'background-color:'+detail.book_foreground:''}}">
 						<view class="cardbody">
-							<view class="cardimage" catchtap="showTxvideo" wx:if="{{detail.book_txvideo}}">
+							<view class="cardimage" catchtap="showTxvideo">
 								<view class="imagecover movcover"
-									style="background-image:url('{{detail.meta.thumbnail}}');margin-top:{{20+customBarHeight}}px;">
-								</view>
-							</view>
-							<view class="cardimage" wx:else>
-								<view class="imagecover libcover"
 									style="background-image:url('{{detail.meta.thumbnail}}');margin-top:{{20+customBarHeight}}px;">
 								</view>
 							</view>
@@ -61,12 +56,13 @@
 
 							</view>
 						</view>
-						<view class="cardfoot hide {{showtxvideo?'showtxvideo':''}}"
+						<view class="cardfoot {{showtxvideo?'showtxvideo':''}}"
 							style="height:{{customBarHeight+windowWidth}}px;">
 
 							<view class="videod" style="height:{{(windowWidth)*9/16}}px;width:100%;">
 								<!-- <txv-video vid="{{detail.book_txvideo}}" playerid="txv1" autoplay="{{showtxvideo}}"
 									poster="{{detail.meta.thumbnail}}" showCenterPlayBtn="{{true}}"></txv-video> -->
+									<ad unit-id="adunit-f6ecfed5f8db9fbb" ad-type="video" ad-theme="white"></ad>
 							</view>
 
 							<view class="hidetxvideo" catchtap="hideTxvideo">
@@ -76,20 +72,16 @@
 						</view>
 					</view>
 				</view>
-				<view class="detailbody {{siteInfo.safemode == '1' ? 'safemode':''}}">
-					<view class="scoregroup" wx:if="{{detail.book_dbscore !='' || detail.rating_avg != null}}">
-						<view class="dbscore scorearea" wx:if="{{detail.book_dbscore}}">
-							<view class="area">
-								<view class="score">{{detail.book_dbscore}}</view>
-								<text class="text">豆瓣评分</text>
-							</view>
-						</view>
+				<view class="detailbody">
+					<!--  wx:if="{{detail.book_dbscore !='' || detail.rating_avg != null}}" -->
+					<view class="scoregroup {{siteinfo.safemode == '1' ? 'safemode':''}}">
+
 						<!--  wx:if="{{detail.rating_avg != null}}" -->
 						<view class="dpscore scorearea" catchtap="bindShowpop" data-poptype="libraryrate" data-popitem=""
 							data-popheight="700">
 							<view class="area">
-								<view class="score">7.5{{detailrating_avg}}</view>
-								<text class="text">点评评分</text>
+								<view class="score">{{detailrating_avg?detailrating_avg:'0.0'}}</view>
+								<text class="text">点评评星</text>
 							</view>
 							<view class="list">
 								<view class="listimg">
@@ -109,20 +101,18 @@
 										</view>
 									</view>
 								</view>
-								<view class="listtxt">{{detail.rating_avg.count}}2人评分</view>
+								<view class="listtxt">{{detail.rating_avg.count?detail.rating_avg.count:'0'}}人评星</view>
 							</view>
 						</view>
 					</view>
 					<!--  wx:if="{{detail.type=='library'}}" -->
 					<view class="ctlbtn bgcolor-sub">
 						<view class="btnbox">
-							<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
-							<button class="button" wx:else id="{{detail.id}}" open-type="getUserInfo"
+							<button class="button" id="{{detail.id}}" open-type="getUserInfo"
 								bindgetuserinfo="bindLikeTap"></button>
 							<view class="buttoncover">
-
-								<icon class="icon iconfont icon-like {{detail.islike?'liked':''}}" />
-								<text class="text">{{detail.islike? '已喜欢': '喜欢'}}</text>
+								<icon class="icon iconfont {{detail.islike?'icon-liked liked':'icon-like'}}" />
+								<text class="text {{detail.islike?'liked':''}}">{{detail.islike? '已点赞': '点赞'}}</text>
 							</view>
 						</view>
 
@@ -131,8 +121,8 @@
 							<button class="button" wx:else bindtap="bindFavTap" id="{{detail.id}}"></button>
 							<view class="buttoncover">
 
-								<icon class="icon iconfont icon-coll {{detail.isfav?'faved':''}}" />
-								<text class="text">{{detail.isfav? '已收藏': '收藏'}}</text>
+								<icon class="icon iconfont {{detail.isfav?'icon-colled faved':'icon-coll'}}" />
+								<text class="text {{detail.isfav? 'faved': ''}}">{{detail.isfav? '已收藏': '收藏'}}</text>
 							</view>
 						</view>
 
@@ -143,7 +133,7 @@
 								<text class="text">分享</text>
 							</view>
 						</view>
-						<view class="btnbox">
+						<view class="btnbox {{siteinfo.safemode == '1' ? 'safemode':''}}">
 							<button class="button"
 								data-url="/pages/list/list?posttype=talk&title=留言互动&id=2077&libid={{detail.id}}&libtit={{detail.title.rendered}}&libcolor={{detail.book_foreground}}"
 								bindtap="bindHandler" />
@@ -156,7 +146,7 @@
 
 
 					<view class="entrycontent">
-						<parser safemode="{{siteInfo.safemode == '1' ? 'safemode':''}}" html="{{detail.content.rendered}}" />
+						<parser html="{{detail.content.rendered}}" />
 					</view>
 
 					<view class="advert" wx:if="{{advert.platform.weapp && advert.type == 'unit'}}">
@@ -214,7 +204,7 @@
 				</view>
 			</view>
 		</view>
-		<template is="showerror" data="{{isshowError:isshowError}}"></template>
+
 	</scroll-view>
 </block>
 <block wx:elif="{{detail.type=='act'}}">
@@ -237,7 +227,7 @@
 				</view>
 			</view>
 			<view class="detailbody">
-				<view class="card detail-cell-items bgcolor-sub card-cell-wrap">
+				<view class="card detail-cell-items bgcolor-sub card-cell-wrap {{siteinfo.safemode == '1' ? 'safemode':''}}">
 					<view class="card-cell">
 						<view class="card-cell-msg">
 							<view class="card-cell-base">
@@ -270,8 +260,7 @@
 					</view>
 				</view>
 				<view class="entrycontent">
-					<!-- <template is="wxParse" data="{{wxParseData:article.nodes,windowWidth:windowWidth}}" /> -->
-					<parser safemode="{{siteInfo.safemode == '1' ? 'safemode':''}}" html="{{detail.content.rendered}}" />
+					<parser html="{{detail.content.rendered}}" />
 				</view>
 			</view>
 		</view>
@@ -304,10 +293,10 @@
 					</view>
 				</view>
 			</view>
-			<view class="detailbody {{siteInfo.safemode == '1' ? 'safemode':''}}">
+			<view class="detailbody">
 				<view class="audio" wx:if="{{detail.type== 'quot'}}">
-					<audioring bind:myevent="setpost" index="0" audKey="0" waiting="{{waiting}}" type="detail" item="{{post}}"
-						value="40" wx:if="{{post!=''}}" />
+					<audioring class="{{siteinfo.safemode == '1' ? 'safemode':''}}" bind:myevent="setpost" index="0" audKey="0"
+						waiting="{{waiting}}" type="detail" item="{{post}}" value="40" wx:if="{{post!=''}}" />
 
 					<view class="quotcopy card bgcolor-sub" bindtap="wxParseTagATap"
 						data-src="{{detail.title.rendered}}-{{detail.book_tolibrary[0].book_author}}《{{detail.book_tolibrary[0].book_title}}》">
@@ -335,11 +324,15 @@
 					</view>
 				</view>
 				<view class="entrycontent">
-					<!-- <template is="wxParse" data="{{wxParseData:article.nodes,windowWidth:windowWidth}}" /> -->
-					<parser safemode="{{siteInfo.safemode == '1' ? 'safemode':''}}" html="{{detail.content.rendered}}" />
+					<parser html="{{detail.content.rendered}}" />
 				</view>
 				<view class="itemwrap" wx:if="{{detail.book_tolibrary}}">
 					<view class="item" wx:for="{{detail.book_tolibrary}}" wx:for-index="index" wx:key="id">
+						<view class="cardbox" wx:if="{{gridtype!='water' && index%3 ==0  && index!=0}}">
+          <view class="card">
+            <ad-custom unit-id="adunit-ad073b15bc52a9c6"></ad-custom>
+        </view>
+      </view>
 						<view class="cardbox">
 							<dataitem index="{{index}}" posttype="library" gridtype="list" item="{{detail.book_tolibrary}}" />
 						</view>
@@ -363,42 +356,46 @@
 						<button class="card-cell-btn button" open-type="contact" />
 					</view>
 				</view>
-				
+
 			</view>
 		</view>
 	</view>
-	<template is="showerror" data="{{isshowError:isshowError}}"></template>
 	<!-- </scroll-view> -->
 </block>
 
 
-<view class="" wx:if="{{detail.type=='faq'}}"></view>
-<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}}"
-	wx:elif="{{detail.type=='library' || detail.type=='movie' || detail.type=='films'}}">
+<block wx:if="{{detail.type=='faq'}}"></block>
+<block wx:elif="{{(detail.type=='library' || detail.type=='movie' || detail.type=='films')}}">
+<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}} {{siteinfo.safemode == '1' ? 'safemode':''}}"
+	wx:if="{{((detail.book_videoadscnt && detail.book_videoadscnt !='')|| detail.book_stock>0)}}">
 	<view class="box {{detail.book_pagestyle}}"
 		style="{{detail.type=='library'&&detail.book_foreground?'background:'+detail.book_foreground:''}}">
 		<view class="btn" wx:if="{{detail.book_videoadscnt && detail.book_videoadscnt !=''}}">
 			<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
-			<button class="button" catchtap="bindShowpop" data-poptype="librarydownload" data-popitem="{{[detail]}}"
+			<button class="button" catchtap="bindShowpop" data-poptype="librarydownload" data-popitem=""
 				data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
 			<text class="text">电子书</text>
 		</view>
 		<view class="btn" wx:if="{{detail.book_stock>0}}">
 			<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
-			<button class="button" catchtap="bindShowpop" data-poptype="libraryborrow" data-popitem="{{[detail]}}"
+			<button class="button" catchtap="bindShowpop" data-poptype="libraryborrow" data-popitem=""
 				data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
 			<text class="text">纸质书</text>
 		</view>
 	</view>
 </view>
-
-<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}}" wx:else>
+</block>
+<block wx:else>
+<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}}">
 	<view class="box postlikearea">
 		<view class="postlikebtn bgcolor-sub">
-			<icon class="icon iconfont icon-like {{detail.islike?'liked':''}}" />
-			<text class="text">{{detail.islike? '已喜欢': '喜欢'}}</text>
+			<button class="button" id="{{detail.id}}" open-type="getUserInfo" bindgetuserinfo="bindLikeTap"></button>
+			<view class="buttoncover">
+				<icon class="icon iconfont {{detail.islike?'icon-liked liked':'icon-like'}}" />
+				<text class="text {{detail.islike?'liked':''}}">{{detail.islike? '已点赞': '点赞'}}</text>
+			</view>
 		</view>
-		<view class="postlikecell">
+		<view class="postlikecell" wx:if="{{detail.post_likes.length>0}}">
 			<view class="postlike">
 				<block wx:for="{{post_likes}}" wx:for-item="cell" wx:key="index">
 					<view class="likeli">
@@ -410,9 +407,9 @@
 		</view>
 	</view>
 </view>
-
-<pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" item="{{[popitem]}}" detail="{{[detail]}}"
-	user="{{[user]}}" wx:if="{{detail!=''}}" />
+</block>
+<pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" detail="{{[detail]}}"
+	user="{{[user]}}" siteinfo="{{[siteinfo]}}" wx:if="{{showpop&&detail!=''}}" />
 
 <view class="canvas" wx:if="{{detail.type=='library'}}">
 	<canvas canvas-id="prefix" style="width: 600px;height: 1000px;"></canvas>

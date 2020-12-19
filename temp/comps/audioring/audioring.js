@@ -1,9 +1,11 @@
+const PCB = require('../../../utils/common');
 const API = require('../../../utils/api')
 const plugin = requirePlugin('WechatSI');
 const myaudio = wx.createInnerAudioContext();
 
 
 Component({
+  behaviors: [PCB],
   properties: {
     index: {
       type: Number,
@@ -36,8 +38,8 @@ Component({
     waiting: true
   },
   ready: function ready() {
-    console.log(this.data.waiting)
-    console.log('waiting')
+    // console.log(this.data.waiting)
+    // console.log('waiting')
   },
   attached() {},
   methods: {
@@ -94,6 +96,7 @@ Component({
 
       // console.log('state' + that.data.item[0].quot_audio_state)
       myaudio.autoplay = true;
+      
       var audKey = that.data.audKey,
         vidTxt = item[audKey].title.rendered + item[audKey].book_tolibrary[0].book_author + item[audKey].book_tolibrary[0].book_title + '。' + item[audKey].date + '。建始同城共享书为您朗读。';
 
@@ -102,8 +105,8 @@ Component({
         tts: true,
         content: vidTxt,
         success: function (res) {
-          console.log(res);
-          console.log("succ tts", res.filename);
+          // console.log(res);
+          // console.log("succ tts", res.filename);
           // that.setData({
           //   quot_audio: res.filename
           // })
@@ -111,7 +114,7 @@ Component({
 
           // that.audioPlaying();
           if (res.filename == '') {
-            console.log("暂无语音");
+            // console.log("暂无语音");
             return;
           }
           // var vidSrc = res.filename;
@@ -120,7 +123,7 @@ Component({
             success(res) {
               // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
               if (res.statusCode === 200) {
-                console.log(res.tempFilePath)
+                // console.log(res.tempFilePath)
                 myaudio.src = res.tempFilePath;
 
                 //开始监听
@@ -153,8 +156,8 @@ Component({
 
                     that.startcircle(deg);
 
-                    console.log(myaudio.duration) //总时长
-                    console.log(myaudio.currentTime) //当前播放进度
+                    // console.log(myaudio.duration) //总时长
+                    // console.log(myaudio.currentTime) //当前播放进度
                   })
                 }, 500)
 
@@ -203,7 +206,7 @@ Component({
 
         },
         fail: function (res) {
-          console.log("fail tts", res)
+          // console.log("fail tts", res)
         }
       });
 

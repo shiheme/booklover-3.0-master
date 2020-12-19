@@ -35,32 +35,15 @@
 					<text class="text">{{item[index].title.rendered}}</text>
 				</view>
 			</view>
-			<view class="postlike">
+			<view class="postlike" wx:if="{{item[index].post_likes.length >0}}">
 				<view class="atr">
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/dSopHk1ugJSOsibaBuupsUuF3Zbiadhiaknqc63Az4YrU3gUdteuBotrQH16xWyHSn0zibCLf3DYj2P2lqEXnqUt0Q/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/wGjIFJMibwkX7BfdQtP35zW3cQf8XoiaKpShxpVPGCKo195XTeM7WSpRcfsI4UCZGZiaFFJJWoBH6GdBcId2ZdaoA/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epL20ZUxNv1NO1LTS4ZIonccwOymVSkK90o5icibJ3V3en3KibiaoPDBrktYaOlyIeZPicVOcia5STmnh0A/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/x8Ve0VtmJ5ib0KiaI1tZ7G5JuG1e4h4XoicBNH0bZ5zr22MvBs0OQ85zWAYdHlljy440S85xu6eq4G0IsT8R8N8QA/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJwOpZU9IoxyVgEQSDhkKMDpH79WSahE9lBTK38VItZY0y6UXUm4OZWfib3d9q5AGTMgV0ShYaESmQ/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/37dNoAJgDoblkXhArD89rTdjz7gqwsWnpeR2pr7K5icvVutVhbbDoftckiaIX39vsUriayCU4k1CZW0IG0GOGzSOg/132" />
-					</view>
+					<block wx:for="{{item[index].post_likes}}" wx:for-item="cell" wx:key="index">
+						<block wx:if="{{index<5}}">
+							<view class="likeli">
+								<image class="image" src="{{cell.avatar}}" />
+							</view>
+						</block>
+					</block>
 				</view>
 				<text class="text">最近点了赞</text>
 			</view>
@@ -152,31 +135,6 @@
 
 </view>
 
-<!-- 定义书籍列表结构（格子） -->
-<!-- <view class="moviewater" wx:if="{{posttype == 'library' && gridtype == 'water'}}">
-	<block wx:for="{{posts}}" wx:for-index="i" wx:key="key">
-		<block wx:if="{{i==5 && geziads==true}}">
-			<view class="moviecell bgcolor-sub" style="width:{{(windowWidth-50)/3}}px;">
-				<ad-custom unit-id="adunit-aa5302a48410634f" bindload="adLoadgeziads" binderror="adErrorgeziads"></ad-custom>
-			</view>
-		</block>
-		<block wx:else>
-			<view class="moviecell bgcolor-sub {{item[index].book_pagestyle}}" catchtap="bindDetail" data-posttype="{{item[index].type}}"
-				id="{{item[index].id}}" data-key="{{i}}">
-				<view class="msg bgline"
-					style="width:{{(windowWidth-50)/3}}px;{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}">
-					<view class="postscover libcover"
-						style="background-image:url('{{item[index].meta.thumbnail}}');width:{{(windowWidth-45)/5}}px;height:{{138*((windowWidth-45)/5)/100}}px;">
-						<view class="dbscore" wx:if="{{item[index].book_dbscore}}">{{item[index].book_dbscore}}</view>
-					</view>
-					<view class="base bgcolor-sub">
-						<view class="tit">{{item[index].title.rendered}}</view>
-					</view>
-				</view>
-			</view>
-		</block>
-	</block>
-</view> -->
 <!-- 定义书籍列表结构（列表） -->
 <view class="librarylist {{gridtype}}" wx:if="{{posttype == 'library' && gridtype == 'list'}}">
 	<view catchtap="bindDetail" class="card bgcolor-sub bgline works-items {{item[index].book_pagestyle}}"
@@ -400,8 +358,29 @@
 		</view>
 		<view class="cardbody">
 			<view class="main">
-				<parser safemode="{{siteInfo.safemode == '1' ? 'safemode':''}}" html="{{item[index].content}}" />
+				<parser html="{{item[index].content}}" />
 			</view>
 		</view>
+	</view>
+</view>
+
+<!-- 定义内页评分列表 -->
+<view class="cmtcell" wx:if="{{posttype == 'libraryrate'}}">
+	<view class="cmtheader">
+		<view class="avatar">
+			<image class="image" src="{{item[index].author.avatar}}"></image>
+		</view>
+		<view class="msg">
+			<view class="name">{{item[index].author.name}}</view>
+			<view class="date">
+				<text class="text">{{item[index].date}}</text>
+			</view>
+		</view>
+		<view class="starrate">
+			<icon class="iconrating staricon{{(item[index].rating)*10}} icon" />
+		</view>
+	</view>
+	<view class="cmtbody hide">
+		{{item[index].content}}
 	</view>
 </view>

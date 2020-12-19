@@ -55,16 +55,21 @@
   font-size: 1.8rem;
 }
 
-.ctlbtn .buttoncover .icon.icon-like.liked {
+.buttoncover .icon.liked {
   color: red;
 }
 
-.ctlbtn .buttoncover .icon.icon-coll.faved {
+.buttoncover .icon.faved {
   color: blue;
 }
 
 .ctlbtn .buttoncover .text {
   font-size: 24rpx;
+}
+
+.buttoncover .text.liked,
+.buttoncover .text.faved {
+  opacity: .6;
 }
 
 .h3title {
@@ -252,7 +257,7 @@
   font-size: 50rpx;
   line-height: 50rpx;
   font-style: italic;
-  color: #8556de;
+  color:#5CEB8E;
   font-weight: bold;
 }
 
@@ -288,7 +293,7 @@
 .scoregroup .listimg .onweight .item {
   height: 12rpx;
   margin-bottom: 2rpx;
-  background-color: #8556de;
+  background-color: #5CEB8E;
   border-radius: 2rpx;
 }
 
@@ -598,11 +603,24 @@
 .postlikebtn {
   width: 100%;
   height: 80rpx;
+  position: relative;
+  border-radius: 40rpx;
+}
+.postlikebtn .button{
+  position: absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  opacity: 0;
+  z-index:15;
+}
+.postlikebtn .buttoncover{
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 40rpx;
-
+  width:100%;
+  height:100%;
 }
 
 .postlikecell {
@@ -705,4 +723,43 @@
 
 .faqcard .card-cell-msg {
   border: none;
+}
+
+.detail.plus .cardfoot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: rgba(20, 20, 20, 1);
+  /* display: flex; */
+  justify-content: center;
+  display: none;
+  z-index: 100;
+}
+
+.detail.plus .cardfoot.showtxvideo {
+  display: flex;
+}
+
+.detail.plus .cardfoot .hidetxvideo {
+  position: absolute;
+  bottom: 140rpx;
+  margin: 0 auto;
+  height: 88rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(30, 30, 30, 1);
+  padding: 0 30rpx;
+  border-radius: 50rpx;
+}
+
+.detail.plus .cardfoot .hidetxvideo .icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 10rpx;
+}
+
+.detail.plus .cardfoot .hidetxvideo .text {
+  color: rgba(255, 255, 255, .8);
 }

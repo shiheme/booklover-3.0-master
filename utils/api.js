@@ -20,7 +20,7 @@ const getIndexnav = function() {
         catstype: '',
       }];
       resolve(result);
-      console.log("分类列表", result);
+      // console.log("分类列表", result);
   });
 }
 

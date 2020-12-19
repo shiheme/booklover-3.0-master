@@ -7,6 +7,9 @@
 			<navigator class="navigate-icon" style="height:{{titleBarHeight}}px;" open-type="switchTab" url="/pages/index/index" wx:else>
 				<icon class="icon iconfont icon-home bgcolor-base-op60" />
 				</navigator>
+				<!-- <view class="navigate-icon" style="height:{{titleBarHeight}}px;" bindtap="bindHandler" data-url="/pages/index/index" wx:else>
+				<icon class="icon iconfont icon-home bgcolor-base-op60" />
+				</view> -->
 		</view>
 		<view bindtap='bindByurl' class="listbtn btn" data-url="/pages/mine/mine" style="height:{{titleBarHeight}}px;" wx:if="{{isTomine}}">
 			<icon class="icon iconfont icon-hamburger" />

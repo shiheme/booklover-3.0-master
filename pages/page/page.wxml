@@ -8,78 +8,78 @@
 
   <view class="wrap"
     style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
-    <view class="searchtitle" wx:if="{{searchtitle}}">
-      <text class="text">{{searchtitle}}</text>
-    </view>
-    <view class="libraryctrl" wx:if="{{posttype=='library' && !searchtitle}}">
-      <view class="librarycatsbtn bgcolor-sub" catchtap="bindShowpop" data-poptype="librarycats" data-popitem=""
-        data-popheight="{{(windowHeight-3*customBarHeight-60)*2}}">
-        <icon class="icon iconfont icon-list" />
-        <block wx:if="{{!catstxt&!statetxt}}"><text class="text">所有类型书籍</text></block>
-        <block wx:if="{{statetxt}}"><text class="text">{{statetxt}}</text></block>
-        <block wx:if="{{catstxt}}"><text class="text">{{catstxt}}</text></block>
-      </view>
-      <view class="gridctrols bgcolor-sub" catchtap="bindGridchange">
-        <view class="gridbtn gridlist {{gridtype=='list'?'on':''}}">
-          <icon class="icon iconfont icon-gridlist" />
+    <view class="pagelist">
+      <view class="set-container" wx:if="{{posttype=='set'}}">
+        <view class="cardbox">
+          <view class="card bgcolor-sub user-items card-cell-wrap">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">官方设置</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text"></text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" open-type="openSetting" bindopensetting="callback">打开设置页</button>
+            </view>
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">清除缓存</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text">{{currentSize}}</text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" bindtap="clear" />
+            </view>
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">黑白风格</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text">跟随系统</text>
+                  <!-- <icon class="icon iconfont icon-arrow-right" /> -->
+                </view>
+              </view>
+            </view>
+          </view>
         </view>
-        <view class="gridbtn gridwater {{gridtype=='water'?'on':''}}">
-          <icon class="icon iconfont icon-gridwater" />
+        <view class="cardbox">
+          <view class="card bgcolor-sub user-items card-cell-wrap">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">给好评</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text">给小程序点个赞</text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+            </view>
+          </view>
         </view>
-        <view class="line bgcolor-sub"></view>
+
+      </view>
+      <view class="about-container" wx:if="{{posttype=='about'}}">
+        <view class="header">
+          <view class="icon bgcolor-sub">
+            <image class="image" src="" />
+          </view>
+          <view class="title"><text class="text">建始同城共享书小程序</text><text class="text">V3.0.0</text></view>
+        </view>
+        <view class="body">
+          <view class="button bgcolor-sub">功能介绍</view>
+          <view class="button bgcolor-sub">作者微信</view>
+          <view class="button bgcolor-sub">Sketch下载</view>
+        </view>
+        <view class="foot"></view>
       </view>
     </view>
-    <view class="itemwrap {{gridtype=='water'&&posttype=='library'?'libtypewater':'libtypelist'}}">
-      <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
-        <view class="cardbox" style="{{gridtype=='water'&&posttype=='library'?'width:'+(windowWidth-70)/2+'px;':''}}">
-          <dataitem index="{{index}}" posttype="{{posttype}}" gridtype="{{gridtype}}" item="{{posts}}" />
-        </view>
-      </view>
-    </view>
-    <loadstatus length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
   </view>
-
 </view>
-
-<view class="fixedbox bgcolor-base fixed talkfixed" wx:if="{{posttype=='talk'}}"
-  style="{{keyboardheight?'transform: translateY(-'+(keyboardheight)*2+'rpx);transition:'+keyboardduration+'s;':''}}{{showfixed?'transform: translateY(-734rpx);transition:0.25s;':''}}">
-  <form catchsubmit="addComment">
-    <view class="islibmsg {{showfixbg||keyboardheight?'on':''}}" wx:if="{{islib}}">
-      <view class="text" style="background-color:{{options.libcolor}}">来自《{{options.libtit}}》<icon class="icon"
-          style="border-top-color: {{options.libcolor}} !important;"></icon>
-      </view>
-
-    </view>
-    <view class="talkbox">
-      <view class="talkwarp bgcolor-sub">
-        <view class="index-talk container-class">
-          <input class="talkinput" fixed="true" adjust-position="{{false}}" confirm-type="send"
-            cursor-spacing="{{showemoji?100:20}}" maxlength="100" name="inputComment" value="{{talkKey}}"
-            focus="{{focus}}" showConfirmBar="{{false}}" placeholder="{{placeholder}}" bindinput="bindInputContent"
-            bindblur="bindBlur" bindfocus="bindFocus" bindkeyboardheightchange="keyboardheightchange" />
-          <icon class="icon" bindtap="onClear" type="clear" size="20" wx:if="{{iscanpublish}}" />
-        </view>
-        <view bindtap="addComment" class="talktxt main-color" wx:if="{{iscanpublish}}">发布</view>
-      </view>
-
-      <view class="addemoji bgcolor-sub" catchtap="ShowEmoji" wx:if="{{!showemoji||keyboardheight}}">
-        <icon class="icon iconfont icon-emoji" />
-      </view>
-      <view class="addemoji bgcolor-sub" catchtap="HideEmoji" wx:else>
-        <icon class="icon iconfont icon-library" />
-      </view>
-    </view>
-    <view class="emojibox {{!showemoji||keyboardheight ? 'emoji-move-out' : 'emoji-move-in'}}">
-      <view class="iconlist">
-        <block wx:key="id" wx:for="{{detail.talk_emoji}}">
-          <image class="image" src="{{item.guid}}" id="{{item.ID}}" data-title="{{item.post_title}}"
-            catchtap="getemojival" />
-        </block>
-      </view>
-    </view>
-  </form>
-</view>
-<view class="fixedbg {{showfixbg||keyboardheight?'on':''}}" catchtap="HideFixedAll"></view>
-
-<pop showpop="{{showpop}}" poptype="{{poptype}}" item="{{popitem}}" category="{{category}}" state="{{state}}"
-  height="{{popheight}}" bind:myevent="bindUpdatepost" />

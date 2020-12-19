@@ -1,4 +1,5 @@
 const API = require('/utils/base')
+const APII = require('/utils/api')
 
 App({
 
@@ -6,6 +7,7 @@ App({
     // API.login();
     // console.log(options)
     this.globalData.scene = options.scene;
+
 
     // wx.getBackgroundFetchData({
     //   fetchType: 'pre',

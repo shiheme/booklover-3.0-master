@@ -2,7 +2,7 @@
 
 <scroll-view scroll-y="{{true}}" class="listwrap" bindscrolltolower="onReachBottom">
   <view class="wrap" style="padding-top: {{customBarHeight}}px;" wx:if="{{posttype=='topic'}}">
-    <view class="cateswrap">
+    <view class="cateswrap {{siteinfo[0].safemode == '1' ? 'safemode':''}}">
       <scroll-view scroll-x style="width:100%;white-space: nowrap;" class="">
         <view class="cates">
           <view class="cateilist bgcolor-sub" bindtap="bindHandler"
@@ -38,12 +38,12 @@
       <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
         <view class="cardbox" wx:if="{{index%3 ==0  && index!=0}}">
           <view class="card">
-            <ad-custom unit-id="adunit-959923baa2fde508"></ad-custom>
+          <ad-custom unit-id="adunit-d360c41f0ccf4685"></ad-custom>
           </view>
         </view>
         <view class="cardbox">
           <dataitem index="{{index}}" posttype="{{posttype}}" item="{{posts}}" />
-          <audioring bind:myevent="setpost" index="{{index}}" audKey="{{audKey}}" waiting="{{waiting}}" type="index"
+          <audioring class="{{siteinfo[0].safemode == '1' ? 'safemode':''}}" bind:myevent="setpost" index="{{index}}" audKey="{{audKey}}" waiting="{{waiting}}" type="index"
             item="{{posts}}" value="40" />
         </view>
       </view>
@@ -89,10 +89,10 @@
                 <view class="card-cell-title">点赞</view>
               </view>
               <view class="card-cell-more">
-                <text class="text main-color">2</text>
+                <text class="text main-color">{{user_likes?user_likes:'-'}}</text>
               </view>
             </view>
-            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=posts&title=我点赞的&tabid=1"
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=library&title=我点赞的&tabid=1"
               bindtap="bindHandler" />
           </view>
           <view class="card-cell">
@@ -101,22 +101,22 @@
                 <view class="card-cell-title">收藏</view>
               </view>
               <view class="card-cell-more">
-                <text class="text main-color">6</text>
+                <text class="text main-color">{{user_fav?user_fav:'-'}}</text>
               </view>
             </view>
-            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=posts&title=我收藏的&tabid=2"
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=library&title=我收藏的&tabid=2"
               bindtap="bindHandler" />
           </view>
           <view class="card-cell">
             <view class="card-cell-msg">
               <view class="card-cell-base">
-                <view class="card-cell-title">评分</view>
+                <view class="card-cell-title">评星</view>
               </view>
               <view class="card-cell-more">
-                <text class="text main-color">0</text>
+                <text class="text main-color">{{user_comment?user_comment:'-'}}</text>
               </view>
             </view>
-            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=posts&title=我评分的&tabid=3"
+            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=library&title=我评星的&tabid=3"
               bindtap="bindHandler" />
           </view>
         </view>
@@ -136,29 +136,20 @@
             <button class="card-cell-btn button" data-url="/pages/list/list?posttype=act&title=福利"
               bindtap="bindHandler" />
           </view>
+          
           <view class="card-cell">
             <view class="card-cell-msg">
               <view class="card-cell-base">
-                <view class="card-cell-title">我的消息</view>
+                <view class="card-cell-title">更新订阅</view>
               </view>
               <view class="card-cell-more">
                 <icon class="icon iconfont icon-arrow-right" />
               </view>
             </view>
-            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=msg&title=消息"
-              bindtap="bindHandler" />
-          </view>
-          <view class="card-cell">
-            <view class="card-cell-msg">
-              <view class="card-cell-base">
-                <view class="card-cell-title">我的订阅</view>
-              </view>
-              <view class="card-cell-more">
-                <icon class="icon iconfont icon-arrow-right" />
-              </view>
-            </view>
-            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=rss&title=订阅"
-              bindtap="bindHandler" />
+            <button class="card-cell-btn button" wx:if="{{!user}}" bindgetuserinfo="getProfile"
+          openType="getUserInfo"></button>
+        <button class="card-cell-btn button" wx:else bindtap="bindSubscribe"></button>
+      
           </view>
 
         </view>
@@ -181,27 +172,15 @@
           <view class="card-cell">
             <view class="card-cell-msg">
               <view class="card-cell-base">
-                <view class="card-cell-title">黑白风格</view>
+                <view class="card-cell-title">设置</view>
               </view>
               <view class="card-cell-more">
-                <text class="text">跟随系统</text>
+                <text class="text"></text>
                 <icon class="icon iconfont icon-arrow-right" />
               </view>
             </view>
-            <button class="card-cell-btn button" data-url="/pages/page/page?posttype=skin&title=关于"
+            <button class="card-cell-btn button" data-url="/pages/page/page?posttype=set&title=设置"
               bindtap="bindHandler" />
-          </view>
-          <view class="card-cell">
-            <view class="card-cell-msg">
-              <view class="card-cell-base">
-                <view class="card-cell-title">清除缓存</view>
-              </view>
-              <view class="card-cell-more">
-                <text class="text">{{currentSize}}</text>
-                <icon class="icon iconfont icon-arrow-right" />
-              </view>
-            </view>
-            <button class="card-cell-btn button" bindtap="clear" />
           </view>
           <view class="card-cell" wx:if="{{user}}">
             <view class="card-cell-msg">

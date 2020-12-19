@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/list/list",
     "pages/detail/detail",
-    "pages/page/page"
+    "pages/page/page",
+    "pages/copy/copy"
   ],
   "darkmode": true,
   "themeLocation": "theme.json",
@@ -15,6 +16,27 @@
     "backgroundTextStyle": "@bgTxtStyle",
     "backgroundColorTop": "@bgColorTop",
     "backgroundColorBottom": "@bgColorBottom"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#333333",
+    "selectedColor": "#000000",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/on/trans.png",
+        "selectedIconPath": "images/on/trans.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/copy/copy",
+        "iconPath": "images/on/trans.png",
+        "selectedIconPath": "images/on/trans.png",
+        "text": ""
+      }
+    ]
   },
   "permission": {
     "scope.userLocation": {

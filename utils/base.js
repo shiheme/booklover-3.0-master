@@ -1,6 +1,11 @@
 const API_HOST = 'https://www.hellobeebee.com' // 更换为你的网站域名, 需要有 https 协议
 const RESTAPI = "booklover"; //要和后台设置的一致
 
+const templates = {
+  comments: ['dZxF51K9fu-15C7Lc9J3VsMRCW0KvzNSxzq17Pr4oh0', 'DKsx_XFxtJlWBOtDkrAvg_rKqhJhlFOO0oXsC1kb5Bk'], // 评论回复与审核模板ID
+  subscribe: ['BKF6TEYwG-rrcuhqV9M3LidgCc8HmfW83FeMQEbbJBw'] // 资讯更新提醒模板ID
+}
+
 const Auth = require('./auth')
 
 
@@ -159,10 +164,10 @@ API.vdelete = function(url, data, token) {
 API.getUser = function() {
   if (Auth.check()) {
 
-    console.log('API.getUser进行了check成功');
+    // console.log('API.getUser进行了check成功');
     return Auth.user();
   } else {
-    console.log('API.getUser进行了check失败');
+    // console.log('API.getUser进行了check失败');
     return false;
   }
 
@@ -178,14 +183,14 @@ API.login = function() {
           token: false
         }).then(res => {
           API.storageUser(res);
-          console.log('API.login成功', res);
+          // console.log('API.login成功', res);
           resolve(res);
         }, err => {
-          console.log('API.login错误', err);
+          // console.log('API.login错误', err);
           reject(err);
         });
       }).catch(err => {
-        console.log('API.login失败', res);
+        // console.log('API.login失败', res);
         reject(err);
 
       })
@@ -216,15 +221,15 @@ API.getUserInfo = function() {
           token: false
         }).then(res => {
           API.storageUser(res);
-          console.log('getUserInfo成功', res);
+          // console.log('getUserInfo成功', res);
           resolve(res.user);
         }, err => {
-          console.log('getUserInfo失败', res);
+          // console.log('getUserInfo失败', res);
           reject(err);
         });
       })
       .catch(err => {
-        console.log('getUserInfo失败败', err);
+        // console.log('getUserInfo失败败', err);
         reject(err);
       })
   });
@@ -265,10 +270,10 @@ API.guard = function(fn) {
         wx.showLoading({
           title: '正在登录',
         })
-        console.log('登录成功', res);
+        // console.log('登录成功', res);
         return fn.apply(that, arguments)
       }, err => {
-        console.log('用户拒绝了授权', err);
+        // console.log('用户拒绝了授权', err);
         return ''
       })
     }

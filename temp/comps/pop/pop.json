@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "library": "../library/library"
+    "library": "../library/library",
+    "dataitem": "../item/item"
   }
 }

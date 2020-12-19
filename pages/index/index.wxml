@@ -7,7 +7,7 @@
         <icon class="icon iconfont icon-close" />
       </view>
     </view>
-    <wrapleft isShowabout="{{isShowabout}}" bind:myevent="toggleToast" />
+    <wrapleft isShowabout="{{isShowabout}}" siteinfo="{{[siteinfo]}}" bind:myevent="toggleToast" wx:if="{{[siteinfo]!=''}}" />
   </view>
   <view class="mainwrapper" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
 
@@ -30,7 +30,7 @@
           bindchange="handleIndexnavChange">
           <block wx:for="{{indexnav}}" wx:key="id">
             <swiper-item>
-              <datalist posttype="{{item.posttype}}" loaded="{{item.loaded}}" />
+              <datalist posttype="{{item.posttype}}" siteinfo="{{[siteinfo]}}" loaded="{{item.loaded}}" wx:if="{{[siteinfo]!=''}}" />
             </swiper-item>
           </block>
         </swiper>
@@ -43,7 +43,7 @@
       </view>
     </view>
 
-    <pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" item="{{popitem}}" />
+    <pop showpop="{{showpop}}" poptype="{{poptype}}" siteinfo="{{[siteinfo]}}" height="{{popheight}}" wx:if="{{showpop&&[siteinfo]!=''}}" />
 
   </view><!-- end mainwrapper -->
 </view><!-- end tabwrapper -->

@@ -28,6 +28,9 @@ Component({
     //   type: Boolean,
     //   value: true
     // },
+    siteinfo:{
+      type:Array
+    }
   },
   attached() {
     // let that = this ;
@@ -36,7 +39,6 @@ Component({
     //   customBarHeight: app.globalData.CustomBar,
     //   titleBarHeight: app.globalData.TitleBar,
     // })
-    // this.getSiteInfo();
 
   },
   pageLifetimes: {
@@ -63,6 +65,7 @@ Component({
       this.setData({
         posts: []
       });
+      // this.getSiteInfo();
       this.getComments({
         post_type: 'library',
         page: 1
@@ -161,23 +164,13 @@ Component({
         searchKey: '',
       })
     },
-    // getSiteInfo: function () {
-    //   API.getSiteInfo().then(res => {
-    //       this.setData({
-    //         siteInfo: res
-    //       })
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
 
     getComments: function (args) {
       API.getComments(args).then(res => {
         let args = {}
         args.posts = [].concat(this.data.posts, res)
         this.setData(args)
-        console.log('args', res)
+        // console.log('args', res)
       })
     },
 
@@ -190,15 +183,5 @@ Component({
       })
     },
 
-    // getSiteInfo: function () {
-    //   API.getSiteInfo().then(res => {
-    //       this.setData({
-    //         siteInfo: res
-    //       })
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
   }
 })

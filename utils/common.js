@@ -16,12 +16,16 @@ module.exports = Behavior({
     isshare: "0",
 
     showpop: false,
+    // safemodeok:'1',
 
+    siteinfo:{safemode:1},
+    
     cnt_tp: '', //定义文章类型
     opennavbarscroll: false, //是否让底部导航开启滑动隐藏
     istrue_scroll: false, //控制底部导航显示隐藏
 
     geziads: false, //小格子原生广告
+    
 
     isshowLoad: true,
     isshowError: false,
@@ -66,18 +70,6 @@ module.exports = Behavior({
       this.setData({
         user: user,
       })
-      console.log('user', this.data.user)
-    },
-    getSiteInfo: function () {
-      API.getSiteInfo().then(res => {
-          this.setData({
-            siteInfo: res
-          })
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
 
     },
 
@@ -95,6 +87,19 @@ module.exports = Behavior({
         })
     },
 
+    getSiteInfo: function () {
+      API.getSiteInfo().then(res => {
+          this.setData({
+            siteinfo: res,
+            safemodeok: res.safemode
+          })
+          console.log(this.data.siteinfo)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
     getProfile: function (e) {
       if (app.globalData.user) {
         this.setData({
@@ -106,7 +111,7 @@ module.exports = Behavior({
           mask: true
         })
         API.getProfile().then(res => {
-            console.log(res)
+            // console.log(res)
             this.setData({
               user: res
             })
@@ -119,19 +124,57 @@ module.exports = Behavior({
       }
     },
 
+    subscribeMessage: function (template, status) {
+      let args = {}
+      args.openid = this.data.user.openId
+      args.template = template
+      args.status = status
+      args.pages = getCurrentPages()[0].route
+      args.platform = wx.getSystemInfoSync().platform
+      args.program = 'WeChat'
+      API.subscribeMessage(args).then(res => {
+          // console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    bindSubscribe: function () {
+      let that = this
+      let templates = API.template().comments
+      wx.requestSubscribeMessage({
+        tmplIds: templates,
+        success(res) {
+          if (res.errMsg == "requestSubscribeMessage:ok") {
+            for (let i = 0; i < templates.length; i++) {
+              let template = templates[i]
+              that.subscribeMessage(template, "accept")
+            }
+            wx.showToast({
+              title: "订阅完成",
+              icon: 'success',
+              duration: 1000
+            })
+          }
+        },
+        fail: function (res) {
+          // console.log(res)
+        }
+      })
+    },
+
 
     //显示/隐藏pop
     bindShowpop: function (e) {
       let that = this,
         popheight = e.currentTarget.dataset.popheight,
-        poptype = e.currentTarget.dataset.poptype,
-        popitem = e.currentTarget.dataset.popitem[0];
+        poptype = e.currentTarget.dataset.poptype;
       that.setData({
         popheight: popheight,
-        poptype: poptype,
-        popitem: popitem
+        poptype: poptype
       })
-      console.log(popitem)
+      // console.log(popitem)
       setTimeout(function () {
         that.setData({
           showpop: true

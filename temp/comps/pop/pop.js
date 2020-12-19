@@ -41,6 +41,9 @@ Component({
     user: {
       type: Array,
       value: []
+    },
+    siteinfo:{
+      type:Array
     }
   },
 
@@ -54,6 +57,7 @@ Component({
     statetxt: '',
 
     rating: 0,
+    parent:0,
     rating_none: 5,
 
     page: 1,
@@ -63,15 +67,20 @@ Component({
    * 组件的方法列表
    */
   ready(options) {
+    console.log('jjjjj')
+    console.log(this.data.poptype)
     if (this.data.poptype == 'libraryrate') {
       this.getComments();
     }
   },
   methods: {
     onReachBottom: function () {
-      if (!this.data.isLastPage) {
-        this.getComments();
-      }
+      // if (this.data.hasnextpage) {
+      //   this.setData({
+      //     page: this.data.page + 1
+      //   });
+      //   this.getComments();
+      // }
     },
     bindpengyouquan: function (e) {
       this.setData({
@@ -193,14 +202,15 @@ Component({
     getComments: function () {
       API.getComments({
         id: this.data.detail[0].id,
-        page: this.data.page
+        page: this.data.page,
+        per_page:20
       }).then(res => {
         let data = {}
+        console.log(res)
+        console.log('平行')
         if (res.length < 10) {
           this.setData({
-            isLastPage: true,
-            loadtext: '到底啦',
-            showloadmore: false
+            hasnextpage: false,
           })
         }
         if (this.data.isBottom) {
@@ -258,11 +268,11 @@ Component({
     },
 
     addComment: function (e) {
-      console.log(e)
+      // console.log(e)
       let args = {}
       let that = this
       args.id = this.data.detail[0].id
-      args.content = ''
+      args.content = '这是一条评星('+this.data.rating+')'
       args.parent = this.data.parent
       args.rating = this.data.rating
       if (!this.data.user) {
@@ -289,6 +299,9 @@ Component({
                 content: "",
                 comments: [],
                 rating: 0,
+                parent:0,
+                rating_none: 5,
+                ratingtip: '',
                 iscanpublish: false
               })
               setTimeout(function () {
@@ -319,7 +332,7 @@ Component({
             console.log(err)
             wx.showModal({
               title: '提示',
-              content: '评论失败，请稍后重试。'
+              content: '评论失败，请稍后重试吧。'
             })
           })
       }
@@ -333,13 +346,24 @@ Component({
       let title = this.data.detail[0].title.rendered
       let excerpt = this.data.detail[0].excerpt.rendered
       let foreground = this.data.detail[0].book_foreground
+      let name = ''
+      let description = ''
+      API.getSiteInfo().then(res => {
+        name = res.name
+        description = res.description
+      })
+      .catch(err => {
+        console.log(err)
+      })
       args.id = this.data.detail[0].id
+      console.log(this.data.detail[0].id)
       API.getCodeImg(args).then(res => {
         wx.showLoading({
           title: "准备生成海报...",
           mask: true,
         });
         if (res.status === 200) {
+          console.log(res)
           const downloadTaskqrCode = wx.downloadFile({
             url: res.qrcode,
             success: qrcode => {
@@ -350,13 +374,13 @@ Component({
                 //   that.createPostPrefix(qrcodePath, title, excerpt);
                 // }
                 const downloadTaskCoverPrefix = wx.downloadFile({
-                  url: res.cover,
+                  url: this.data.detail[0].meta.thumbnail,
                   success: response => {
                     if (response.statusCode === 200) {
                       prefixPath = response.tempFilePath;
                       console.log("文章图片本地位置：" + response.tempFilePath);
                       if (prefixPath && qrcodePath) {
-                        that.createPostPrefix(prefixPath, qrcodePath, title, excerpt, foreground);
+                        that.createPostPrefix(prefixPath, qrcodePath, title, excerpt, foreground, name, description);
                       }
                     } else {
                       wx.hideLoading();
@@ -396,7 +420,7 @@ Component({
       })
     },
     //将canvas转换为图片保存到本地，然后将路径传给image图片的src
-    createPostPrefix: function (prefixPath, qrcodePath, title, excerpt, foreground) {
+    createPostPrefix: function (prefixPath, qrcodePath, title, excerpt, foreground, name, description) {
       //console.log(excerpt);
       wx.showLoading({
         title: "正在生成海报",
@@ -413,11 +437,11 @@ Component({
       context.setFillStyle("#333333");
       context.setFontSize(28);
       context.setTextAlign('left');
-      context.fillText('建始同城共享书', 30, 930);
+      context.fillText(name, 30, 930);
       context.setFillStyle("#666666");
       context.setFontSize(22);
       context.setTextAlign('left');
-      context.fillText('一切文字皆可成书', 30, 960);
+      context.fillText(description, 30, 960);
       context.setFillStyle("#696969");
       context.setFontSize(18);
       context.setTextAlign('left');

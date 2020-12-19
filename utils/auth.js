@@ -37,11 +37,11 @@ Auth.check = function() {
     let user = Auth.user()
     let token = Auth.token()
     if (user && Date.now() < wx.getStorageSync('expired_in') && token) {
-        console.log('access_token过期时间：', (wx.getStorageSync('expired_in') - Date.now()) / 1000, '秒');
-      console.log('Auth.check成功');
+        // console.log('access_token过期时间：', (wx.getStorageSync('expired_in') - Date.now()) / 1000, '秒');
+      // console.log('Auth.check成功');
         return true;
     } else {
-      console.log('Auth.check失败');
+      // console.log('Auth.check失败');
         return false;
     }
 }
@@ -54,11 +54,11 @@ Auth.login = function() {
     return new Promise(function(resolve, reject) {
         wx.login({
             success: function(res) {
-              console.log('Auth.login成功',res);
+              // console.log('Auth.login成功',res);
                 resolve(res);
             },
             fail: function(err) {
-              console.log('Auth.login失败',res);
+              // console.log('Auth.login失败',res);
                 reject(err);
             }
         });
@@ -73,12 +73,12 @@ Auth.code = function () {
   return new Promise(function (resolve, reject) {
     wx.login({
       success: function (res) {
-        console.log('logincodesucess');
+        // console.log('logincodesucess');
         resolve(res.code);
       },
 
       fail: function (err) {
-        console.log('logincodefail');
+        // console.log('logincodefail');
         reject(err);
       }
     });
@@ -107,13 +107,13 @@ Auth.getUserInfo = function(){
 			args.code = data.code;
 			wx.getUserInfo({
 				success: function (res) {
-					console.log(res);
+					// console.log(res);
 					args.iv = encodeURIComponent(res.iv);
 					args.encryptedData = encodeURIComponent(res.encryptedData);
 					resolve(args);
 				},
 				fail: function (err) {
-          console.log('Auth.getUserInfo失败',err);
+          // console.log('Auth.getUserInfo失败',err);
 					reject(err);
 				}
 			});

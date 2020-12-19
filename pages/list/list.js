@@ -8,6 +8,7 @@ Component({
   properties: {
     // 接受页面参数
     id: Number,
+    tabid: Number, //我操作的 1点赞 2收藏 3评星
     posttype: String,
     library_cats: String,
     library_state: String,
@@ -44,6 +45,7 @@ Component({
     showemoji: false,
     islib: false,
     placeholder: '说点什么吧～',
+    parent:0,
 
     gridtype: 'list', //内容布局，在onload中设置，默认网格显示。water网格显示，list列表显示。布局会优先读取本地缓存
 
@@ -74,7 +76,22 @@ Component({
 
       this.getSiteInfo();
       // this.getAdvert()
-      if (options.id && options.posttype == 'talk') {
+      this.setData({
+        options: options
+      })
+      if (options.tabid == 1) {
+        this.getLikePosts({
+          post_type: 'library'
+        });
+      } else if (options.tabid == 2) {
+        this.getFavPosts({
+          post_type: 'library'
+        });
+      } else if (options.tabid == 3) {
+        this.getCommentsPosts({
+          post_type: 'library'
+        });
+      } else if (options.id && options.posttype == 'talk') {
         this.getPostsbyID(options.posttype, options.id)
       } else if (options.s && options.posttype == 'library') {
         this.getPostList(options.posttype, {
@@ -177,14 +194,14 @@ Component({
      */
     onShareAppMessage: function () {
       return {
-        title: that.data.siteInfo.description + ' - ' + that.data.siteInfo.name,
+        title: this.data.siteinfo.description + ' - ' + this.data.siteinfo.name,
         path: '/pages/index/index'
       }
     },
 
     bindUpdatepost(e) {
       var that = this;
-      console.log(e)
+      // console.log(e)
       that.setData({
         selectchange: e.detail.selectchange,
         isreset: e.detail.isreset,
@@ -226,7 +243,85 @@ Component({
           // args.page = this.data.page + 1
 
           this.setData(args)
-          console.log(args)
+          // console.log(args)
+          wx.stopPullDownRefresh()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getLikePosts: function (args) {
+      let that = this;
+
+      API.getLikePosts(args).then(res => {
+          let args = {}
+          if (res.length < 10) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            item.date = API.getDateDiff(strdate);
+            return item;
+          }))
+          // args.page = this.data.page + 1
+
+          this.setData(args)
+          // console.log(args)
+          wx.stopPullDownRefresh()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getFavPosts: function (args) {
+      let that = this;
+
+      API.getFavPosts(args).then(res => {
+          let args = {}
+          if (res.length < 10) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            item.date = API.getDateDiff(strdate);
+            return item;
+          }))
+          // args.page = this.data.page + 1
+
+          this.setData(args)
+          // console.log(args)
+          wx.stopPullDownRefresh()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getCommentsPosts: function (args) {
+      let that = this;
+
+      API.getCommentsPosts(args).then(res => {
+          let args = {}
+          if (res.length < 10) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+
+          args.posts = [].concat(this.data.posts, res.map(function (item) {
+            var strdate = item.date
+            item.date = API.getDateDiff(strdate);
+            return item;
+          }))
+          // args.page = this.data.page + 1
+
+          this.setData(args)
+          // console.log(args)
           wx.stopPullDownRefresh()
         })
         .catch(err => {
@@ -296,7 +391,7 @@ Component({
 
           }
           // console.log('index.post')
-          console.log(this.data.detail)
+          // console.log(this.data.detail)
 
           if (res.comments != 0) {
             this.getComments()
@@ -341,10 +436,10 @@ Component({
             // var regc2 = /\%(.+?)\%/g;
             if ((/\%(.+?)\%/g).exec(content)) {
               var regc2 = (/\%(.+?)\%/g).exec(content)[1].trim();
-              console.log(regc2)
+              // console.log(regc2)
             }
 
-            console.log(content)
+            // console.log(content)
 
             var str = '<div><a class="talktolibrary" style="background-color:' + regc2 + '" href="/pages/detail/detail?id=' + regc + '&posttype=library" bgcolor="" >来自《' + regc1 + '》</a></div>'
             return str;
@@ -358,8 +453,8 @@ Component({
         }))
 
         this.setData(data)
-        console.log(data.posts)
-        console.log('data.comments')
+        // console.log(data.posts)
+        // console.log('data.comments')
       })
     },
 
@@ -382,7 +477,7 @@ Component({
     },
 
     addComment: function (e) {
-      console.log(e)
+      // console.log(e)
       let args = {}
       let that = this
       if (that.data.islib) {
@@ -410,7 +505,7 @@ Component({
         })
       } else {
         API.addComment(args).then(res => {
-            console.log(res)
+            // console.log(res)
             if (res.status === 200) {
               this.setData({
                 page: 1,
@@ -487,7 +582,7 @@ Component({
         keyboardduration: keyboardduration,
       });
 
-      console.log('keyboardheight:' + keyboardheight)
+      // console.log('keyboardheight:' + keyboardheight)
       // console.log('keyboardduration:'+keyboardduration)
     },
     getemojival: function (e) {

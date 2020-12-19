@@ -11,19 +11,20 @@
           <view class="card-cell">
             <view class="card-cell-msg">
               <view class="card-cell-icon">
-                <icon class="icon iconfont icon-auth" />
+                <icon class="icon iconfont icon-rss" />
               </view>
               <view class="card-cell-base">
                 <view class="card-cell-title">订阅提醒</view>
               </view>
             </view>
-            <button class="card-cell-btn button" data-url="/pages/list/list?posttype=rss&title=订阅"
-              bindtap="bindHandler" />
+            <button class="card-cell-btn button" wx:if="{{!user}}" bindgetuserinfo="getProfile"
+          openType="getUserInfo"></button>
+        <button class="card-cell-btn button" wx:else bindtap="bindSubscribe"></button>
           </view>
           <view class="card-cell">
             <view class="card-cell-msg">
               <view class="card-cell-icon">
-                <icon class="icon iconfont icon-auth" />
+                <icon class="icon iconfont icon-faq" />
               </view>
               <view class="card-cell-base">
                 <view class="card-cell-title">常见问题</view>
@@ -32,10 +33,10 @@
             <button class="card-cell-btn button" data-url="/pages/list/list?posttype=faq&title=常见问题"
               bindtap="bindHandler" />
           </view>
-          <view class="card-cell">
+          <view class="card-cell {{siteinfo[0].safemode == '1' ? 'safemode':''}}">
             <view class="card-cell-msg">
               <view class="card-cell-icon">
-                <icon class="icon iconfont icon-auth" />
+                <icon class="icon iconfont icon-talk" />
               </view>
               <view class="card-cell-base">
                 <view class="card-cell-title">留言互动</view>
@@ -134,30 +135,14 @@
         <view class="comts-items ">
           <view class="comtsgroup">
             <view class="comtstit">
-              <view class="tit">4条评星</view>
+              <view class="tit">{{detail[0].rating_avg.count?detail[0].rating_avg.count:'0'}}条评星</view>
             </view>
             <view class="comtscnt">
               <view class="nodatatext" wx:if="{{comments.length==0}}">
                 <text class="text">做第一个评星的人吧～</text>
               </view>
               <view class="cmtcell" wx:for="{{comments}}" wx:for-item="cell" wx:key="index">
-                <view class="cmtheader">
-                  <view class="avatar">
-                    <image class="image" src="{{cell.author.avatar}}"></image>
-                  </view>
-                  <view class="basemsg">
-                    <view class="name">{{cell.author.name}}</view>
-                    <view class="date">
-                      <text class="text">{{cell.date}}</text>
-                    </view>
-                  </view>
-                  <view class="starrate">
-                    <icon class="iconrating staricon{{(cell.rating)*10}} icon" />
-                  </view>
-                </view>
-                <view class="cmtbody hide">
-                  {{cell.content}}
-                </view>
+                <dataitem index="{{index}}" posttype="libraryrate" item="{{comments}}" />
               </view>
             </view>
           </view>

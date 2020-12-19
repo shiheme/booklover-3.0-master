@@ -1,12 +1,14 @@
 const PCB = require('../../utils/common');
 const API = require('../../utils/api')
 const app = getApp()
+let interstitialAd = null
 
 Component({
   behaviors: [PCB],
   data: {
     isActive: true,
     isSearch: true,
+
   },
   attached: function (options) {},
   pageLifetimes: {
@@ -24,6 +26,7 @@ Component({
     onLoad: function () {
       let that = this;
 
+      this.chaping();
       this.getIndexnavList();
       //判断用户是否第一次使用小程序
       var isFirst = wx.getStorageSync('isFirst');
@@ -32,6 +35,23 @@ Component({
           isFirst: true
         });
         wx.setStorageSync('isFirst', 'no')
+      }
+
+      if (interstitialAd) {
+        interstitialAd.show().catch((err) => {
+          console.error(err)
+        })
+      }
+    },
+
+    chaping: function (){
+      if (wx.createInterstitialAd) {
+        interstitialAd = wx.createInterstitialAd({
+          adUnitId: 'adunit-9dbd856ca2c68da3'
+        })
+        interstitialAd.onLoad(() => {})
+        interstitialAd.onError((err) => {})
+        interstitialAd.onClose(() => {})
       }
     },
 
@@ -44,7 +64,7 @@ Component({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+      
     },
 
     /**
@@ -81,10 +101,11 @@ Component({
     onShareAppMessage: function () {
       let that = this;
       return {
-        title: that.data.siteInfo.description + ' - ' + that.data.siteInfo.name,
+        title: this.data.siteinfo.description + ' - ' + this.data.siteinfo.name,
         path: '/pages/index/index'
       }
     },
+    
 
     getIndexnavList() {
       API.getIndexnav().then(res => {
@@ -95,6 +116,7 @@ Component({
         this.setData({
           indexnav: res
         });
+        this.getSiteInfo();
       });
     },
   

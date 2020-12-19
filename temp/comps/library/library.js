@@ -23,7 +23,6 @@ Component({
   },
   ready(options) {
     this.showVideoAd();
-    this.getSiteInfo();
   },
 
   attached() {},
@@ -53,7 +52,7 @@ Component({
           adUnitId: 'adunit-3e6043b4117685cd'
         })
         rewardedVideoAd.onLoad(() => {
-          console.log('onLoad event emit')
+          // console.log('onLoad event emit')
         })
         rewardedVideoAd.onError((err) => {
           console.log(err);
@@ -81,7 +80,7 @@ Component({
               }
               openAdLogs.unshift(log);
               wx.setStorageSync('openAdLogs', openAdLogs);
-              console.log(openAdLogs);
+              // console.log(openAdLogs);
             }
             that.setData({
               videolook: true
