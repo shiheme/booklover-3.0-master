@@ -103,3 +103,42 @@
   width: 60rpx;
   height: 60rpx;
 }
+
+.rentprice {
+  display:flex;
+  align-items: center;
+  justify-content:space-between;
+  margin:60rpx 50rpx;
+}
+
+.rentprice .cash .text {
+  font-size:28rpx;
+  opacity: .6;
+}
+.rentprice .cash .large {
+  font-size:48rpx;
+  opacity: 1;
+}
+.rentprice .copytxt {
+  position: relative;
+}
+.rentprice .copytxt {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20rpx 40rpx;
+    margin-right: 20rpx;
+    border-radius: 50rpx;
+    font-size: 32rpx;
+}
+
+.button {
+  position: absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  opacity: 0;
+  z-index: 10;
+}

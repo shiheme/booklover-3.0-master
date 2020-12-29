@@ -4,7 +4,8 @@
     "pages/list/list",
     "pages/detail/detail",
     "pages/page/page",
-    "pages/copy/copy"
+    "pages/copy/copy",
+    "pages/wxmp/wxmp"
   ],
   "darkmode": true,
   "themeLocation": "theme.json",

@@ -46,3 +46,8 @@
     margin-top:50rpx;
     text-align: center;
 }
+
+.webview {
+  width:100%;
+  height:100%;
+}

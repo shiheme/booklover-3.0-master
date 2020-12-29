@@ -11,7 +11,7 @@
     <view class="searchtitle" wx:if="{{searchtitle}}">
       <text class="text">{{searchtitle}}</text>
     </view>
-    <view class="libraryctrl" wx:if="{{posttype=='library' && !searchtitle}}">
+    <view class="libraryctrl" wx:if="{{posttype=='library' && !searchtitle && !tabid}}">
       <view class="librarycatsbtn bgcolor-sub" catchtap="bindShowpop" data-poptype="librarycats" data-popitem=""
         data-popheight="{{(windowHeight-3*customBarHeight-60)*2}}">
         <icon class="icon iconfont icon-list" />
@@ -29,6 +29,30 @@
         <view class="line bgcolor-sub"></view>
       </view>
     </view>
+
+    <view class="cateswrap" wx:if="{{tabid == 1}}">
+      <scroll-view scroll-x style="width:100%;white-space: nowrap;" class="">
+        <view class="cates">
+          <view class="cateilist {{posttype=='library'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+            data-posttype="library">
+            <text class="text">书籍</text>
+          </view>
+          <view class="cateilist {{posttype=='topic'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+          data-posttype="topic">
+            <text class="text">发现</text>
+          </view>
+          <view class="cateilist {{posttype=='quot'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+          data-posttype="quot">
+            <text class="text">语录</text>
+          </view>
+          <view class="cateilist {{posttype=='act'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+          data-posttype="act">
+            <text class="text">福利</text>
+          </view>
+          
+        </view>
+      </scroll-view>
+    </view>
     <view class="itemwrap {{gridtype=='water'&&posttype=='library'?'libtypewater':'libtypelist'}}">
       <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
         <view class="cardbox" wx:if="{{gridtype!='water' && index%3 ==0  && index!=0}}">
@@ -37,7 +61,7 @@
         </view>
       </view>
         <view class="cardbox" style="{{gridtype=='water'&&posttype=='library'?'width:'+(windowWidth-70)/2+'px;':''}}">
-          <dataitem index="{{index}}" posttype="{{posttype}}" gridtype="{{gridtype}}" item="{{posts}}" />
+          <dataitem index="{{index}}" posttype="{{posttype}}" gridtype="{{gridtype}}" item="{{posts}}" ani="{{ani}}" />
         </view>
       </view>
     </view>

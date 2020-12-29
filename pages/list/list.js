@@ -23,6 +23,7 @@ Component({
     libid: Number,
     libtit: String,
     libcolor: String,
+
   },
   /**
    * 页面的初始数据
@@ -48,6 +49,7 @@ Component({
     parent:0,
 
     gridtype: 'list', //内容布局，在onload中设置，默认网格显示。water网格显示，list列表显示。布局会优先读取本地缓存
+    ani: true,
 
     isActive: true, //定义头部导航是否显示背景
     isGoback: true,
@@ -74,15 +76,21 @@ Component({
         })
       }
 
-      this.getSiteInfo();
+      // this.getSiteInfo();
+        this.setData({
+          siteinfo: app.globalData.siteinfo
+        })
       // this.getAdvert()
       this.setData({
         options: options
       })
       if (options.tabid == 1) {
         this.getLikePosts({
-          post_type: 'library'
+          post_type: 'library',
         });
+        this.setData({
+          posttype:'library'
+        })
       } else if (options.tabid == 2) {
         this.getFavPosts({
           post_type: 'library'
@@ -216,7 +224,7 @@ Component({
       this.getPostList(that.data.posttype, {
         library_cats: that.data.library_cats,
         library_state: that.data.library_state,
-        per_page: 12
+        per_page: this.data.per_page
       });
       if (that.data.isreset) {
         this.getCatstype(that.data.catstype, {
@@ -229,7 +237,7 @@ Component({
 
       API.getPostsList(posttype, data).then(res => {
           let args = {}
-          if (res.length < 10) {
+          if (res.length < this.data.per_page) {
             this.setData({
               hasnextpage: false,
             })
@@ -238,6 +246,9 @@ Component({
           args.posts = [].concat(this.data.posts, res.map(function (item) {
             var strdate = item.date
             item.date = API.getDateDiff(strdate);
+            if(item.act_starttime && item.act_endtime){
+            item.isDuringDate = API.isDuringDate(item.act_starttime, item.act_endtime);
+          }
             return item;
           }))
           // args.page = this.data.page + 1
@@ -249,6 +260,17 @@ Component({
         .catch(err => {
           console.log(err)
         })
+    },
+    bindtablike: function (e){
+      let posttype= e.currentTarget.dataset.posttype;
+      this.setData({
+        hasnextpage: true,
+        posts:[],
+        posttype:posttype
+      })
+      this.getLikePosts({
+        post_type: posttype
+      });
     },
     getLikePosts: function (args) {
       let that = this;
@@ -264,6 +286,9 @@ Component({
           args.posts = [].concat(this.data.posts, res.map(function (item) {
             var strdate = item.date
             item.date = API.getDateDiff(strdate);
+            if(item.act_starttime && item.act_endtime){
+              item.isDuringDate = API.isDuringDate(item.act_starttime, item.act_endtime);
+            }
             return item;
           }))
           // args.page = this.data.page + 1

@@ -11,21 +11,21 @@ const Auth = require('./auth')
 
 const API = {}
 
-API.getHost = function() {
+API.getHost = function () {
   return API_HOST;
 }
 
 
-API.getRestAPI = function() {
+API.getRestAPI = function () {
   return RESTAPI;
 }
 
 
-API.template = function() {
+API.template = function () {
   return templates;
 }
 
-API.getUrlFileName = function(url, domain) {
+API.getUrlFileName = function (url, domain) {
   var filename = url.substring(url.lastIndexOf("/") + 1);
 
   if (filename == domain || filename == '') {
@@ -48,11 +48,11 @@ API.getUrlFileName = function(url, domain) {
 //   return posttype;
 // }
 
-API.request = function(url, method = "GET", data = {}, args = {
+API.request = function (url, method = "GET", data = {}, args = {
   token: true
 }) {
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
 
     url = API_HOST + '/' + RESTAPI + url;
 
@@ -74,7 +74,7 @@ API.request = function(url, method = "GET", data = {}, args = {
       url: url,
       data: data,
       method: method,
-      success: function(res) {
+      success: function (res) {
         // console.log(res);
         if (res.statusCode == 200) {
           resolve(res.data);
@@ -94,8 +94,8 @@ API.request = function(url, method = "GET", data = {}, args = {
           Auth.logout()
         }
       },
-      fail: function(err) {
-        console.log('error',err);
+      fail: function (err) {
+        console.log('error', err);
         reject(err);
       }
     })
@@ -113,55 +113,55 @@ API.request = function(url, method = "GET", data = {}, args = {
 //   );
 // };
 
-API.vrequest = function(url, method = "GET", data={}, token) {
-	return new Promise(function(resolve, reject) {
-		url =  API_HOST + '/' + RESTAPI + url
-		//console.log(url)
-		//console.log(data)
-		wx.request({
-			url: url,
-			data: data,
-			method: method,
-			header: {
-				'Authorization': `Bearer ${token}`
-			},
-			success: function(res) {
-				// console.log(res);
-				resolve(res);
-			},
-			fail: function(err) {
-				console.log(err);
-				reject(err);
-			}
-		})
-	});
+API.vrequest = function (url, method = "GET", data = {}, token) {
+  return new Promise(function (resolve, reject) {
+    url = API_HOST + '/' + RESTAPI + url
+    //console.log(url)
+    //console.log(data)
+    wx.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        'Authorization': `Bearer ${token}`
+      },
+      success: function (res) {
+        // console.log(res);
+        resolve(res);
+      },
+      fail: function (err) {
+        console.log(err);
+        reject(err);
+      }
+    })
+  });
 }
 
-API.get = function(url, data = {}, args = {
+API.get = function (url, data = {}, args = {
   token: false
 }) {
   return API.request(url, "GET", data, args);
 }
 
-API.post = function(url, data, args = {
+API.post = function (url, data, args = {
   token: true
 }) {
   return API.request(url, "POST", data, args);
 }
 
-API.vget = function(url, data, token) {
-	return API.vrequest(url, "GET", data, token);
+API.vget = function (url, data, token) {
+  return API.vrequest(url, "GET", data, token);
 }
 
-API.vpost = function(url, data, token) {
-	return API.vrequest(url, "POST", data, token);
+API.vpost = function (url, data, token) {
+  return API.vrequest(url, "POST", data, token);
 }
 
-API.vdelete = function(url, data, token) {
-	return API.vrequest(url, "DELETE", data, token);
+API.vdelete = function (url, data, token) {
+  return API.vrequest(url, "DELETE", data, token);
 }
 
-API.getUser = function() {
+API.getUser = function () {
   if (Auth.check()) {
 
     // console.log('API.getUser进行了check成功');
@@ -173,8 +173,8 @@ API.getUser = function() {
 
 }
 
-API.login = function() {
-  return new Promise(function(resolve, reject) {
+API.login = function () {
+  return new Promise(function (resolve, reject) {
     if (Auth.check()) {
       resolve(Auth.user());
     } else {
@@ -198,10 +198,14 @@ API.login = function() {
   });
 }
 
-API.logout = function() {
+API.logout = function () {
   let logout = Auth.logout();
   if (logout) {
     getApp().globalData.user = '';
+    wx.removeStorageSync('user');
+    wx.removeStorageSync('openid');
+    wx.removeStorageSync('token');
+    wx.removeStorageSync('expired_in');
     wx.reLaunch({
       url: '/pages/index/index'
     })
@@ -214,8 +218,8 @@ API.logout = function() {
   }
 }
 
-API.getUserInfo = function() {
-  return new Promise(function(resolve, reject) {
+API.getUserInfo = function () {
+  return new Promise(function (resolve, reject) {
     Auth.getUserInfo().then(data => {
         API.post('/mp/v1/user/login', data, {
           token: false
@@ -235,7 +239,7 @@ API.getUserInfo = function() {
   });
 }
 
-API.token = function() {
+API.token = function () {
   let token = Auth.token();
   let datetime = Date.now();
   if (token && datetime < wx.getStorageSync('expired_in')) {
@@ -245,7 +249,7 @@ API.token = function() {
   }
 }
 
-API.storageUser = function(res) {
+API.storageUser = function (res) {
   getApp().globalData.user = res.user;
   wx.setStorageSync('user', res.user);
   wx.setStorageSync('openid', res.openid);
@@ -260,9 +264,9 @@ API.storageUser = function(res) {
  * @param	{Function} fn
  * @return {Promise}
  */
-API.guard = function(fn) {
+API.guard = function (fn) {
   let that = this
-  return function() {
+  return function () {
     if (API.getUser()) {
       return fn.apply(that, arguments)
     } else {
@@ -282,33 +286,34 @@ API.guard = function(fn) {
 
 
 API.upload = function (url, files = "", token) {
-	return new Promise(function (resolve, reject) {
-		url =  API_HOST + '/' + RESTAPI + url;
-		if( !token ) {
-			wx.showModal({
-				title: '温馨提示',
-				content: 'JSON WEB TOKEN 密钥获取失败'
-			})
-		}
-		//console.log(url)
-		//console.log(files)
-		wx.uploadFile({
-			url: url,
-			filePath: files,
-			name: 'file',
-            header: {
-            	'Authorization': `Bearer ${token}`
-			},
-			success: (res) => {
-				const data = JSON.parse(res.data)
-				resolve(data)
-			},
-			fail: function (err) {
-				console.log(err)
-				reject(err)
-			}
-		})
-	})
+  return new Promise(function (resolve, reject) {
+    url = API_HOST + '/' + RESTAPI + url;
+    if (!token) {
+      wx.showModal({
+        title: '温馨提示',
+        content: 'JSON WEB TOKEN 密钥获取失败'
+      })
+    }
+    //console.log(url)
+    //console.log(files)
+    wx.uploadFile({
+      url: url,
+      filePath: files,
+      name: 'file',
+      header: {
+        'Authorization': `Bearer ${token}`
+      },
+      success: (res) => {
+        const data = JSON.parse(res.data)
+        resolve(data)
+      },
+      fail: function (err) {
+        console.log(err)
+        reject(err)
+      }
+    })
+  })
 }
+
 
 module.exports = API

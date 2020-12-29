@@ -20,6 +20,7 @@ Component({
     
     isActive: true, //定义头部导航是否显示背景
     isGoback: true,
+
   },
   attached: function (options) {
 
@@ -30,7 +31,13 @@ Component({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      this.getSiteInfo();
+      // this.getSiteInfo();
+      // app.loaclCallBack = res => {
+        this.setData({
+          siteinfo: app.globalData.siteinfo
+        })
+      // }
+      console.log(this.data.siteinfo)
     },
 
     /**

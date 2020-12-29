@@ -1,5 +1,6 @@
 {
   "component": true,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "dataitem": "../item/item",
     "audioring": "../audioring/audioring",

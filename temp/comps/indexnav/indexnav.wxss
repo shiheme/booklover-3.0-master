@@ -24,7 +24,7 @@
 .navitem.current::after{
   content: '';
   display: block;
-  width: 30rpx;
+  width: 24rpx;
   height: 6rpx;
   border-radius: 6rpx;
   background: #5CEB8E;

@@ -1,5 +1,6 @@
 {
   "component": true,
+  "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
     "wrapleft": "../../temp/comps/wrapleft/index",

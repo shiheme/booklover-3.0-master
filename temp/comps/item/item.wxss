@@ -380,8 +380,13 @@
 }
 
 .quotlist .workcell {
-  width: 150rpx;
-  margin-left: 30rpx;
+  width: 120rpx;
+  margin-left: 20rpx;
+  margin-bottom:-10rpx;
+}
+.quotlist .workcell .workcover {
+  width:120rpx;
+  height:172rpx;
 }
 
 /* 定义书籍列表样式 */

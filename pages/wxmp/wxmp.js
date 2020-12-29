@@ -1,4 +1,4 @@
-// pages/copy/copy.js
+// pages/copy/wxmp.js
 const PCB = require('../../utils/common');
 const API = require('../../utils/api')
 const app = getApp()
@@ -6,12 +6,14 @@ const app = getApp()
 Component({
   behaviors: [PCB],
   properties: {
-    // 接受页面参数=
+    // 接受页面参数
+    websrc: String,
   },
   /**
    * 页面的初始数据
    */
   data: {
+
 
 
   },
@@ -24,6 +26,9 @@ Component({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+      this.setData({
+        websrc:options.websrc
+      })
     },
 
     /**

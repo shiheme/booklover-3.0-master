@@ -1,0 +1,3 @@
+<!--pages/copy/wxmp.wxml-->
+
+ <web-view src="{{websrc}}"></web-view>

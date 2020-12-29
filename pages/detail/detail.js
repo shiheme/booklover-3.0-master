@@ -46,8 +46,10 @@ Component({
       this.setData({
         options: options
       })
-
-      this.getSiteInfo();
+      // this.getSiteInfo();
+        this.setData({
+          siteinfo: app.globalData.siteinfo
+        })
       // console.log(this.data.options)
       // console.log('option')
       if (this.data.scene == 1011 || this.data.scene == 1047 || this.data.scene == 1124) {
@@ -70,6 +72,7 @@ Component({
       // this.getAdvert()
       // console.log(options)
     },
+
 
     /**
      * 生命周期函数--监听页面初次渲染完成

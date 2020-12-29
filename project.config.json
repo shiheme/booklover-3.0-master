@@ -74,7 +74,7 @@
         {
           "name": "pages/detail/detail",
           "pathName": "pages/detail/detail",
-          "query": "id=1513&posttype=act",
+          "query": "id=1513&posttype=act&isshare=1",
           "scene": null
         },
         {

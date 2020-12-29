@@ -9,6 +9,9 @@ Component({
     isActive: true,
     isSearch: true,
 
+
+    showcolltip: true,
+
   },
   attached: function (options) {},
   pageLifetimes: {
@@ -42,9 +45,22 @@ Component({
           console.error(err)
         })
       }
+
+      this.setData({
+        siteinfo: app.globalData.siteinfo
+      })
+
+      
+      app.siteinfoCallBack = res => {
+        this.setData({
+          siteinfo: app.globalData.siteinfo
+        })
+        console.log(app.globalData.siteinfo)
+      }
+
     },
 
-    chaping: function (){
+    chaping: function () {
       if (wx.createInterstitialAd) {
         interstitialAd = wx.createInterstitialAd({
           adUnitId: 'adunit-9dbd856ca2c68da3'
@@ -64,7 +80,7 @@ Component({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-      
+
     },
 
     /**
@@ -85,14 +101,14 @@ Component({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function () {
-      
+
     },
-    
+
     /**
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-      
+
     },
 
     /**
@@ -105,37 +121,43 @@ Component({
         path: '/pages/index/index'
       }
     },
-    
+
 
     getIndexnavList() {
       API.getIndexnav().then(res => {
-  
+
         // 加载第一个分类的列表
         res[0].loaded = true;
-  
+
         this.setData({
           indexnav: res
         });
-        this.getSiteInfo();
+        // this.getSiteInfo();
       });
     },
-  
+
     handleIndexnavChange(e) {
-      const { current, data } = e.detail;
+      const {
+        current,
+        data
+      } = e.detail;
       // data是组件返回的，当前选中选项的数据，也就是对应 categoryList[current] 那个
-  
+
       // 让 tab 和 swiper同步
       this.setData({
         current
       })
-  
+
       // 如果切换到了还没加载的分类，加载这个分类
-      if(!this.data.indexnav[current].loaded){
+      if (!this.data.indexnav[current].loaded) {
         this.setData({
-          [`indexnav[${current}].loaded`] : true
+          [`indexnav[${current}].loaded`]: true
         })
       }
     }
 
-  }
+  },
+
+  
+  
 })

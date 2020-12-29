@@ -37,6 +37,7 @@
   opacity: .6;
 }
 
+
 .user-items {
   padding: 0 30rpx;
 }
@@ -81,6 +82,17 @@
   padding: 20rpx 40rpx;
   opacity: 1;
   border-radius: 50rpx;
+}
+
+.user-information .card-cell.nouser {
+  font-size: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: .8;
+  font-size: 42rpx;
+  font-weight: bold;
+  height: 100%;
 }
 
 .usernav .card-cell .card-cell-msg {

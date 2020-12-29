@@ -4,12 +4,36 @@
 
 <navtitle id="c-bar" title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
 
+<view class="colltiparea" style="top:{{customBarHeight}}px;right:30rpx;" wx:if="{{showcolltip}}">
+					<view class="colltip">
+            <text class="text">点击小程序名称给好评</text>
+            <icon class="icon" bindtap="onCanceltip" type="cancel" color="#ffffff" size="15" />
+            </view>
+</view>
+
 <view class="container bgcolor-base page">
 
   <view class="wrap"
     style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
     <view class="pagelist">
       <view class="set-container" wx:if="{{posttype=='set'}}">
+        <view class="cardbox">
+          <view class="card bgcolor-sub user-items card-cell-wrap">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">给好评</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text">给小程序点个赞</text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" bindtap="showcolltip"></button>
+            
+            </view>
+          </view>
+        </view>
         <view class="cardbox">
           <view class="card bgcolor-sub user-items card-cell-wrap">
             <view class="card-cell">
@@ -22,7 +46,7 @@
                   <icon class="icon iconfont icon-arrow-right" />
                 </view>
               </view>
-              <button class="card-cell-btn button" open-type="openSetting" bindopensetting="callback">打开设置页</button>
+              <button class="card-cell-btn button" open-type="openSetting" bindopensetting="callback"></button>
             </view>
             <view class="card-cell">
               <view class="card-cell-msg">
@@ -49,37 +73,25 @@
             </view>
           </view>
         </view>
-        <view class="cardbox">
-          <view class="card bgcolor-sub user-items card-cell-wrap">
-            <view class="card-cell">
-              <view class="card-cell-msg">
-                <view class="card-cell-base">
-                  <view class="card-cell-title">给好评</view>
-                </view>
-                <view class="card-cell-more">
-                  <text class="text">给小程序点个赞</text>
-                  <icon class="icon iconfont icon-arrow-right" />
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
-
       </view>
       <view class="about-container" wx:if="{{posttype=='about'}}">
         <view class="header">
           <view class="icon bgcolor-sub">
-            <image class="image" src="" />
+            <image class="image" src="{{siteinfo.cover}}" />
           </view>
-          <view class="title"><text class="text">建始同城共享书小程序</text><text class="text">V3.0.0</text></view>
+          <view class="title"><text class="text">{{siteinfo.name}}小程序</text><text class="text">V{{siteinfo.version}}</text></view>
         </view>
         <view class="body">
-          <view class="button bgcolor-sub">功能介绍</view>
-          <view class="button bgcolor-sub">作者微信</view>
-          <view class="button bgcolor-sub">Sketch下载</view>
+          <view class="button bgcolor-sub" data-appid="wxd7d56025a38fb8d7" data-path="/pages/index/index"
+              bindtap="toMini">功能介绍</view>
+          <view class="button bgcolor-sub" data-src="{{siteinfo.authimg}}"
+              bindtap="popSingleimg">作者微信</view>
+          <view class="button bgcolor-sub" data-appid="wxd7d56025a38fb8d7" data-path="/pages/source/source"
+              bindtap="toMini">Sketch下载</view>
         </view>
         <view class="foot"></view>
       </view>
+      
     </view>
   </view>
 </view>

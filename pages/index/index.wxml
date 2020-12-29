@@ -16,6 +16,13 @@
     <navtitle title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isSearch="{{isSearch}}"
       isTolist="{{isTolist}}" isTomine="{{isTomine}}" bind:taplist="opentabwrapper" />
 
+      <view class="colltiparea" style="top:{{customBarHeight}}px;right:30rpx;" wx:if="{{showcolltip}}">
+					<view class="colltip">
+            <text class="text">添加到我的小程序</text>
+            <icon class="icon" bindtap="onCanceltip" type="cancel" color="#ffffff" size="15" />
+            </view>
+</view>
+
     <view class="indexnavwrap" style="top:{{navBarHeight}}px">
       <!-- 如果选项很多屏幕宽度不够，scroll设置为true滚动显示，否则scroll设置为false时使用flex布局均匀分布 -->
       <indexnav tabs="{{indexnav}}" scroll="{{true}}" current="{{current}}" key="name"

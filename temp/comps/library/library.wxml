@@ -50,20 +50,38 @@
 								<view class="card-cell-title">借阅单价</view>
 							</view>
 							<view class="card-cell-more">
+								<block wx:if="{{user[0].role=='contributor'}}">
+								<text class="text throughline">¥{{detail[0].book_rent[0]}}</text><text class="text"> ¥ 0.00 /月</text>
+							</block>
+							<block wx:else>
 								<text class="text">¥{{detail[0].book_rent[0]}} /月</text>
+							</block>
 							</view>
 						</view>
 					</view>
+					
 					<view class="card-cell">
+						<picker style="width:100%" bindchange="bindborrowtime" value="{{borrowtimeindex}}" range="{{borrowtime}}">
 						<view class="card-cell-msg">
 							<view class="card-cell-base">
 								<view class="card-cell-title">借阅时间</view>
 							</view>
 							<view class="card-cell-more">
-								<text class="text">1个月</text>
+								<text class="text">{{borrowtime[borrowtimeindex]}}</text>
 								<icon class="icon iconfont icon-arrow-right" />
 							</view>
 						</view>
+					</picker>
+					</view>
+				</view>
+				<view class="rentprice">
+					<view class="cash">
+						<text class="text">小计：</text>
+						<text class="text strong large">¥{{rentprice}}</text>
+					</view>
+					<view class="copytxt main-bgcolor">
+						<text class="text">复制文本</text>
+						<button class="button" bindtap="copytxt_borrow"></button>
 					</view>
 				</view>
 			</block>
@@ -95,7 +113,8 @@
 				<text class="text">联系馆长</text>
 			</view>
 			<view class="btn">
-				<button class="button" open-type="contact" />
+				<button class="button" data-src="{{siteinfo.authimg}}"
+              bindtap="popSingleimg" />
 				<text class="text">加馆长为好友</text>
 			</view>
 		</view>

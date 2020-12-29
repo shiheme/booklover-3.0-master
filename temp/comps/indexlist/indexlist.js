@@ -14,7 +14,9 @@ Component({
       type: String
     },
 
-    siteinfo:{type:Array},
+    siteinfo: {
+      type: Array
+    },
 
     // 是否加载，loaded 设置为 true 就加载数据，false时表示还未加载
     loaded: {
@@ -36,44 +38,45 @@ Component({
     page: 1,
     hasnextpage: true,
     loading: false,
+    per_page:5,
   },
 
   ready() {
     if (this.data.loaded) {
       this.refresh();
     }
-    
+
   },
 
 
   methods: {
-    refresh: function() {
+    refresh: function () {
       this.setData({
         page: 1,
         hasnextpage: true,
         // hasNextPage: true
         // posts: []
       });
-// console.log(this.data.siteinfo)
-      
-      if(this.data.posttype=='topic'){
+      // console.log(this.data.siteinfo)
+
+      if (this.data.posttype == 'topic') {
         this.getCatsstate(this.data.catsstate, {
           per_page: 10
         });
-      this.getPostsList(this.data.posttype, {
-          per_page: 10
-        });
-console.log(this.data.siteinfo)
-      } else if(this.data.posttype=='quot') {
         this.getPostsList(this.data.posttype, {
-          per_page: 10
+          per_page: this.data.per_page
+        });
+        console.log(this.data.siteinfo)
+      } else if (this.data.posttype == 'quot') {
+        this.getPostsList(this.data.posttype, {
+          per_page: this.data.per_page
         });
       } else {
         this.onShow();
       }
     },
-    
-    onShow: function() {
+
+    onShow: function () {
       let that = this;
       let user = app.globalData.user
       if (!user) {
@@ -82,33 +85,80 @@ console.log(this.data.siteinfo)
       this.setData({
         user: user,
       })
-      console.log('user',this.data.user)
+      console.log('user', this.data.user)
 
-      this.refreshmsg();
+      if (user) {
+        this.refreshmsg();
+      }
 
     },
-    refreshmsg: function(){
-        API.getProfile().then(res => {
-            // console.log(res)
-            this.setData({
-              user_likes: res.user_likes,
-              user_fav:res.user_fav,
-              user_comment:res.user_comment,
-            })
+    refreshmsg: function () {
+      API.getProfile().then(res => {
+          // console.log(res)
+          this.setData({
+            user_likes: res.user_likes,
+            user_fav: res.user_fav,
+            user_comment: res.user_comment,
           })
-          .catch(err => {
-            console.log(err)
-          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
+
+    onPullDownRefresh: function (e) {
+      this.setData({
+        page: 1,
+        hasnextpage: true,
+        posts: [],
+        loading:true,
+        ani: false
+      })
+      if (this.data.posttype == 'topic') {
+        this.getCatsstate(this.data.catsstate, {
+          per_page: 10
+        });
+        this.getPostsList(this.data.posttype, {
+          per_page: this.data.per_page
+        });
+        console.log(this.data.siteinfo)
+      } else if (this.data.posttype == 'quot') {
+        this.getPostsList(this.data.posttype, {
+          per_page: this.data.per_page
+        });
+      }
+    },
+
+
+    onReachBottom: function () {
+      if (this.data.hasnextpage && !this.data.loading) {
+        this.setData({
+          page: this.data.page + 1
+        });
+        if (this.data.posttype == 'topic') {
+          this.getPostsList(this.data.posttype, {
+            per_page: this.data.per_page,
+            page: this.data.page
+          });
+        } else if (this.data.posttype == 'quot') {
+          this.getPostsList(this.data.posttype, {
+            per_page: this.data.per_page,
+            page: this.data.page
+          });
+        }
+      }
+
+    },
+
     getPostsList: function (posttype, data) {
       let that = this;
       API.getPostsList(posttype, data).then(res => {
           let args = {}
-          if (res.length < 10) {
+          if (res.length < this.data.per_page) {
             this.setData({
               hasnextpage: false,
             })
-          } 
+          }
           args.posts = [].concat(this.data.posts, res.map(function (item) {
             var strdate = item.date
             var excerpt = item.excerpt.rendered
@@ -116,53 +166,30 @@ console.log(this.data.siteinfo)
             // item.excerpt.rendered = API.removeHTML(excerpt);
             return item;
           }))
-          args.page = this.data.page + 1
+          // args.page = this.data.page + 1
+          args.loading = false
           this.setData(args)
+
           // console.log(args);
           wx.stopPullDownRefresh()
         })
         .then(res => {
-        setTimeout(function () {
-          that.setData({
-            ani: true
-          });
-          // console.log(that.data.ani)
-        }, 200);
-      })
+          setTimeout(function () {
+            that.setData({
+              ani: true
+            });
+            // console.log(that.data.ani)
+          }, 200);
+        })
         .catch(err => {
           console.log(err)
-            this.setData({
-              isshowError: true,
-            })
+          this.setData({
+            isshowError: true,
+          })
         })
     },
 
-    onPullDownRefresh: function () {
-      this.setData({
-        isshowError: false,
-        isshowCnt: false,
-        page: 1,
-        isLastPage: false,
-        posts: []
-      })
-      that.getPostList(this.data.posttype, {
-        per_page: 10
-      });
-    },
-
-
-    onReachBottom: function () {
-      this.setData({
-        lasttip: true
-      })
-      if (!this.data.isLastPage && !this.data.loading) {
-        this.getPostList(this.data.posttype, {
-          page: this.data.page,
-          per_page: 10
-        })
-      }
-
-    },
+    
 
     //自定义组件中通信
     setpost: function (e) {
@@ -185,8 +212,8 @@ console.log(this.data.siteinfo)
           console.log(err)
         })
     },
-    
-    loginOut: function() {
+
+    loginOut: function () {
       API.Loginout();
     },
 

@@ -225,59 +225,28 @@
 	<view catchtap="bindDetail" class="card bgcolor-sub" data-posttype="{{item[index].type?item[index].type:posttype}}"
 		id="{{item[index].id}}" data-key="{{i}}">
 		<view class="cardheader" style="background-image:url({{item[index].meta.thumbnail}});">
-			<view class="shopmsg hide">
+			<view class="shopmsg">
+				<block wx:if="{{item[index].act_timelong && item[index].act_timelong == 'caselong'}}">
+					<text class="state state1 text">进行中</text>
+				</block>
+				<block wx:else>
 				<text class="state state0 text" wx:if="{{item[index].isDuringDate == '0' }}">未开始</text>
 				<text class="state state1 text" wx:elif="{{item[index].isDuringDate == '1' }}">进行中</text>
 				<text class="state state2 text" wx:elif="{{item[index].isDuringDate == '2' }}">已结束</text>
-			</view>
-			<view class="shopmsg">
-				<text class="state state1 text">进行中</text>
-			</view>
-			<view class="postlike hide" wx:if="{{item[index].post_likes.length>5}}">
-				<block wx:for="{{item.post_likes}}" wx:for-item="cell" wx:key="index">
-					<block wx:if="{{index<6}}">
-						<view class="likeli">
-							<image class="image" src="{{cell.avatar}}" alt="{{cell.name}}"></image>
-						</view>
-					</block>
 				</block>
 			</view>
-			<view class="postlike">
-				<view class="atr">
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/dSopHk1ugJSOsibaBuupsUuF3Zbiadhiaknqc63Az4YrU3gUdteuBotrQH16xWyHSn0zibCLf3DYj2P2lqEXnqUt0Q/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/wGjIFJMibwkX7BfdQtP35zW3cQf8XoiaKpShxpVPGCKo195XTeM7WSpRcfsI4UCZGZiaFFJJWoBH6GdBcId2ZdaoA/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epL20ZUxNv1NO1LTS4ZIonccwOymVSkK90o5icibJ3V3en3KibiaoPDBrktYaOlyIeZPicVOcia5STmnh0A/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/x8Ve0VtmJ5ib0KiaI1tZ7G5JuG1e4h4XoicBNH0bZ5zr22MvBs0OQ85zWAYdHlljy440S85xu6eq4G0IsT8R8N8QA/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJwOpZU9IoxyVgEQSDhkKMDpH79WSahE9lBTK38VItZY0y6UXUm4OZWfib3d9q5AGTMgV0ShYaESmQ/132" />
-					</view>
-					<view class="likeli">
-						<image class="image"
-							src="https://wx.qlogo.cn/mmopen/vi_32/37dNoAJgDoblkXhArD89rTdjz7gqwsWnpeR2pr7K5icvVutVhbbDoftckiaIX39vsUriayCU4k1CZW0IG0GOGzSOg/132" />
-					</view>
-				</view>
-			</view>
+
 		</view>
 		<view class="cardbody">
 			<view class="basemsg">
 				<view class="label">
 					<!-- <block wx:key="index" wx:for="{{item.category}}" wx:for-item='cell'>
                   <text>#{{cell.name}}</text>
-                </block> -->
-					{{item[index].act_starttime}}至{{item[index].act_endtime}}
+								</block> -->
+								<block wx:if="{{item[index].act_timelong && item[index].act_timelong == 'caselong'}}">
+					长期有效
+				</block>
+				<block wx:else>{{item[index].act_starttime}}至{{item[index].act_endtime}}</block>
 				</view>
 				<view class="title">{{item[index].title.rendered}}<block wx:if="{{item[index].act_shopname}}">
 						-{{item[index].act_shopname}}</block>

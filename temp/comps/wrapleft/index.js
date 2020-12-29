@@ -66,6 +66,12 @@ Component({
         posts: []
       });
       // this.getSiteInfo();
+      // app.loaclCallBack = res => {
+      //   this.setData({
+      //     siteinfo: app.globalData.siteinfo
+      //   })
+      //   console.log(this.data.siteinfo)
+      // }
       this.getComments({
         post_type: 'library',
         page: 1

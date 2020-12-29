@@ -34,7 +34,7 @@
 						style="{{detail.book_foreground?'background-color:'+detail.book_foreground:''}}">
 						<view class="cardbody">
 							<view class="cardimage" catchtap="showTxvideo">
-								<view class="imagecover movcover"
+								<view class="imagecover {{detail.type=='library'?'libcover':''}} movcover"
 									style="background-image:url('{{detail.meta.thumbnail}}');margin-top:{{20+customBarHeight}}px;">
 								</view>
 							</view>
@@ -56,13 +56,12 @@
 
 							</view>
 						</view>
-						<view class="cardfoot {{showtxvideo?'showtxvideo':''}}"
-							style="height:{{customBarHeight+windowWidth}}px;">
+						<view class="cardfoot {{showtxvideo?'showtxvideo':''}}" style="height:{{customBarHeight+windowWidth}}px;">
 
 							<view class="videod" style="height:{{(windowWidth)*9/16}}px;width:100%;">
 								<!-- <txv-video vid="{{detail.book_txvideo}}" playerid="txv1" autoplay="{{showtxvideo}}"
 									poster="{{detail.meta.thumbnail}}" showCenterPlayBtn="{{true}}"></txv-video> -->
-									<ad unit-id="adunit-f6ecfed5f8db9fbb" ad-type="video" ad-theme="white"></ad>
+								<ad unit-id="adunit-f6ecfed5f8db9fbb" ad-type="video" ad-theme="white"></ad>
 							</view>
 
 							<view class="hidetxvideo" catchtap="hideTxvideo">
@@ -108,8 +107,7 @@
 					<!--  wx:if="{{detail.type=='library'}}" -->
 					<view class="ctlbtn bgcolor-sub">
 						<view class="btnbox">
-							<button class="button" id="{{detail.id}}" open-type="getUserInfo"
-								bindgetuserinfo="bindLikeTap"></button>
+							<button class="button" id="{{detail.id}}" open-type="getUserInfo" bindgetuserinfo="bindLikeTap"></button>
 							<view class="buttoncover">
 								<icon class="icon iconfont {{detail.islike?'icon-liked liked':'icon-like'}}" />
 								<text class="text {{detail.islike?'liked':''}}">{{detail.islike? '已点赞': '点赞'}}</text>
@@ -234,7 +232,12 @@
 								<view class="card-cell-title">有效时间</view>
 							</view>
 							<view class="card-cell-more">
-								<text class="text">{{detail.act_starttime}}至{{detail.act_endtime}}</text>
+								<block wx:if="{{detail.act_timelong && detail.act_timelong == 'caselong'}}">
+									<text class="text">长期有效</text>
+								</block>
+								<block wx:else>
+									<text class="text">{{detail.act_starttime}}至{{detail.act_endtime}}</text>
+								</block>
 							</view>
 						</view>
 					</view>
@@ -329,10 +332,10 @@
 				<view class="itemwrap" wx:if="{{detail.book_tolibrary}}">
 					<view class="item" wx:for="{{detail.book_tolibrary}}" wx:for-index="index" wx:key="id">
 						<view class="cardbox" wx:if="{{gridtype!='water' && index%3 ==0  && index!=0}}">
-          <view class="card">
-            <ad-custom unit-id="adunit-ad073b15bc52a9c6"></ad-custom>
-        </view>
-      </view>
+							<view class="card">
+								<ad-custom unit-id="adunit-ad073b15bc52a9c6"></ad-custom>
+							</view>
+						</view>
 						<view class="cardbox">
 							<dataitem index="{{index}}" posttype="library" gridtype="list" item="{{detail.book_tolibrary}}" />
 						</view>
@@ -366,50 +369,50 @@
 
 <block wx:if="{{detail.type=='faq'}}"></block>
 <block wx:elif="{{(detail.type=='library' || detail.type=='movie' || detail.type=='films')}}">
-<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}} {{siteinfo.safemode == '1' ? 'safemode':''}}"
-	wx:if="{{((detail.book_videoadscnt && detail.book_videoadscnt !='')|| detail.book_stock>0)}}">
-	<view class="box {{detail.book_pagestyle}}"
-		style="{{detail.type=='library'&&detail.book_foreground?'background:'+detail.book_foreground:''}}">
-		<view class="btn" wx:if="{{detail.book_videoadscnt && detail.book_videoadscnt !=''}}">
-			<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
-			<button class="button" catchtap="bindShowpop" data-poptype="librarydownload" data-popitem=""
-				data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
-			<text class="text">电子书</text>
-		</view>
-		<view class="btn" wx:if="{{detail.book_stock>0}}">
-			<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
-			<button class="button" catchtap="bindShowpop" data-poptype="libraryborrow" data-popitem=""
-				data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
-			<text class="text">纸质书</text>
+	<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}} {{siteinfo.safemode == '1' ? 'safemode':''}}"
+		wx:if="{{((detail.book_videoadscnt && detail.book_videoadscnt !='')|| detail.book_stock>0)}}">
+		<view class="box {{detail.book_pagestyle}}"
+			style="{{detail.type=='library'&&detail.book_foreground?'background:'+detail.book_foreground:''}}">
+			<view class="btn" wx:if="{{detail.book_videoadscnt && detail.book_videoadscnt !=''}}">
+				<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+				<button class="button" catchtap="bindShowpop" data-poptype="librarydownload" data-popitem=""
+					data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
+				<text class="text">电子书</text>
+			</view>
+			<view class="btn" wx:if="{{detail.book_stock>0}}">
+				<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+				<button class="button" catchtap="bindShowpop" data-poptype="libraryborrow" data-popitem=""
+					data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
+				<text class="text">纸质书</text>
+			</view>
 		</view>
 	</view>
-</view>
 </block>
 <block wx:else>
-<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}}">
-	<view class="box postlikearea">
-		<view class="postlikebtn bgcolor-sub">
-			<button class="button" id="{{detail.id}}" open-type="getUserInfo" bindgetuserinfo="bindLikeTap"></button>
-			<view class="buttoncover">
-				<icon class="icon iconfont {{detail.islike?'icon-liked liked':'icon-like'}}" />
-				<text class="text {{detail.islike?'liked':''}}">{{detail.islike? '已点赞': '点赞'}}</text>
+	<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}}">
+		<view class="box postlikearea">
+			<view class="postlikebtn bgcolor-sub">
+				<button class="button" id="{{detail.id}}" open-type="getUserInfo" bindgetuserinfo="bindLikeTap"></button>
+				<view class="buttoncover">
+					<icon class="icon iconfont {{detail.islike?'icon-liked liked':'icon-like'}}" />
+					<text class="text {{detail.islike?'liked':''}}">{{detail.islike? '已点赞': '点赞'}}</text>
+				</view>
 			</view>
-		</view>
-		<view class="postlikecell" wx:if="{{detail.post_likes.length>0}}">
-			<view class="postlike">
-				<block wx:for="{{post_likes}}" wx:for-item="cell" wx:key="index">
-					<view class="likeli">
-						<image class="image" src="{{cell.avatar}}" alt="{{cell.name}}"></image>
-					</view>
-				</block>
-				<!-- <text class="text">3人点了赞</text> -->
+			<view class="postlikecell" wx:if="{{detail.post_likes.length>0}}">
+				<view class="postlike">
+					<block wx:for="{{post_likes}}" wx:for-item="cell" wx:key="index">
+						<view class="likeli">
+							<image class="image" src="{{cell.avatar}}" alt="{{cell.name}}"></image>
+						</view>
+					</block>
+					<!-- <text class="text">3人点了赞</text> -->
+				</view>
 			</view>
 		</view>
 	</view>
-</view>
 </block>
-<pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" detail="{{[detail]}}"
-	user="{{[user]}}" siteinfo="{{[siteinfo]}}" wx:if="{{showpop&&detail!=''}}" />
+<pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" detail="{{[detail]}}" user="{{[user]}}"
+	siteinfo="{{[siteinfo]}}" wx:if="{{showpop&&detail!=''}}" />
 
 <view class="canvas" wx:if="{{detail.type=='library'}}">
 	<canvas canvas-id="prefix" style="width: 600px;height: 1000px;"></canvas>

@@ -1,7 +1,21 @@
 <!--index/component/list.wxml-->
 
-<scroll-view scroll-y="{{true}}" class="listwrap" bindscrolltolower="onReachBottom">
-  <view class="wrap" style="padding-top: {{customBarHeight}}px;" wx:if="{{posttype=='topic'}}">
+<scroll-view scroll-y="{{true}}"
+scroll-with-animation="true" 
+bindscrolltolower="{{posttype=='mine'?'':'onReachBottom'}}" 
+enable-back-to-top="true" 
+refresher-enabled="{{posttype=='mine'?false:true}}" 
+refresher-default-style="none" 
+bindrefresherrefresh="{{posttype=='mine'?'':'onPullDownRefresh'}}" 
+refresher-triggered="{{loading}}" 
+scroll-anchoring="{{true}}" 
+throttle="{{false}}" 
+upper-threshold="50" 
+lower-threshold="50" 
+ class="listwrap" bindscrolltolower="onReachBottom">
+  <view class="wrap"
+    style="padding-bottom:calc(200rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;"
+    wx:if="{{posttype=='topic'}}">
     <view class="cateswrap {{siteinfo[0].safemode == '1' ? 'safemode':''}}">
       <scroll-view scroll-x style="width:100%;white-space: nowrap;" class="">
         <view class="cates">
@@ -33,18 +47,20 @@
     </view>
     <loadstatus length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
   </view>
-  <view class="wrap" style="padding-top: {{customBarHeight}}px;" wx:elif="{{posttype=='quot'}}">
+  <view class="wrap"
+    style="padding-bottom:calc(200rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;"
+    wx:elif="{{posttype=='quot'}}">
     <view class="itemwrap">
       <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
         <view class="cardbox" wx:if="{{index%3 ==0  && index!=0}}">
           <view class="card">
-          <ad-custom unit-id="adunit-d360c41f0ccf4685"></ad-custom>
+            <ad-custom unit-id="adunit-d360c41f0ccf4685"></ad-custom>
           </view>
         </view>
         <view class="cardbox">
           <dataitem index="{{index}}" posttype="{{posttype}}" item="{{posts}}" />
-          <audioring class="{{siteinfo[0].safemode == '1' ? 'safemode':''}}" bind:myevent="setpost" index="{{index}}" audKey="{{audKey}}" waiting="{{waiting}}" type="index"
-            item="{{posts}}" value="40" />
+          <audioring class="{{siteinfo[0].safemode == '1' ? 'safemode':''}}" bind:myevent="setpost" index="{{index}}"
+            audKey="{{audKey}}" waiting="{{waiting}}" type="index" item="{{posts}}" value="40" />
         </view>
       </view>
     </view>
@@ -55,11 +71,7 @@
     <view class="user-container">
       <view class="user-information card-cell-wrap">
         <view class="card-cell nouser" wx:if="{{!user && openid !=''}}">
-          <view class="card-cell-msg">
-            <view class="card-cell-base">
-              <view class="card-cell-title">爱书者</view>
-            </view>
-          </view>
+          <text class="text">Hi!爱书者</text>
         </view>
         <view class="card-cell" wx:else>
           <view class="card-cell-icon bgcolor-sub">
@@ -79,7 +91,7 @@
       </view>
       <view class="cardbox">
         <view class="card usernav main-bgcolor nouser" wx:if="{{!user && openid !=''}}">
-          <view class="card-title"><text class="text">请先登录</text></view>
+          <view class="card-title"><text class="text">使用微信授权登录</text></view>
           <button class="card-cell-btn button" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
         </view>
         <view class="card usernav bgcolor-sub user-items card-cell-wrap" wx:else>
@@ -136,7 +148,7 @@
             <button class="card-cell-btn button" data-url="/pages/list/list?posttype=act&title=福利"
               bindtap="bindHandler" />
           </view>
-          
+
           <view class="card-cell">
             <view class="card-cell-msg">
               <view class="card-cell-base">
@@ -147,9 +159,22 @@
               </view>
             </view>
             <button class="card-cell-btn button" wx:if="{{!user}}" bindgetuserinfo="getProfile"
-          openType="getUserInfo"></button>
-        <button class="card-cell-btn button" wx:else bindtap="bindSubscribe"></button>
-      
+              openType="getUserInfo"></button>
+            <button class="card-cell-btn button" wx:else bindtap="bindSubscribe"></button>
+          </view>
+
+          <view class="card-cell {{siteinfo[0].safemode == '1' ? 'safemode':''}}">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">比比好物</view>
+              </view>
+              <view class="card-cell-more">
+                <icon class="icon large iconfont icon-wxapp" />
+                <icon class="icon iconfont icon-arrow-right" />
+              </view>
+            </view>
+            <button class="card-cell-btn button" data-appid="wx2cdb2c2acadc450b" data-path="/pages/index/index"
+              bindtap="toMini" />
           </view>
 
         </view>
@@ -162,7 +187,7 @@
                 <view class="card-cell-title">关于小程序</view>
               </view>
               <view class="card-cell-more">
-                <text class="text">V3.0.0</text>
+                <text class="text">V{{siteinfo[0].version}}</text>
                 <icon class="icon iconfont icon-arrow-right" />
               </view>
             </view>

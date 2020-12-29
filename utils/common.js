@@ -26,7 +26,6 @@ module.exports = Behavior({
 
     geziads: false, //小格子原生广告
     
-
     isshowLoad: true,
     isshowError: false,
     isshowCnt: false,
@@ -39,8 +38,7 @@ module.exports = Behavior({
     waiting: true,
     opentabwrapper: false,
     scene: app.globalData.scene,
-    showitemadd: app.globalData.showitemadd,
-    tabbarStyle: app.globalData.tabbarStyle,
+    siteinfo: app.globalData.siteinfo,
 
     wrapperhide: app.globalData.wrapperhide,
     windowHeight: app.globalData.windowHeight,
@@ -113,7 +111,10 @@ module.exports = Behavior({
         API.getProfile().then(res => {
             // console.log(res)
             this.setData({
-              user: res
+              user: res,
+              user_likes: res.user_likes,
+            user_fav: res.user_fav,
+            user_comment: res.user_comment,
             })
             wx.hideLoading()
           })
@@ -300,6 +301,17 @@ module.exports = Behavior({
         url: url,
       })
     },
-  }
+
+    showcolltip: function () {
+      this.setData({
+        showcolltip: true,
+      })
+    },
+    onCanceltip: function () {
+      this.setData({
+        showcolltip: false,
+      })
+    },
+  },
 
 })

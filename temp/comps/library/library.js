@@ -17,12 +17,32 @@ Component({
       type: Array,
       value: []
     },
+    siteinfo: {
+      type: Array,
+      value: []
+    }
   },
   data: {
-    videolook: false
+    videolook: false,
+    borrowtime:['1个月','2个月'],
+    borrowtimeindex:0
   },
   ready(options) {
     this.showVideoAd();
+    this.setData({
+      renttime: this.data.borrowtime[this.data.borrowtimeindex]
+    })
+    if(this.data.user[0].role=='contributor') {
+      this.setData({
+        rentprice:Number(0).toFixed(2),
+        leveltxt:'*享有免费免押借阅特权'
+      })
+    } else {
+      this.setData({
+        rentprice: (Number(this.data.detail[0].book_rent[0])).toFixed(2),
+        leveltxt:''
+      })
+    }
   },
 
   attached() {},
@@ -114,6 +134,47 @@ Component({
         })
 
 
+    },
+    bindborrowtime: function(e) {
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      this.setData({
+        borrowtimeindex: e.detail.value,
+        renttime: this.data.borrowtime[e.detail.value]
+        })
+      if(this.data.user[0].role=='contributor') {
+        this.setData({
+          rentprice:Number(0).toFixed(2)
+        })
+      } else {
+        this.setData({
+          rentprice:((Number(e.detail.value)+1) * Number(this.data.detail[0].book_rent[0])).toFixed(2)
+        })
+      }
+    },
+    copytxt_borrow: function() {
+      var booktit = this.data.detail[0].title.rendered;
+      var bookisbn = this.data.detail[0].book_isbn;
+      var auth = this.data.user[0].nickName;
+      var level = this.data.user[0].role;
+      var leveltxt = this.data.leveltxt;
+      var openid = this.data.user[0].openId;
+      var bookcost = this.data.rentprice;
+      var booktime = this.data.renttime;
+
+      wx.setClipboardData({
+        data: '预借信息\n-----------\n\r书名：《' + booktit + '》\nISBN：' + bookisbn + '\n\r借书人：' + auth + '\n用户等级：' + level + leveltxt + '\n借书ID：' + openid + '\n\r借阅费：' + bookcost + '\n借阅时间：'+ booktime,
+        success: function(res) {
+          wx.getClipboardData({
+            success: function(res) {
+              wx.showToast({
+                title: '内容已复制',
+                icon: 'success',
+                duration: 2000
+              })
+            }
+          })
+        }
+      })
     },
 
   }

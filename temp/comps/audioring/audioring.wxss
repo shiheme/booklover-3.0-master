@@ -5,7 +5,7 @@
   height: 180rpx;
   display: flex;
   align-items: center;
-  background-color: rgba(7, 193, 96, 1);
+  background-color: rgba(92, 235, 142,1);
   border-radius: 90rpx;
 }
 
@@ -260,7 +260,8 @@
 .audiobtn .icon {
   width: 50rpx;
   height: 50rpx;
-  font-size: 1.2em;
+  font-size: 1.1em;
+  opacity: .6;
 }
 
 @keyframes animate {

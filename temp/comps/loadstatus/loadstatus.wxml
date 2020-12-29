@@ -1,10 +1,10 @@
-<view wx:if="{{length}}">
+<view class="txttip" wx:if="{{length}}">
   <loadmore tip="加载更多" loading="{{ true }}" wx:if="{{hasnextpage}}" />
-  <loadmore tip="我是有底线的" loading="{{ false }}" wx:else />
+  <loadmore tip="到底啦～" loading="{{ false }}" wx:else />
 </view>
-<view wx:elif="{{hasnextpage}}" class="">
+<view wx:elif="{{hasnextpage}}" class="txttip">
   <loadmore tip="加载中" loading="{{ true }}" />
 </view>
-<view class="nothing" wx:else>
-  <view>暂无数据</view>
+<view class="txttip nothing" wx:else>
+  <text class="text">暂无数据</text>
 </view>
