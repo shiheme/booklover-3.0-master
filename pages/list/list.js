@@ -10,11 +10,13 @@ Component({
     id: Number,
     tabid: Number, //我操作的 1点赞 2收藏 3评星
     posttype: String,
-    library_cats: String,
-    library_state: String,
+    postcnttype: String,
+    catsid: String,
+    stateid: String,
     statetxt: String,
     catstxt: String,
     s: String,
+    cnt_tp: String,
     title: {
       type: String,
       value: ''
@@ -38,10 +40,10 @@ Component({
 
     catstext: '',
     statetext: '',
-    library_cats: '', //留空为全部
-    library_state: '', //留空为全部
-    catstype: 'library_cats', //图书分类
-    catsstate: 'library_state', //图书类型
+    catsid: '', //留空为全部
+    stateid: '', //留空为全部
+    catstype: '', //图书分类
+    catsstate: '', //图书类型
 
     showemoji: false,
     islib: false,
@@ -66,6 +68,28 @@ Component({
       this.setData({
         options: options
       })
+      // 对于分享进入的链接做内容类型缓存
+      if (options.cnttype) {
+        let cnttype = options.cnttype;
+        app.globalData.cnttype = cnttype
+      } else if (wx.getStorageSync('cnttype')) {
+        let cnttype = wx.getStorageSync('cnttype');
+        app.globalData.cnttype = cnttype
+      } else {
+        let cnttype = this.data.cnttype;
+        app.globalData.cnttype = cnttype
+      }
+
+      this.setData({
+        cnttype: app.globalData.cnttype
+      })
+      //保存到本地
+      wx.setStorage({
+        key: "cnttype",
+        data: app.globalData.cnttype
+      })
+      console.log(app.globalData.cnttype)
+      // 结束对于分享进入的链接做内容类型缓存
       if (wx.getStorageSync('sourcegridtype')) {
         this.setData({
           gridtype: wx.getStorageSync('sourcegridtype')
@@ -89,37 +113,121 @@ Component({
           post_type: 'library',
         });
         this.setData({
-          posttype:'library'
+          posttype: 'library'
         })
       } else if (options.tabid == 2) {
-        this.getFavPosts({
-          post_type: 'library'
-        });
+        this.getFavPosts();
       } else if (options.tabid == 3) {
-        this.getCommentsPosts({
-          post_type: 'library'
+        this.getCommentsPosts();
+      } else if (options.toptype) {
+        this.getMostPosts(this.data.cnttype, {
+          page: this.data.page,
+          per_page: this.data.per_page
         });
+        this.setData({
+          toptype: '按照“' + options.toptypetitle + '”排序',
+          
+        })
       } else if (options.id && options.posttype == 'talk') {
         this.getPostsbyID(options.posttype, options.id)
-      } else if (options.s && options.posttype == 'library') {
+      } else if (options.s) {
         this.getPostList(options.posttype, {
           search: options.s,
           page: this.data.page,
           per_page: this.data.per_page
         });
         this.setData({
-          searchtitle: '“' + options.s + '”的结果',
-          title: '搜索'
+          searchtitle: '“' + options.s + '”的'+options.cnt_tp+'结果',
+          title: '搜索',
+          
         })
-      } else {
+      } else if(options.posttype == 'library') {
         this.getPostList(options.posttype, {
-          library_cats: this.data.library_cats,
-          library_state: this.data.library_state,
+          library_cats: this.data.catsid,
+          library_state: this.data.stateid,
           page: this.data.page,
           per_page: this.data.per_page
         });
+        this.setData({
+          title: options.title,
+          catstype: 'library_cats', //图书分类
+          catsstate: 'library_state', //图书类型
+        });
         this.getCatstype(this.data.catstype, {
           per_page: 20
+        });
+      } else if(options.posttype == 'films') {
+        this.getPostList(options.posttype, {
+          films_cats: this.data.catsid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        this.setData({
+          title: options.title,
+          catstype: 'films_cats', 
+        })
+        this.getCatstype(this.data.catstype, {
+          per_page: 20
+        });
+        
+      } else if(options.posttype == 'app') {
+        this.getPostList(options.posttype, {
+          app_cats: this.data.catsid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        this.setData({
+          title: options.title,
+          catstype: 'app_cats', 
+        })
+        this.getCatstype(this.data.catstype, {
+          per_page: 20
+        });
+        
+      } else if(options.posttype == 'pro') {
+        this.getPostList(options.posttype, {
+          pro_cats: this.data.catsid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        this.setData({
+          title: options.title,
+          catstype: 'pro_cats', 
+        })
+        this.getCatstype(this.data.catstype, {
+          per_page: 20
+        });
+        
+      }else if(options.posttype == 'act') {
+        this.setData({
+          title: options.title,
+          catstype: 'act_cats', 
+        })
+        this.getCatstype(this.data.catstype, {
+          per_page: 10
+        });
+        this.getPostList(options.posttype, {
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        
+      }else if(options.posttype == 'faq') {
+        this.setData({
+          title: options.title,
+          catstype: 'faq_cats', 
+        })
+        this.getCatstype(this.data.catstype, {
+          per_page: 10
+        });
+        this.getPostList(options.posttype, {
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        
+      } else {
+        this.getPostList(options.posttype, {
+          page: this.data.page,
+          per_page: this.data.per_page
         });
         this.setData({
           title: options.title
@@ -138,7 +246,19 @@ Component({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+      let user = app.globalData.user
+      if (!user) {
+        user = '';
+      }
+      this.setData({
+        user: user,
+      })
+      if (user.role == 'administrator') {
+        this.setData({
+          isadmin: true
+        })
+      }
+      console.log('user', this.data.user)
     },
 
     /**
@@ -177,23 +297,109 @@ Component({
         this.setData({
           page: this.data.page + 1
         });
-        if (this.data.options.posttype == 'talk') {
-          // this.getPostsbyID(options.posttype, options.id)
-          this.getComments();
-        } else if (this.data.options.s && this.data.options.posttype == 'library') {
-          this.getPostList(options.posttype, {
+        if (this.data.options.id && this.data.options.posttype == 'talk') {
+          this.getPostsbyID(this.data.options.posttype, this.data.options.id)
+        } else if (this.data.options.s) {
+          this.getPostList(this.data.options.posttype, {
             search: this.data.options.s,
             page: this.data.page,
             per_page: this.data.per_page
           });
-        } else {
+          this.setData({
+            searchtitle: '“' + this.data.options.s + '”的结果',
+            title: '搜索',
+            
+          })
+        } else if(this.data.options.posttype == 'library') {
           this.getPostList(this.data.options.posttype, {
-            library_cats: this.data.library_cats,
-            library_state: this.data.library_state,
+            library_cats: this.data.catsid,
+            library_state: this.data.stateid,
             page: this.data.page,
             per_page: this.data.per_page
           });
+          this.setData({
+            title: this.data.options.title,
+            catstype: 'library_cats', //图书分类
+            catsstate: 'library_state', //图书类型
+          });
+          this.getCatstype(this.data.catstype, {
+            per_page: 20
+          });
+        } else if(this.data.options.posttype == 'films') {
+          this.getPostList(this.data.options.posttype, {
+            films_cats: this.data.catsid,
+            page: this.data.page,
+            per_page: this.data.per_page
+          });
+          this.setData({
+            title: this.data.options.title,
+            catstype: 'films_cats', 
+          })
+          this.getCatstype(this.data.catstype, {
+            per_page: 20
+          });
+          
+        } else if(this.data.options.posttype == 'app') {
+          this.getPostList(this.data.options.posttype, {
+            app_cats: this.data.catsid,
+            page: this.data.page,
+            per_page: this.data.per_page
+          });
+          this.setData({
+            title: this.data.options.title,
+            catstype: 'app_cats', 
+          })
+          this.getCatstype(this.data.catstype, {
+            per_page: 20
+          });
+          
+        } else if(this.data.options.posttype == 'pro') {
+          this.getPostList(this.data.options.posttype, {
+            pro_cats: this.data.catsid,
+            page: this.data.page,
+            per_page: this.data.per_page
+          });
+          this.setData({
+            title: this.data.options.title,
+            catstype: 'pro_cats', 
+          })
+          this.getCatstype(this.data.catstype, {
+            per_page: 20
+          });
+          
+        }  else {
+          this.getPostList(this.data.options.posttype, {
+            page: this.data.page,
+            per_page: this.data.per_page
+          });
+          this.setData({
+            title: this.data.options.title
+          })
         }
+      }
+    },
+
+    bindCateByID: function (e) {
+      let id = e.currentTarget.id;
+      this.setData({
+        posts:[],
+        page:1,
+        hasnextpage:true
+      })
+      if(this.data.options.posttype == 'act') {
+        this.getPostList(this.data.options.posttype, {
+          act_cats: id,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        
+      }else if(this.data.options.posttype == 'faq') {
+        this.getPostList(this.data.options.posttype, {
+          faq_cats: id,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        
       }
     },
 
@@ -203,31 +409,82 @@ Component({
     onShareAppMessage: function () {
       return {
         title: this.data.siteinfo.description + ' - ' + this.data.siteinfo.name,
-        path: '/pages/index/index'
+        path: '/pages/index/index?cnttype='+this.data.cnttype
       }
     },
 
     bindUpdatepost(e) {
-      var that = this;
-      // console.log(e)
-      that.setData({
+      this.setData({
         selectchange: e.detail.selectchange,
         isreset: e.detail.isreset,
         catstxt: e.detail.catstxt,
         statetxt: e.detail.statetxt,
-        library_cats: e.detail.library_cats,
-        library_state: e.detail.library_state,
+        catsid: e.detail.catsid,
+        stateid: e.detail.stateid,
         posts: e.detail.posts,
         page: e.detail.page,
         hasnextpage: e.detail.hasnextpage
       })
-      this.getPostList(that.data.posttype, {
-        library_cats: that.data.library_cats,
-        library_state: that.data.library_state,
-        per_page: this.data.per_page
-      });
-      if (that.data.isreset) {
-        this.getCatstype(that.data.catstype, {
+      if(this.data.options.posttype == 'library') {
+        this.getPostList(this.data.options.posttype, {
+          library_cats: this.data.catsid,
+          library_state: this.data.stateid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        // this.setData({
+        //   title: this.data.options.title,
+        //   catstype: 'library_cats', //图书分类
+        //   catsstate: 'library_state', //图书类型
+        // });
+        // this.getCatstype(this.data.catstype, {
+        //   per_page: 20
+        // });
+      } else if(this.data.options.posttype == 'films') {
+        this.getPostList(this.data.options.posttype, {
+          films_cats: this.data.catsid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        // this.setData({
+        //   title: this.data.options.title,
+        //   catstype: 'films_cats', 
+        // })
+        // this.getCatstype(this.data.catstype, {
+        //   per_page: 20
+        // });
+        
+      } else if(this.data.options.posttype == 'app') {
+        this.getPostList(this.data.options.posttype, {
+          app_cats: this.data.catsid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        // this.setData({
+        //   title: this.data.options.title,
+        //   catstype: 'app_cats', 
+        // })
+        // this.getCatstype(this.data.catstype, {
+        //   per_page: 20
+        // });
+        
+      } else if(this.data.options.posttype == 'pro') {
+        this.getPostList(this.data.options.posttype, {
+          pro_cats: this.data.catsid,
+          page: this.data.page,
+          per_page: this.data.per_page
+        });
+        // this.setData({
+        //   title: this.data.options.title,
+        //   catstype: 'pro_cats', 
+        // })
+        // this.getCatstype(this.data.catstype, {
+        //   per_page: 20
+        // });
+        
+      }
+      if (this.data.isreset) {
+        this.getCatstype(this.data.catstype, {
           per_page: 20
         });
       }
@@ -252,7 +509,7 @@ Component({
             return item;
           }))
           // args.page = this.data.page + 1
-
+console.log(args)
           this.setData(args)
           // console.log(args)
           wx.stopPullDownRefresh()
@@ -327,6 +584,68 @@ Component({
           console.log(err)
         })
     },
+
+    getMostPosts: function (posttype, data) {
+      let that = this;
+      let args = [];
+      if(this.data.options.toptype == 'views'){
+      API.getMostViewsPosts(posttype, data).then(res => {
+        let args = {}
+          if (res.length < this.data.per_page) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+          args.posts = res
+          // args.page = this.data.page + 1
+          args.loading = false
+          this.setData(args)
+      });
+    } else if(this.data.options.toptype == 'likes'){
+      API.getMostLikePosts(posttype, data).then(res => {
+        let args = {}
+          if (res.length < this.data.per_page) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+          args.posts = res
+          // args.page = this.data.page + 1
+          args.loading = false
+          this.setData(args)
+      });
+    }else if(this.data.options.toptype == 'comments'){
+      API.getMostCommentPosts(posttype, data).then(res => {
+        let args = {}
+          if (res.length < this.data.per_page) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+          args.posts = res
+          // args.page = this.data.page + 1
+          args.loading = false
+          this.setData(args)
+      });
+    }else if(this.data.options.toptype == 'favs'){
+      API.getMostFavPosts(posttype, data).then(res => {
+        let args = {}
+          if (res.length < this.data.per_page) {
+            this.setData({
+              hasnextpage: false,
+            })
+          }
+          args.posts = res
+          // args.page = this.data.page + 1
+          args.loading = false
+          this.setData(args)
+      });
+    }
+      
+
+
+    },
+
     getCommentsPosts: function (args) {
       let that = this;
 
@@ -367,8 +686,8 @@ Component({
           console.log(err)
         })
     },
-    getCatsstate: function (catstype, data) {
-      API.getCategories(catstype, data).then(res => {
+    getCatsstate: function (catsstate, data) {
+      API.getCategories(catsstate, data).then(res => {
           this.setData({
             state: res
           })
@@ -464,9 +783,26 @@ Component({
               // console.log(regc2)
             }
 
+            if ((/\^(.+?)\^/g).exec(content)) {
+              var regc3 = (/\^(.+?)\^/g).exec(content)[1].trim();
+              // console.log(regc2)
+              if(regc3 == 'library'){
+                var regc3txt = '书籍'
+              } else if(regc3 == 'films'){
+                var regc3txt = '影视'
+              } else if(regc3 == 'app'){
+                var regc3txt = 'APP'
+              } else if(regc3 == 'pro'){
+                var regc3txt = '商品'
+              }
+            } else {
+              var regc3 = 'library'
+              var regc3txt = '书籍'
+            }
+
             // console.log(content)
 
-            var str = '<div><a class="talktolibrary" style="background-color:' + regc2 + '" href="/pages/detail/detail?id=' + regc + '&posttype=library" bgcolor="" >来自《' + regc1 + '》</a></div>'
+            var str = '<div><a class="talktolibrary" style="background-color:' + regc2 + '" href="/pages/detail/detail?id=' + regc + '&posttype='+ regc3 +'" bgcolor="" >来自' + regc3txt + '《' + regc1 + '》</a></div>'
             return str;
           });
           content = content.replace(reg, function (a, b) {
@@ -506,7 +842,7 @@ Component({
       let args = {}
       let that = this
       if (that.data.islib) {
-        var libmsg = '[(' + this.data.options.libid + ')%' + this.data.options.libcolor + '%书目:' + this.data.options.libtit + ']'
+        var libmsg = '[(' + this.data.options.libid + ')%' + this.data.options.libcolor + '%^'+this.data.options.postcnttype+'^书目:' + this.data.options.libtit + ']'
       } else {
         var libmsg = ''
       }

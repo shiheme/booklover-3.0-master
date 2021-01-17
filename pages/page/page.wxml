@@ -2,14 +2,7 @@
 
 <view class="wrapper bgcolor-base"></view>
 
-<navtitle id="c-bar" title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
-
-<view class="colltiparea" style="top:{{customBarHeight}}px;right:30rpx;" wx:if="{{showcolltip}}">
-					<view class="colltip">
-            <text class="text">点击小程序名称给好评</text>
-            <icon class="icon" bindtap="onCanceltip" type="cancel" color="#ffffff" size="15" />
-            </view>
-</view>
+<navtitle title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
 
 <view class="container bgcolor-base page">
 
@@ -17,23 +10,6 @@
     style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
     <view class="pagelist">
       <view class="set-container" wx:if="{{posttype=='set'}}">
-        <view class="cardbox">
-          <view class="card bgcolor-sub user-items card-cell-wrap">
-            <view class="card-cell">
-              <view class="card-cell-msg">
-                <view class="card-cell-base">
-                  <view class="card-cell-title">给好评</view>
-                </view>
-                <view class="card-cell-more">
-                  <text class="text">给小程序点个赞</text>
-                  <icon class="icon iconfont icon-arrow-right" />
-                </view>
-              </view>
-              <button class="card-cell-btn button" bindtap="showcolltip"></button>
-            
-            </view>
-          </view>
-        </view>
         <view class="cardbox">
           <view class="card bgcolor-sub user-items card-cell-wrap">
             <view class="card-cell">
@@ -79,19 +55,57 @@
           <view class="icon bgcolor-sub">
             <image class="image" src="{{siteinfo.cover}}" />
           </view>
-          <view class="title"><text class="text">{{siteinfo.name}}小程序</text><text class="text">V{{siteinfo.version}}</text></view>
+          <view class="title"><text class="text">{{siteinfo.name}}小程序</text><text
+              class="text">V{{siteinfo.version}}</text></view>
         </view>
         <view class="body">
           <view class="button bgcolor-sub" data-appid="wxd7d56025a38fb8d7" data-path="/pages/index/index"
-              bindtap="toMini">功能介绍</view>
-          <view class="button bgcolor-sub" data-src="{{siteinfo.authimg}}"
-              bindtap="popSingleimg">作者微信</view>
-          <view class="button bgcolor-sub" data-appid="wxd7d56025a38fb8d7" data-path="/pages/source/source"
-              bindtap="toMini">Sketch下载</view>
+            bindtap="toMini"><text class="text">功能介绍</text></view>
+          <view class="button bgcolor-sub" data-src="{{siteinfo.authimg}}" bindtap="popSingleimg"><text
+              class="text">作者微信</text></view>
+          <view class="button bgcolor-sub" data-url="/pages/page/page?posttype=spare&title=打赏馆长" bindtap="bindHandler">
+            <text class="text reddot">开源下载</text></view>
         </view>
         <view class="foot"></view>
       </view>
-      
+      <view class="spare-container" wx:if="{{posttype=='spare'}}">
+        <view class="sparetitle">
+          <view class="image" style="background-image:url(https://file.hellobeebee.com/wp-content/uploads/2021/01/4127.jpg?x-oss-process=style%2Fmedium)"></view>
+          <text class="text">获取图书小程序3.0源码</text>
+        </view>
+        <view class="cardbox">
+
+          <view class="videolookarea card libdownload bgcolor-sub card-cell-wrap">
+            <view class="hidecnt" wx:if="{{videolook}}">
+              <view class="hidecnttext">
+                <view class="tit">获取小程序源码</view>
+                <view class="subtit">关注公众号【APP比比】输入【图书3.0源码】</view>
+                <view class="tit">获取小程序设计稿</view>
+                <view class="subtit">关注公众号【APP比比】输入【图书3.0设计】</view>
+              </view>
+            </view>
+            <view class="hidecntbtn" bindtap="readMore" wx:else>
+						<icon class="icon iconfont icon-lock bgcolor-base" />
+						<text class="tit text">动动手指看广告支持馆长</text>
+            <view class="btn main-bgcolor">看广告获取源码</view>
+					</view>
+          </view>
+
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="fixedbox bgcolor-base fixed" wx:if="{{posttype=='spare'}}">
+  <view class="box main-bgcolor">
+    <view class="btn">
+      <button class="button" data-src="{{siteinfo.zcmimg}}" bindtap="popSingleimg" />
+      <text class="text">直接打赏</text>
+    </view>
+    <view class="btn">
+      <button class="button" data-src="{{siteinfo.authimg}}" bindtap="popSingleimg" />
+      <text class="text">加好友打赏</text>
     </view>
   </view>
 </view>

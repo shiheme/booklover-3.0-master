@@ -1,5 +1,5 @@
 const PCB = require('../../utils/common');
-const API = require('../../utils/api')
+const API = require('../../utils/api');
 const app = getApp()
 let interstitialAd = null
 
@@ -8,16 +8,10 @@ Component({
   data: {
     isActive: true,
     isSearch: true,
-
-
-    showcolltip: true,
-
   },
   attached: function (options) {},
   pageLifetimes: {
-    show: function () {
-
-    },
+    show: function () {},
     hide: function () {
       // 页面被隐藏
     },
@@ -26,19 +20,40 @@ Component({
     }
   },
   methods: {
-    onLoad: function () {
+    onLoad: function (options) {
       let that = this;
+      // 对于分享进入的链接做内容类型缓存
+      if (options.cnttype) {
+        let cnttype = options.cnttype;
+        app.globalData.cnttype = cnttype
+      } else if (wx.getStorageSync('cnttype')) {
+        let cnttype = wx.getStorageSync('cnttype');
+        app.globalData.cnttype = cnttype
+      } else {
+        let cnttype = this.data.cnttype;
+        app.globalData.cnttype = cnttype
+      }
 
-      this.chaping();
+      this.setData({
+        cnttype: app.globalData.cnttype
+      })
+      //保存到本地
+      wx.setStorage({
+        key: "cnttype",
+        data: app.globalData.cnttype
+      })
+      console.log(app.globalData.cnttype)
+      // 结束对于分享进入的链接做内容类型缓存
+      this.chapingAds();
       this.getIndexnavList();
       //判断用户是否第一次使用小程序
-      var isFirst = wx.getStorageSync('isFirst');
-      if (!isFirst) {
-        that.setData({
-          isFirst: true
-        });
-        wx.setStorageSync('isFirst', 'no')
-      }
+      // var isFirst = wx.getStorageSync('isFirst');
+      // if (!isFirst) {
+      //   that.setData({
+      //     isFirst: true
+      //   });
+      //   wx.setStorageSync('isFirst', 'no')
+      // }
 
       if (interstitialAd) {
         interstitialAd.show().catch((err) => {
@@ -50,17 +65,17 @@ Component({
         siteinfo: app.globalData.siteinfo
       })
 
-      
+
       app.siteinfoCallBack = res => {
         this.setData({
           siteinfo: app.globalData.siteinfo
         })
         console.log(app.globalData.siteinfo)
-      }
+      } 
 
     },
 
-    chaping: function () {
+    chapingAds: function () {
       if (wx.createInterstitialAd) {
         interstitialAd = wx.createInterstitialAd({
           adUnitId: 'adunit-9dbd856ca2c68da3'
@@ -80,7 +95,19 @@ Component({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+      let user = app.globalData.user
+      if (!user) {
+        user = '';
+      }
+      this.setData({
+        user: user,
+      })
+      if (user.role == 'administrator') {
+        this.setData({
+          isadmin: true
+        })
+      }
+      // console.log('user', this.data.user)
     },
 
     /**
@@ -116,15 +143,22 @@ Component({
      */
     onShareAppMessage: function () {
       let that = this;
+      if (this.data.user) {
+        return {
+          title: this.data.user.nickName + '分享了《' + this.data.siteinfo.name + '》小程序 - ' + this.data.cnttypetitle + '板块',
+          path: '/pages/index/index?cnttype='+this.data.cnttype
+        }
+      } else {
       return {
-        title: this.data.siteinfo.description + ' - ' + this.data.siteinfo.name,
-        path: '/pages/index/index'
+        title: this.data.cnttypetitle + '共享 - ' + this.data.siteinfo.name,
+        path: '/pages/index/index?cnttype='+this.data.cnttype
       }
+    }
     },
 
 
     getIndexnavList() {
-      API.getIndexnav().then(res => {
+      API.getIndexnav(this.data.cnttype).then(res => {
 
         // 加载第一个分类的列表
         res[0].loaded = true;
@@ -141,6 +175,28 @@ Component({
         current,
         data
       } = e.detail;
+
+      // console.log(e.detail)
+
+      if (this.data.indexnav[current].posttype != 'mine') {
+        this.setData({
+          isActive: true,
+          mineclick: false
+        });
+      } else {
+        this.setData({
+          mineclick: true
+        });
+        if (this.data.istrue_scroll) {
+          this.setData({
+            isActive: true
+          });
+        } else {
+          this.setData({
+            isActive: false
+          });
+        }
+      }
       // data是组件返回的，当前选中选项的数据，也就是对应 categoryList[current] 那个
 
       // 让 tab 和 swiper同步
@@ -154,10 +210,20 @@ Component({
           [`indexnav[${current}].loaded`]: true
         })
       }
-    }
+    },
+
+    headState(e) {
+      let that = this;
+      that.setData({
+        istrue_scroll: e.detail.istrue_scroll,
+        isActive: e.detail.isActive
+      })
+    },
+
+
 
   },
 
-  
-  
+
+
 })

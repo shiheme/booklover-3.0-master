@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/room/room",
+    "pages/like/like",
+    "pages/mine/mine",
     "pages/list/list",
     "pages/detail/detail",
-    "pages/page/page",
-    "pages/copy/copy",
-    "pages/wxmp/wxmp"
+    "pages/page/page"
   ],
   "darkmode": true,
   "themeLocation": "theme.json",
@@ -29,13 +30,19 @@
         "pagePath": "pages/index/index",
         "iconPath": "images/on/trans.png",
         "selectedIconPath": "images/on/trans.png",
-        "text": "首页"
+        "text": "发现"
       },
       {
-        "pagePath": "pages/copy/copy",
+        "pagePath": "pages/room/room",
         "iconPath": "images/on/trans.png",
         "selectedIconPath": "images/on/trans.png",
-        "text": ""
+        "text": "清单"
+      },
+      {
+        "pagePath": "pages/like/like",
+        "iconPath": "images/on/trans.png",
+        "selectedIconPath": "images/on/trans.png",
+        "text": "点赞"
       }
     ]
   },

@@ -6,6 +6,28 @@ const templates = {
   subscribe: ['BKF6TEYwG-rrcuhqV9M3LidgCc8HmfW83FeMQEbbJBw'] // 资讯更新提醒模板ID
 }
 
+const custompostcats = {
+  library_topic_cats: '116', //
+    library_quot_cats:'120',
+    library_act_cats:'51',
+    library_faq_cats:'50',
+
+    films_topic_cats:'117',
+    films_quot_cats:'121',
+    films_act_cats:'124',
+    films_faq_cats:'64',
+
+    app_topic_cats:'118',
+    app_quot_cats:'',
+    app_act_cats:'125',
+    app_faq_cats:'122',
+
+    pro_topic_cats:'119',
+    pro_quot_cats:'',
+    pro_act_cats:'126',
+    pro_faq_cats:'123',
+  }
+
 const Auth = require('./auth')
 
 
@@ -23,6 +45,10 @@ API.getRestAPI = function () {
 
 API.template = function () {
   return templates;
+}
+
+API.custompostcats = function () {
+  return custompostcats;
 }
 
 API.getUrlFileName = function (url, domain) {

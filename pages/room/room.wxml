@@ -1,0 +1,91 @@
+<!--pages/copy/copy.wxml-->
+
+<!-- 
+  模板名称:     Booklover小程序源码-微信版
+  小程序案例:   建始同城共享书（小程序）
+  版本号:       V3.0.0
+  上线时间:     2020/12/15
+  官方网址:     https://hellobeebee.com/
+  功能介绍:     APP比比（小程序）
+  公众号:       APP比比（公众号）
+
+  作者:         小鱼哥
+  下载:         APP比比好物（小程序）
+  包含:
+  Sketch源下载（设计稿）
+  小程序源下载（前端代码）
+  后台源下载（后端代码）
+  自定义插件下载（插件）
+  模拟数据下载（数据）
+ -->
+
+<!--首页-->
+<view class="tabwrapper {{opentabwrapper?'on':''}}" catchtouchmove="{{opentabwrapper?'true':''}}">
+  <view class="tabwrapperbg bgcolor-base"></view>
+  <view class="subwrapper">
+    <view class="close" style="position:relative;top:{{navBarHeight}}px;z-index:20;height:{{titleBarHeight}}px;">
+      <view bindtap="closetabwrapper" class="btn" style="height:{{titleBarHeight}}px;">
+        <icon class="icon iconfont icon-close" />
+      </view>
+    </view>
+    <wrapleft isShowabout="{{isShowabout}}" siteinfo="{{[siteinfo]}}" bind:myevent="toggleToast"
+      wx:if="{{[siteinfo]!=''}}" />
+  </view>
+  <view class="mainwrapper" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
+    <view class="wrapper bgcolor-base"></view>
+
+    <navtitle title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isSearch="{{isSearch}}"
+      isTolist="{{isTolist}}" isTomine="{{isTomine}}" bind:taplist="opentabwrapper" />
+
+    <view class="container">
+      <scroll-view scroll-y="{{true}}" bindscroll="" scroll-with-animation="true" bindscrolltolower="onReachBottom"
+        enable-back-to-top="true" refresher-enabled="true" refresher-default-style="none"
+        bindrefresherrefresh="onPullDownRefresh" refresher-triggered="{{loading}}" scroll-anchoring="{{true}}"
+        throttle="{{false}}" upper-threshold="50" lower-threshold="50" class="listwrap"
+        bindscrolltolower="onReachBottom">
+        <view class="wrap"
+          style="padding-bottom:calc(200rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+
+          <view class="section card-cell-wrap">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">{{cnttypetitle}}</view>
+                  <view class="card-cell-label bgcolor-sub">
+                    <text class="text">查看全部</text>
+                    <button class="card-cell-btn button" bindtap="bindHandler"
+            data-url="/pages/list/list?posttype={{cnttype}}&title={{cnttypetitle}}"></button>
+                  </view>
+                </view>
+              </view>
+
+            </view>
+          </view>
+          <view class="swiperwrap">
+            <swiper duration="300" previous-margin="32rpx" next-margin="32rpx" indicator-dots="{{false}}" autoplay="{{false}}" current="{{current}}" style="height:850rpx;">
+              <block wx:for="{{cats_posts}}" wx:key="id">
+                <swiper-item class="swiperitem">
+                  <view class="itemwrap">
+                    <view class="item" wx:for="{{item.list}}" wx:for-index="index" wx:for-item='group' wx:key="id">
+                      <view class="cardbox">
+                        <dataitem index="{{index}}" posttype="cats" item="{{[item.list[index]]}}" ani="{{ani}}" />
+                        <!-- <audioring bind:myevent="setpost" index="{{index}}" audKey="{{audKey}}" waiting="{{waiting}}" type="index" item="{{posts}}" value="40" margintop="{{titleBarHeight}}" height="{{titleBarHeight+windowWidth}}" /> -->
+                      </view>
+                    </view>
+                  </view>
+                </swiper-item>
+              </block>
+            </swiper>
+          </view>
+
+        </view>
+      </scroll-view>
+    </view>
+
+
+    <pop showpop="{{showpop}}" poptype="{{poptype}}" isadmin="{{isadmin}}" siteinfo="{{[siteinfo]}}" height="{{popheight}}" />
+    <view class="tabbar">
+      <tabbar tabbarStyle="{{tabbarStyle}}" showitemadd="{{showitemadd}}" safeinsetbottom="{{safeinsetbottom}}" selected="1" />
+    </view>
+  </view><!-- end mainwrapper -->
+</view><!-- end tabwrapper -->

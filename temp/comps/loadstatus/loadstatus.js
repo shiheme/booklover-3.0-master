@@ -5,8 +5,11 @@ Component({
    */
   properties: {
     length:{
-      type: Number,
-      value: 0
+      type: Number
+    },
+    errtext:{
+      type: Boolean,
+      value: false
     },
     hasnextpage:{
       type: Boolean,
@@ -26,5 +29,14 @@ Component({
    */
   methods: {
 
+    reLaunchpage: function (e) {
+    wx.reLaunch({
+      url: '/pages/index/index',
+      // success: function (res) {
+      //     app.onLaunch();
+        
+      // }
+    })
+  }
   }
 })

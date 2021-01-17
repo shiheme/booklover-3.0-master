@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navtitle": "../../temp/comps/navtitle/index",
+    "tabbar": "../../temp/comps/tabbar/index"
+  }
+}

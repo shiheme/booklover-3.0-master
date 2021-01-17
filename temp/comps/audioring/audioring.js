@@ -98,7 +98,7 @@ Component({
       myaudio.autoplay = true;
       
       var audKey = that.data.audKey,
-        vidTxt = item[audKey].title.rendered + item[audKey].book_tolibrary[0].book_author + item[audKey].book_tolibrary[0].book_title + '。' + item[audKey].date + '。建始同城共享书为您朗读。';
+        vidTxt = item[audKey].title.rendered + item[audKey].book_tolibrary[0].book_author + item[audKey].book_tolibrary[0].book_director + item[audKey].book_tolibrary[0].book_title + '。' + item[audKey].date + '。建始同城共享书为您朗读。';
 
       plugin.textToSpeech({
         lang: "zh_CN",

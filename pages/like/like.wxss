@@ -1,0 +1,39 @@
+/* pages/like/like.wxss */
+
+.itemwrap {
+  margin-top: 80rpx;
+}
+
+.cateswrap {
+  margin-top: 80rpx;
+}
+
+.cates {}
+
+.cateilist:first-child {
+  margin-left: 50rpx;
+}
+
+.cateilist:last-child {
+  margin-right: 50rpx;
+}
+
+.cateilist {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20rpx 40rpx;
+  margin-right: 20rpx;
+  border-radius: 50rpx;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+
+.cateilist .text {
+  opacity: .6;
+}
+
+.cateilist.main-bgcolor .text {
+  opacity: 1;
+}

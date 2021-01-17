@@ -2,15 +2,16 @@
 
 <view class="wrapper bgcolor-base"></view>
 
-<block wx:if="{{detail.type=='library' || detail.type=='movie' || detail.type=='films'}}">
-	<navtitle id="c-bar" title="" isshare="{{isshare}}" pageStyle="" isActive="{{isActive}}" isGoback="{{isGoback}}"
+<block wx:if="{{detail.type=='library' || detail.type=='app' || detail.type=='movie' || detail.type=='films'}}">
+	<navtitle title="" isshare="{{isshare}}" pageStyle="" isActive="{{isActive}}" isGoback="{{isGoback}}"
 		showLoad="{{showLoad}}" bgcolor="{{detail.book_foreground}}" />
 
 	<view class="navigate-booksmg-box {{isActive ? 'active' : ''}} {{detail.book_pagestyle}}"
 		style="left:120rpx;top:{{navBarHeight}}px;height:{{titleBarHeight}}px;">
 		<view class="navigate-booksmg" style="height:{{titleBarHeight}}px;width:100%;">
 			<!-- <image src="{{detail.meta.thumbnail}}" mode="aspectFill"></image> -->
-			<view class="imagecover" style="background-image:url('{{detail.meta.thumbnail}}');"></view>
+			<view class="imagecover {{detail.type=='app'?'app':''}} {{detail.app_type!='wxapp'?'iosapp':'wxapp'}}"
+				style="background-image:url('{{detail.meta.thumbnail}}');"></view>
 			<view class="navigate-booksmg-txt">
 				<text class="tit">{{detail.title.rendered}}</text>
 				<block wx:if="{{detail.likes > 0}}">
@@ -27,19 +28,28 @@
 		scroll-with-animation scroll-into-view="{{toView}}">
 
 		<view class="container bgcolor-base page">
-			<view class="detail plus {{isshowCnt?'show':'hide'}}"
+			<view class="detail plus {{detail.type=='app'?'app':''}} {{isshowCnt?'show':'hide'}}"
 				style="padding-bottom:calc(0rpx + env(safe-area-inset-bottom));">
 				<view class="detailhead postshead">
 					<view class="card bgcolor-sub bgline {{detail.book_pagestyle}}" id="{{detail.id}}"
 						style="{{detail.book_foreground?'background-color:'+detail.book_foreground:''}}">
 						<view class="cardbody">
 							<view class="cardimage" catchtap="showTxvideo">
-								<view class="imagecover {{detail.type=='library'?'libcover':''}} movcover"
+								<view
+									class="imagecover {{detail.app_type!='wxapp'?'iosapp':'wxapp'}} {{detail.type=='library'?'libcover':''}} {{detail.type=='films'||detail.type=='movie'?'movcover':''}}"
 									style="background-image:url('{{detail.meta.thumbnail}}');margin-top:{{20+customBarHeight}}px;">
 								</view>
 							</view>
 							<view class="basemsg">
 								<view class="title">{{detail.title.rendered}}
+								</view>
+								<view class="cats" wx:if="{{posttype!='movie'}}">
+									<block wx:key="index" wx:for="{{detail.category}}" wx:for-item='cell'>
+										<text class="text bgcolor-sub-op20">{{cell.name}}</text>
+									</block>
+									<block wx:key="index" wx:for="{{detail.state}}" wx:for-item='cell' wx:if="posttype=='library'">
+										<text class="text bgcolor-sub-op20">{{cell.name}}</text>
+									</block>
 								</view>
 								<view class="subtitle">
 									{{detail.excerpt.rendered}}
@@ -66,14 +76,14 @@
 
 							<view class="hidetxvideo" catchtap="hideTxvideo">
 								<icon class="icon iconfont icon-close white" />
-								<text class="text">关闭视频</text>
+								<text class="text">关闭广告</text>
 							</view>
 						</view>
 					</view>
 				</view>
 				<view class="detailbody">
 					<!--  wx:if="{{detail.book_dbscore !='' || detail.rating_avg != null}}" -->
-					<view class="scoregroup {{siteinfo.safemode == '1' ? 'safemode':''}}">
+					<view class="scoregroup {{siteinfo.safemode == '1' && !isadmin ? 'safemode':''}}" wx:if="{{posttype!='movie'}}">
 
 						<!--  wx:if="{{detail.rating_avg != null}}" -->
 						<view class="dpscore scorearea" catchtap="bindShowpop" data-poptype="libraryrate" data-popitem=""
@@ -105,7 +115,7 @@
 						</view>
 					</view>
 					<!--  wx:if="{{detail.type=='library'}}" -->
-					<view class="ctlbtn bgcolor-sub">
+					<view class="ctlbtn bgcolor-sub" wx:if="{{posttype!='movie'|| (posttype=='movie'&& user.role=='administrator')}}">
 						<view class="btnbox">
 							<button class="button" id="{{detail.id}}" open-type="getUserInfo" bindgetuserinfo="bindLikeTap"></button>
 							<view class="buttoncover">
@@ -131,9 +141,9 @@
 								<text class="text">分享</text>
 							</view>
 						</view>
-						<view class="btnbox {{siteinfo.safemode == '1' ? 'safemode':''}}">
+						<view class="btnbox {{siteinfo.safemode == '1' && !isadmin ? 'safemode':''}}">
 							<button class="button"
-								data-url="/pages/list/list?posttype=talk&title=留言互动&id=2077&libid={{detail.id}}&libtit={{detail.title.rendered}}&libcolor={{detail.book_foreground}}"
+								data-url="/pages/list/list?posttype=talk&postcnttype={{detail.type}}&title=留言互动&id=2077&libid={{detail.id}}&libtit={{detail.title.rendered}}&libcolor={{detail.book_foreground}}"
 								bindtap="bindHandler" />
 							<view class="buttoncover">
 								<icon class="icon iconfont icon-comt" />
@@ -156,9 +166,9 @@
 					<view class="card bgcolor-sub detail-cell-items card-cell-wrap">
 						<block wx:for="{{detailshow}}" wx:for-item="item" wx:for-index="index" wx:key="index"
 							wx:if="{{detailshow}}">
-							<block wx:if="{{item[0].value != undefined}}">
+							<block wx:if="{{item[0].value != ''}}">
 								<view class="card-cell" bindtap="wxParseTagATap" data-src="{{item[0].value}}"
-									wx:if="{{item[0].field == 'book_dbid' || item[0].field == 'book_isbn'}}">
+									wx:if="{{item[0].field == 'book_dbid' || item[0].field == 'book_isbn' || item[0].field == 'app_id'}}">
 									<view class="card-cell-msg">
 										<view class="card-cell-base">
 											<view class="card-cell-title">{{item[0].name}}</view>
@@ -185,7 +195,7 @@
 
 					</view>
 
-					<view class="posts-items">
+					<view class="posts-items" wx:if="{{posttype!='movie'}}">
 						<view class="postsgroup">
 							<view class="poststit"><text class="text">猜你还喜欢</text></view>
 							<view class="postscnt">
@@ -201,18 +211,21 @@
 					</view>
 				</view>
 			</view>
+			<view class="txttip {{isshowCnt?'hide':'show'}}" style="padding-top: {{customBarHeight+10}}px;">
+				<loadmore tip="加载中" loading="{{true}}" />
+			</view>
 		</view>
 
 	</scroll-view>
 </block>
 <block wx:elif="{{detail.type=='act'}}">
-	<navtitle id="c-bar" title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
+	<navtitle title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
 	<view class="detailshare" style="top:{{navBarHeight}}px;right:220rpx;">
 		<button class="button" open-type='share' plain="true"></button>
 		<icon class="icon iconfont icon-share bgcolor-base-op60" />
 	</view>
 	<view class="container bgcolor-base page">
-		<view class="detail act">
+		<view class="detail act {{isshowCnt?'show':'hide'}}">
 			<view class="detailhead acthead">
 				<view class="actthumbnail" style="background-image:url({{detail.meta.thumbnail}});"></view>
 				<view class="basemsg">
@@ -225,7 +238,7 @@
 				</view>
 			</view>
 			<view class="detailbody">
-				<view class="card detail-cell-items bgcolor-sub card-cell-wrap {{siteinfo.safemode == '1' ? 'safemode':''}}">
+				<view class="card detail-cell-items bgcolor-sub card-cell-wrap {{siteinfo.safemode == '1' && !isadmin ? 'safemode':''}}">
 					<view class="card-cell">
 						<view class="card-cell-msg">
 							<view class="card-cell-base">
@@ -267,10 +280,13 @@
 				</view>
 			</view>
 		</view>
+		<view class="txttip {{isshowCnt?'hide':'show'}}" style="padding-top: {{customBarHeight+10}}px;">
+				<loadmore tip="加载中" loading="{{true}}" />
+			</view>
 	</view>
 </block>
 <block wx:else>
-	<navtitle id="c-bar" title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
+	<navtitle title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
 	<view class="detailshare" style="top:{{navBarHeight}}px;right:220rpx;">
 		<button class="button" open-type='share' plain="true"></button>
 		<icon class="icon iconfont icon-share bgcolor-base-op60" />
@@ -298,7 +314,7 @@
 			</view>
 			<view class="detailbody">
 				<view class="audio" wx:if="{{detail.type== 'quot'}}">
-					<audioring class="{{siteinfo.safemode == '1' ? 'safemode':''}}" bind:myevent="setpost" index="0" audKey="0"
+					<audioring class="{{siteinfo.safemode == '1' && !isadmin ? 'safemode':''}}" bind:myevent="setpost" index="0" audKey="0"
 						waiting="{{waiting}}" type="detail" item="{{post}}" value="40" wx:if="{{post!=''}}" />
 
 					<view class="quotcopy card bgcolor-sub" bindtap="wxParseTagATap"
@@ -362,22 +378,25 @@
 
 			</view>
 		</view>
+		<view class="txttip {{isshowCnt?'hide':'show'}}">
+				<loadmore tip="加载中" loading="{{true}}" />
+		</view>
 	</view>
 	<!-- </scroll-view> -->
 </block>
 
 
 <block wx:if="{{detail.type=='faq'}}"></block>
-<block wx:elif="{{(detail.type=='library' || detail.type=='movie' || detail.type=='films')}}">
-	<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}} {{siteinfo.safemode == '1' ? 'safemode':''}}"
+<block wx:elif="{{(detail.type=='library' ||detail.type=='app' || detail.type=='movie' || detail.type=='films')}}">
+	<view class="fixedbox bgcolor-base {{isshowCnt?'fixed':''}} {{siteinfo.safemode == '1' && !isadmin ? 'safemode':''}}"
 		wx:if="{{((detail.book_videoadscnt && detail.book_videoadscnt !='')|| detail.book_stock>0)}}">
 		<view class="box {{detail.book_pagestyle}}"
-			style="{{detail.type=='library'&&detail.book_foreground?'background:'+detail.book_foreground:''}}">
+			style="{{detail.book_foreground?'background:'+detail.book_foreground:''}}">
 			<view class="btn" wx:if="{{detail.book_videoadscnt && detail.book_videoadscnt !=''}}">
 				<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
 				<button class="button" catchtap="bindShowpop" data-poptype="librarydownload" data-popitem=""
 					data-popheight="{{(windowHeight-customBarHeight-50)*2}}" wx:else></button>
-				<text class="text">电子书</text>
+				<text class="text">{{detail.type=='library'?'电子书':'获取资源'}}</text>
 			</view>
 			<view class="btn" wx:if="{{detail.book_stock>0}}">
 				<button class="button" wx:if="{{!user}}" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
@@ -411,9 +430,12 @@
 		</view>
 	</view>
 </block>
-<pop showpop="{{showpop}}" poptype="{{poptype}}" height="{{popheight}}" detail="{{[detail]}}" user="{{[user]}}"
-	siteinfo="{{[siteinfo]}}" wx:if="{{showpop&&detail!=''}}" />
 
-<view class="canvas" wx:if="{{detail.type=='library'}}">
+<block wx:if="{{poptype&&detail!=''}}">
+	<pop showpop="{{showpop}}" poptype="{{poptype}}" isadmin="{{isadmin}}" height="{{popheight}}" detail="{{[detail]}}" user="{{[user]}}"
+		siteinfo="{{[siteinfo]}}" />
+</block>
+
+<view class="canvas">
 	<canvas canvas-id="prefix" style="width: 600px;height: 1000px;"></canvas>
 </view>

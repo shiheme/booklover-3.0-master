@@ -1,6 +1,36 @@
 /* component/loadstatus/loadstatus.wxss */
-.nothing{
+@import "../../../app.wxss";
+
+.txttip {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.txttip .icon {
+  font-size: 1.8rem;
+}
+
+.txttip .text {
   font-size: 28rpx;
   opacity: .6;
-  text-align: center;
+}
+
+.txttip .error {
+  font-size: 28rpx;
+  opacity: 1;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.txttip .btn {
+  padding: 20rpx 40rpx;
+  margin-top: 50rpx;
+  border-radius: 50rpx;
+  font-weight: bold;
+  font-size: 32rpx;
 }

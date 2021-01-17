@@ -21,6 +21,19 @@
   height: 168rpx;
 }
 
+.imagecover.app {
+  width: 140rpx;
+  height: 140rpx;
+}
+
+.imagecover.app.iosapp {
+  border-radius: 22.5%;
+}
+
+.imagecover.app.wxapp {
+  border-radius: 50%;
+}
+
 .libtitle {
   font-size: 36rpx;
   font-weight: bold;

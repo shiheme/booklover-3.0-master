@@ -1,0 +1,22 @@
+<!--miniprogram/custom-tab-bar/index.wxml-->
+<view class="tab-bar bgfilter15 bgcolor-base-op90 {{tabbarStyle == 'simple'? 'simple' :'normal'}}" style="padding-bottom:{{safeinsetbottom}}rpx">
+    <block wx:for="{{list}}" wx:key="prototype" wx:for-index="index" wx:for-item="item">
+        <view data-index="{{index}}" class="tab-bar-item {{showitemadd?'tab-bar-item-add':'hide'}}"
+        catchtap="bindShowpop" data-poptype="index" data-popitem="" data-popheight="{{260}}" wx:if="{{index == 2}}">
+            <icon class="main-bgcolor icon iconfont {{item.iconPath}}" />
+        </view>
+        <view data-index="{{index}}" data-selected="{{selected}}" class="tab-bar-item" data-path="{{item.pagePath}}"
+             bindtap="switchTab" wx:else>
+            <icon class="icon iconfont {{selected == index ? 'selected' :''}} {{selected == index ? item.selectedIconPath : item.iconPath}}" />
+            <view class="text {{selected == index ? selectedColor : color}}">{{item.text}}</view>
+        </view>
+    </block>
+</view>
+
+<!-- <view class="indexsubnav" catchtap="bindShowpop" data-poptype="index" data-popitem="" data-popheight="{{260}}">
+      <view class="navbtn main-bgcolor">
+        <icon class="icon iconfont icon-add" />
+      </view>
+    </view> -->
+
+    <pop showpop="{{showpop}}" poptype="{{poptype}}" isadmin="{{isadmin}}" siteinfo="{{siteinfo[0]}}" height="{{popheight}}" />

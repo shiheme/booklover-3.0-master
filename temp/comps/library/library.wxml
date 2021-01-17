@@ -1,9 +1,10 @@
 <scroll-view scroll-y style="height:100%">
 	<view class="wrap bgcolor-base">
 		<view class="head libmsg">
-			<view class="imagecover libcover" style="background-image:url('{{detail[0].meta.thumbnail}}');"></view>
+			<view class="imagecover {{detail[0].type=='app'?'app':''}} {{detail[0].type=='library'?'libcover':''}} {{detail[0].app_type!='wxapp'?'iosapp':'wxapp'}}" style="background-image:url('{{detail[0].meta.thumbnail}}');"></view>
 			<view class="libtitle">{{detail[0].title.rendered}}</view>
 			<view class="libisbn" wx:if="{{detail[0].book_isbn}}">ISBN：{{detail[0].book_isbn}}</view>
+			<view class="libisbn" wx:if="{{detail[0].book_imdb}}">IMDB：{{detail[0].book_imdb}}</view>
 		</view>
 		<view class="body">
 
@@ -88,7 +89,9 @@
 		</view>
 		<view class="foot">
 			<view class="tips" wx:if="{{libtype=='download'}}">
-				<text class="text">*本站不存储任何电子书，仅整理指向可用资源的网盘地址或平台，并会注明出处；</text>
+				<text class="text" wx:if="{{detail[0].type=='library'}}">*本站不存储任何电子书，仅整理指向可用资源的网盘地址或平台，并会注明出处；</text>
+				<text class="text" wx:if="{{detail[0].type=='films'||detail[0].type=='movie'}}">*本站不存储任何影视资源，仅整理指向可用资源的网盘地址或平台，并会注明出处；</text>
+				<text class="text" wx:if="{{detail[0].type=='app'}}">*本站提供的应用共享涉及的账号密码以及破解版资源均收集于网络，并会注明出处；</text>
 				<text class="text">*本站为非盈利性个人小程序，不对任何资源收取费用，亦不对任何资源的完整性负责；</text>
 				<text class="text">*如您对该资源有任何异议，请联系馆长。</text>
 			</view>
@@ -113,8 +116,7 @@
 				<text class="text">联系馆长</text>
 			</view>
 			<view class="btn">
-				<button class="button" data-src="{{siteinfo.authimg}}"
-              bindtap="popSingleimg" />
+				<button class="button" data-src="{{siteinfo[0].authimg}}" bindtap="popSingleimg" />
 				<text class="text">加馆长为好友</text>
 			</view>
 		</view>

@@ -1,6 +1,7 @@
 // index/component/list.js
 const PCB = require('../../../utils/common');
 const API = require('../../../utils/api');
+
 const app = getApp()
 
 Component({
@@ -18,6 +19,10 @@ Component({
       type: Array
     },
 
+    isadmin: {
+      type:Boolean
+    },
+
     // 是否加载，loaded 设置为 true 就加载数据，false时表示还未加载
     loaded: {
       type: Boolean,
@@ -33,12 +38,12 @@ Component({
   data: {
     posts: [],
     // quot:[],
-    catsstate: 'library_state', //图书类型
+    catsstate: '', //类型
 
     page: 1,
     hasnextpage: true,
     loading: false,
-    per_page:5,
+    per_page: 5
   },
 
   ready() {
@@ -47,7 +52,9 @@ Component({
     }
 
   },
+  attached: function (options) {
 
+  },
 
   methods: {
     refresh: function () {
@@ -60,50 +67,45 @@ Component({
       // console.log(this.data.siteinfo)
 
       if (this.data.posttype == 'topic') {
+        if (this.data.cnttype == 'library') {
+          this.setData({
+            catsstate: "library_state",
+          });
+        } else if (this.data.cnttype == 'films') {
+          this.setData({
+            catsstate: "films_cats",
+          });
+        } else if (this.data.cnttype == 'app') {
+          this.setData({
+            catsstate: "app_cats",
+          });
+        }
+
+        // this.getTags({
+        //   per_page: 10
+        // });
         this.getCatsstate(this.data.catsstate, {
           per_page: 10
         });
         this.getPostsList(this.data.posttype, {
-          per_page: this.data.per_page
+          per_page: this.data.per_page,
+          topic_cats: this.data.topic_cats
         });
-        console.log(this.data.siteinfo)
       } else if (this.data.posttype == 'quot') {
         this.getPostsList(this.data.posttype, {
-          per_page: this.data.per_page
+          per_page: this.data.per_page,
+          quot_cats: this.data.quot_cats
         });
-      } else {
-        this.onShow();
+      } else if (this.data.posttype == 'top') {
+        this.getMostViewsPosts(this.data.cnttype, {
+          page: 1,
+          per_page: 5
+        });
       }
     },
 
     onShow: function () {
-      let that = this;
-      let user = app.globalData.user
-      if (!user) {
-        user = '';
-      }
-      this.setData({
-        user: user,
-      })
-      console.log('user', this.data.user)
-
-      if (user) {
-        this.refreshmsg();
-      }
-
-    },
-    refreshmsg: function () {
-      API.getProfile().then(res => {
-          // console.log(res)
-          this.setData({
-            user_likes: res.user_likes,
-            user_fav: res.user_fav,
-            user_comment: res.user_comment,
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      
     },
 
     onPullDownRefresh: function (e) {
@@ -111,20 +113,23 @@ Component({
         page: 1,
         hasnextpage: true,
         posts: [],
-        loading:true,
+        loading: true,
         ani: false
       })
       if (this.data.posttype == 'topic') {
-        this.getCatsstate(this.data.catsstate, {
-          per_page: 10
-        });
         this.getPostsList(this.data.posttype, {
-          per_page: this.data.per_page
+          per_page: this.data.per_page,
+          topic_cats: this.data.topic_cats
         });
-        console.log(this.data.siteinfo)
       } else if (this.data.posttype == 'quot') {
         this.getPostsList(this.data.posttype, {
-          per_page: this.data.per_page
+          per_page: this.data.per_page,
+          quot_cats: this.data.quot_cats
+        });
+      } else if (this.data.posttype == 'top') {
+        this.getMostViewsPosts(this.data.cnttype, {
+          page: 1,
+          per_page: 5
         });
       }
     },
@@ -138,12 +143,14 @@ Component({
         if (this.data.posttype == 'topic') {
           this.getPostsList(this.data.posttype, {
             per_page: this.data.per_page,
+            topic_cats: this.data.topic_cats,
             page: this.data.page
           });
         } else if (this.data.posttype == 'quot') {
           this.getPostsList(this.data.posttype, {
             per_page: this.data.per_page,
-            page: this.data.page
+            page: this.data.page,
+            quot_cats: this.data.quot_cats
           });
         }
       }
@@ -170,7 +177,7 @@ Component({
           args.loading = false
           this.setData(args)
 
-          // console.log(args);
+          console.log(args);
           wx.stopPullDownRefresh()
         })
         .then(res => {
@@ -189,7 +196,65 @@ Component({
         })
     },
 
+    getMostViewsPosts: function (posttype, data) {
+      let that = this;
+      let toplist = [];
+      API.getMostViewsPosts(posttype, data).then(res => {
+        
+        let str = [];
+        if (res.length > 0) {
+          for (let i = 0, len = res.length; i < len; i += 5) {
+            str.push(res.slice(i, i + 5))
+          }
+          for (let i = 0; i < str.length; i++) {
+            let obj = {};
+            obj['posts'] = str[i]
+            obj['name'] = '浏览最多'
+            obj['type'] = 'views'
+            toplist.push(obj)
+          }
+        }
+      
+      });
+     API.getMostLikePosts(posttype, data).then(res => {
+        let str2 = [];
+        if (res.length > 0) {
+          for (let i = 0, len = res.length; i < len; i += 5) {
+            str2.push(res.slice(i, i + 5))
+          }
+          for (let i = 0; i < str2.length; i++) {
+            let obj2 = {};
+            obj2['posts'] = str2[i]
+            obj2['name'] = '点赞最多'
+            obj2['type'] = 'likes'
+            toplist.push(obj2)
+          }
+        }
+      
+      this.setData({
+        toplist:toplist,
+        hasnextpage:false,
+        loading:false})
+      console.log(this.data.toplist);
+      }).then(res => {
+        setTimeout(function () {
+          that.setData({
+            ani: true
+          });
+          // console.log(that.data.ani)
+        }, 200);
+      })
+      .catch(err => {
+        console.log(err)
+        this.setData({
+          isshowError: true,
+        })
+      });
     
+      
+
+
+    },
 
     //自定义组件中通信
     setpost: function (e) {
@@ -201,6 +266,7 @@ Component({
         waiting: e.detail.waiting
       })
     },
+
     getCatsstate: function (catstype, data) {
       API.getCategories(catstype, data).then(res => {
           this.setData({
@@ -211,50 +277,6 @@ Component({
         .catch(err => {
           console.log(err)
         })
-    },
-
-    loginOut: function () {
-      API.Loginout();
-    },
-
-    subscribeMessage: function (template, status) {
-      let args = {}
-      args.openid = this.data.user.openId
-      args.template = template
-      args.status = status
-      args.pages = getCurrentPages()[0].route
-      args.platform = wx.getSystemInfoSync().platform
-      args.program = 'WeChat'
-      API.subscribeMessage(args).then(res => {
-          // console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-
-    bindSubscribe: function () {
-      let that = this
-      let templates = API.template().subscribe
-      wx.requestSubscribeMessage({
-        tmplIds: templates,
-        success(res) {
-          if (res.errMsg == "requestSubscribeMessage:ok") {
-            for (let i = 0; i < templates.length; i++) {
-              let template = templates[i]
-              that.subscribeMessage(template, "accept")
-            }
-            wx.showToast({
-              title: "订阅完成",
-              icon: 'success',
-              duration: 1000
-            })
-          }
-        },
-        fail: function (res) {
-          // console.log(res)
-        }
-      })
     },
   }
 });

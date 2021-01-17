@@ -2,6 +2,7 @@
 
 const PCB = require('../../../utils/common');
 const API = require('../../../utils/api')
+var app = getApp()
 
 Component({
   /**
@@ -16,7 +17,11 @@ Component({
       type: String
     },
     showpop: {
-      type: Number,
+      type: Boolean,
+      value: true
+    },
+    showcolltip: {
+      type: Boolean,
       value: true
     },
     height: {
@@ -44,6 +49,9 @@ Component({
     },
     siteinfo:{
       type:Array
+    },
+    isadmin:{
+      type:Boolean
     }
   },
 
@@ -51,8 +59,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    library_cats: '',
-    library_state: '',
+    catsid: '',
+    stateid: '',
     catstxt: '',
     statetxt: '',
 
@@ -67,13 +75,25 @@ Component({
    * 组件的方法列表
    */
   ready(options) {
-    console.log('jjjjj')
-    console.log(this.data.poptype)
+    // console.log('cnttype',this.data.cnttype)
     if (this.data.poptype == 'libraryrate') {
       this.getComments();
     }
   },
   methods: {
+    onShow: function() {
+      let that = this;
+      let user = app.globalData.user
+      if (!user) {
+        user = '';
+      }
+      this.setData({
+        user: user,
+      })
+
+      console.log('user', this.data.user)
+      
+    },
     onReachBottom: function () {
       // if (this.data.hasnextpage) {
       //   this.setData({
@@ -82,6 +102,7 @@ Component({
       //   this.getComments();
       // }
     },
+    
     bindpengyouquan: function (e) {
       this.setData({
         pengyouquantip: true
@@ -96,8 +117,8 @@ Component({
         posts: [],
         catstxt: this.data.catstext,
         statetxt: this.data.statetext,
-        library_cats: this.data.library_cats,
-        library_state: this.data.library_state,
+        catsid: this.data.catsid,
+        stateid: this.data.stateid,
       } // detail对象，提供给事件监听函数
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('myevent', myEventDetail, myEventOption)
@@ -112,8 +133,8 @@ Component({
         posts: [],
         catstxt: '',
         statetxt: '',
-        library_cats: '',
-        library_state: '',
+        catsid: '',
+        stateid: '',
       }
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('myevent', myEventDetail, myEventOption)
@@ -143,7 +164,7 @@ Component({
       }
       this.setData({
         category,
-        library_cats: values.join(','),
+        catsid: values.join(','),
         selectchange: true,
         catstext: text
       })
@@ -172,7 +193,7 @@ Component({
       }
       this.setData({
         state,
-        library_state: values.join(','),
+        stateid: values.join(','),
         selectchange: true,
         statetext: text
       })
@@ -200,6 +221,7 @@ Component({
     },
 
     getComments: function () {
+      console.log('平')
       API.getComments({
         id: this.data.detail[0].id,
         page: this.data.page,
@@ -341,6 +363,8 @@ Component({
     downloadPrefix: function () {
       let that = this
       let args = {}
+      let posttype= this.data.detail[0].type
+      let apptype= this.data.detail[0].app_type?this.data.detail[0].app_type:''
       let qrcodePath = ''
       let prefixPath = ''
       let title = this.data.detail[0].title.rendered
@@ -356,7 +380,9 @@ Component({
         console.log(err)
       })
       args.id = this.data.detail[0].id
+      args.cnttype = this.data.cnttype
       console.log(this.data.detail[0].id)
+      console.log(this.data.cnttype)
       API.getCodeImg(args).then(res => {
         wx.showLoading({
           title: "准备生成海报...",
@@ -380,7 +406,7 @@ Component({
                       prefixPath = response.tempFilePath;
                       console.log("文章图片本地位置：" + response.tempFilePath);
                       if (prefixPath && qrcodePath) {
-                        that.createPostPrefix(prefixPath, qrcodePath, title, excerpt, foreground, name, description);
+                        that.createPostPrefix(prefixPath, qrcodePath, title, excerpt, foreground, name, description, posttype, apptype);
                       }
                     } else {
                       wx.hideLoading();
@@ -420,7 +446,7 @@ Component({
       })
     },
     //将canvas转换为图片保存到本地，然后将路径传给image图片的src
-    createPostPrefix: function (prefixPath, qrcodePath, title, excerpt, foreground, name, description) {
+    createPostPrefix: function (prefixPath, qrcodePath, title, excerpt, foreground, name, description, posttype, apptype) {
       //console.log(excerpt);
       wx.showLoading({
         title: "正在生成海报",
@@ -452,8 +478,8 @@ Component({
       context.stroke()
       this.CanvasTextContent(context, textTitle, textExcerpt); //文章标题
 
-
-      let bg_x = 170
+      if (posttype != 'app') {
+        let bg_x = 170
       let bg_y = 120
       let bg_w = 260
       let bg_h = 360
@@ -466,6 +492,35 @@ Component({
       context.arc(bg_x + bg_r, bg_y + bg_h - bg_r, bg_r, Math.PI * 0.5, Math.PI)
       context.clip()
       context.drawImage(prefixPath, bg_x, bg_y, bg_w, bg_h);
+        } else if(posttype == 'app'&& apptype != 'wxapp') {
+        let bg_x = 170
+        let bg_y = 220
+        let bg_w = 260
+        let bg_h = 260
+        let bg_r = 58
+        context.save()
+        context.beginPath()
+        context.arc(bg_x + bg_r, bg_y + bg_r, bg_r, Math.PI, Math.PI*1.5)
+        context.arc(bg_x + bg_w - bg_r, bg_y + bg_r, bg_r, Math.PI * 1.5, Math.PI * 2)
+        context.arc(bg_x + bg_w - bg_r, bg_y + bg_h - bg_r, bg_r, 0, Math.PI * 0.5)
+        context.arc(bg_x + bg_r, bg_y + bg_h - bg_r, bg_r, Math.PI * 0.5, Math.PI)
+        context.clip()
+        context.drawImage(prefixPath, bg_x, bg_y, bg_w, bg_h);
+      } else if(posttype == 'app'&& apptype == 'wxapp') {
+        let bg_x = 170
+        let bg_y = 220
+        let bg_w = 260
+        let bg_h = 260
+        let bg_r = 130
+        context.save()
+        context.beginPath()
+        context.arc(bg_x + bg_r, bg_y + bg_r, bg_r, Math.PI, Math.PI*1.5)
+        context.arc(bg_x + bg_w - bg_r, bg_y + bg_r, bg_r, Math.PI * 1.5, Math.PI * 2)
+        context.arc(bg_x + bg_w - bg_r, bg_y + bg_h - bg_r, bg_r, 0, Math.PI * 0.5)
+        context.arc(bg_x + bg_r, bg_y + bg_h - bg_r, bg_r, Math.PI * 0.5, Math.PI)
+        context.clip()
+        context.drawImage(prefixPath, bg_x, bg_y, bg_w, bg_h);
+      } 
 
       context.draw();
       //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时

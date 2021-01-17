@@ -38,6 +38,10 @@ Component({
       type: Boolean,
       value: false //是否显示搜索按钮
     },
+    isScancode: {
+      type: Boolean,
+      value: false //是否显示扫码按钮
+    },
     isTolist: {
       type: Boolean,
       value: false //是否显示个人中心
@@ -94,6 +98,26 @@ Component({
       } // detail对象，提供给事件监听函数
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('taplist', myEventDetail, myEventOption)
+    },
+    scanCode: function(event) {
+      // 允许从相机和相册扫码
+      wx.scanCode({
+        //onlyFromCamera: true,
+        //scanType: ['barCode'],
+        success: res => {
+          var url = '../list/list'
+          var key = res.result;
+          if (key != '') {
+            url = url + '?posttype=library&s=' + key;
+            wx.navigateTo({
+              url: url
+            })
+          }
+        },
+        fail: err => {
+          console.log(err);
+        }
+      })
     },
     bindByurl: function (e) {
       let url = e.currentTarget.dataset.url;

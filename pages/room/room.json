@@ -9,6 +9,6 @@
     "pop": "../../temp/comps/pop/pop",
     "indexnav": "../../temp/comps/indexnav/indexnav",
     "loadmore": "../../temp/comps/loadmore/index",
-    "datalist": "../../temp/comps/indexlist/indexlist"
+    "dataitem": "../../temp/comps/item/item"
   }
 }

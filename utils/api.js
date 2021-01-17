@@ -1,10 +1,11 @@
 const API = require('./base')
 
 // 定义首页切换菜单
-const getIndexnav = function() {
+const getIndexnav = function(cnttype) {
   return new Promise((resolve, reject) => {
+    if(cnttype=='library') {
    const result =[{
-        name: '发现',
+        name: '好书',
         id: 0,
         posttype: 'topic',
         catstype: '',
@@ -14,12 +15,45 @@ const getIndexnav = function() {
         posttype: 'quot',
         catstype: '',
       }, {
-        name: '我的',
+        name: '排行',
         id:2,
-          posttype: 'mine',
+        posttype: 'top',
         catstype: '',
       }];
       resolve(result);
+    } else if(cnttype=='films'){
+        const result =[{
+          name: '好剧',
+          id: 0,
+          posttype: 'topic',
+          catstype: '',
+        }, {
+          name: '台词',
+          id:1,
+          posttype: 'quot',
+          catstype: '',
+        }, {
+          name: '排行',
+          id:2,
+          posttype: 'top',
+          catstype: '',
+        }];
+        resolve(result);
+      } else if(cnttype=='app'){
+        const result =[{
+          name: 'APP',
+          id: 0,
+          posttype: 'topic',
+          catstype: '',
+        }, {
+          name: '排行',
+          id:1,
+          posttype: 'top',
+          catstype: '',
+        }];
+        resolve(result);
+      }
+      
       // console.log("分类列表", result);
   });
 }
@@ -150,8 +184,8 @@ const getMostPosts = function(posttype,data){
  * @param  {object} args 参数,默认为空
  * @return {promise}
  */
-const getMostViewsPosts = function(data){
-	return API.get('/mp/v1/posts/most?meta=views', data);   
+const getMostViewsPosts = function(posttype,data){
+	return API.get('/mp/v1/posts/most?meta=views&post_type=' + posttype, data);   
 }
 
 /**
@@ -159,8 +193,8 @@ const getMostViewsPosts = function(data){
  * @param  {object} args 参数
  * @return {promise}
  */
-const getMostFavPosts = function(data){
-	return API.get('/mp/v1/posts/most?meta=favs', data);   
+const getMostFavPosts = function(posttype,data){
+	return API.get('/mp/v1/posts/most?meta=favs&post_type=' + posttype, data);   
 }
 
 /**
@@ -168,8 +202,8 @@ const getMostFavPosts = function(data){
  * @param  {object} args 参数
  * @return {promise}
  */
-const getMostLikePosts = function(data){
-	return API.get('/mp/v1/posts/most?meta=likes', data);   
+const getMostLikePosts = function(posttype,data){
+	return API.get('/mp/v1/posts/most?meta=likes&post_type=' + posttype, data);   
 }
 
 /**
@@ -177,8 +211,8 @@ const getMostLikePosts = function(data){
  * @param  {object} args 参数,默认为空
  * @return {promise}
  */
-const getMostCommentPosts = function(data){
-	return API.get('/mp/v1/posts/most?meta=comments', data);   
+const getMostCommentPosts = function(posttype,data){
+	return API.get('/mp/v1/posts/most?meta=comments&post_type=' + posttype, data);   
 }
 
 /**

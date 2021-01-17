@@ -56,11 +56,11 @@
 }
 
 .buttoncover .icon.liked {
-  color: red;
+  color: rgba(250, 84, 94, 1); 
 }
 
 .buttoncover .icon.faved {
-  color: blue;
+  color: rgba(19, 194, 194, 1);
 }
 
 .ctlbtn .buttoncover .text {
@@ -160,6 +160,8 @@
 
 .detail-cell-items .card-cell-msg .card-cell-more .text {
   font-size: 28rpx;
+  width: 200rpx;
+  text-align: right;
 }
 
 /*定义图书内页的头部布局*/
@@ -195,6 +197,17 @@
   -webkit-line-clamp: 2;
 }
 
+.detail .detailhead .basemsg .cats {
+  margin:10rpx;
+}
+.detail .detailhead .basemsg .cats .text {
+  padding:8rpx 20rpx;
+  font-size:24rpx;
+  font-weight:bold;
+  border-radius: 30rpx;
+  margin:5rpx;
+}
+
 .detail .detailhead .basemsg .subtitle {
   margin: 0rpx 60rpx 40rpx 60rpx;
   font-size: 30rpx;
@@ -205,7 +218,37 @@
   -webkit-line-clamp: 2;
 }
 
+.detail.plus.app .detailhead .card .cardimage .imagecover {
+  width: 320rpx;
+  height: 320rpx;
+}
+
+.detail.plus.app .detailhead .card .cardimage .imagecover.iosapp {
+  border-radius: 22.5%;
+}
+
+.detail.plus.app .detailhead .card .cardimage .imagecover.wxapp {
+  border-radius: 50%;
+}
+
+.navigate-booksmg .imagecover.app {
+  height: 50rpx;
+  width: 50rpx;
+}
+
+.navigate-booksmg .imagecover.app.iosapp {
+  border-radius: 22.5%;
+}
+
+.navigate-booksmg .imagecover.app.wxapp {
+  border-radius: 50%;
+}
+
 .detail.plus .detailhead .basemsg .title {
+  text-align: center;
+}
+
+.detail.plus .detailhead .basemsg .cats {
   text-align: center;
 }
 
@@ -257,7 +300,7 @@
   font-size: 50rpx;
   line-height: 50rpx;
   font-style: italic;
-  color:#5CEB8E;
+  color: #5CEB8E;
   font-weight: bold;
 }
 
@@ -606,21 +649,23 @@
   position: relative;
   border-radius: 40rpx;
 }
-.postlikebtn .button{
+
+.postlikebtn .button {
   position: absolute;
-  left:0;
-  top:0;
-  right:0;
-  bottom:0;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   opacity: 0;
-  z-index:15;
+  z-index: 15;
 }
-.postlikebtn .buttoncover{
+
+.postlikebtn .buttoncover {
   display: flex;
   align-items: center;
   justify-content: center;
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 }
 
 .postlikecell {

@@ -2,7 +2,7 @@
 
 <view class="wrapper bgcolor-base"></view>
 
-<navtitle id="c-bar" title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
+<navtitle title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
 
 <view class="container bgcolor-base page">
 
@@ -11,11 +11,14 @@
     <view class="searchtitle" wx:if="{{searchtitle}}">
       <text class="text">{{searchtitle}}</text>
     </view>
-    <view class="libraryctrl" wx:if="{{posttype=='library' && !searchtitle && !tabid}}">
+    <view class="searchtitle" wx:if="{{toptype}}">
+      <text class="text">{{toptype}}</text>
+    </view>
+    <view class="libraryctrl" wx:if="{{(posttype==cnttype) && !toptype && !searchtitle && !tabid}}">
       <view class="librarycatsbtn bgcolor-sub" catchtap="bindShowpop" data-poptype="librarycats" data-popitem=""
         data-popheight="{{(windowHeight-3*customBarHeight-60)*2}}">
         <icon class="icon iconfont icon-list" />
-        <block wx:if="{{!catstxt&!statetxt}}"><text class="text">所有类型书籍</text></block>
+        <block wx:if="{{!catstxt&!statetxt}}"><text class="text">所有类型{{cnttypetitle}}</text></block>
         <block wx:if="{{statetxt}}"><text class="text">{{statetxt}}</text></block>
         <block wx:if="{{catstxt}}"><text class="text">{{catstxt}}</text></block>
       </view>
@@ -37,6 +40,14 @@
             data-posttype="library">
             <text class="text">书籍</text>
           </view>
+          <view class="cateilist {{posttype=='films'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+            data-posttype="films">
+            <text class="text">影视</text>
+          </view>
+          <view class="cateilist {{posttype=='app'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+            data-posttype="app">
+            <text class="text">APP</text>
+          </view>
           <view class="cateilist {{posttype=='topic'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
           data-posttype="topic">
             <text class="text">发现</text>
@@ -53,19 +64,30 @@
         </view>
       </scroll-view>
     </view>
-    <view class="itemwrap {{gridtype=='water'&&posttype=='library'?'libtypewater':'libtypelist'}}">
+    <view class="cateswrap" wx:if="{{posttype == 'act' || posttype == 'faq'}}">
+      <scroll-view scroll-x style="width:100%;white-space: nowrap;" class="">
+        <view class="cates">
+          <view class="cateilist {{posttype=='library'?'main-bgcolor':'bgcolor-sub'}}" wx:for="{{category}}" wx:for-index="index" wx:key="id" id="{{item.id}}" catchtap="bindCateByID">
+            <text class="text">{{item.name}}{{posttype == 'act'?'福利':'FAQ'}}</text>
+            <text class="text count">{{item.count}}</text>
+          </view>
+          
+        </view>
+      </scroll-view>
+    </view>
+    <view class="itemwrap {{gridtype=='water'&&(posttype=='library'||posttype=='app')?'libtypewater':'libtypelist'}}">
       <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
         <view class="cardbox" wx:if="{{gridtype!='water' && index%3 ==0  && index!=0}}">
           <view class="card">
             <ad-custom unit-id="adunit-ad073b15bc52a9c6"></ad-custom>
         </view>
       </view>
-        <view class="cardbox" style="{{gridtype=='water'&&posttype=='library'?'width:'+(windowWidth-70)/2+'px;':''}}">
+        <view class="cardbox" style="{{gridtype=='water'&&(posttype==cnttype)?'width:'+(windowWidth-70)/2+'px;':''}}">
           <dataitem index="{{index}}" posttype="{{posttype}}" gridtype="{{gridtype}}" item="{{posts}}" ani="{{ani}}" />
         </view>
       </view>
     </view>
-    <loadstatus length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+    <loadstatus errtext="{{errtext}}" length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
   </view>
 
 </view>
@@ -108,7 +130,7 @@
     </view>
   </form>
 </view>
-<view class="fixedbg {{showfixbg||keyboardheight?'on':''}}" catchtap="HideFixedAll"></view>
+<view class="fixedbg bgfilter5 {{showfixbg||keyboardheight?'on':''}}" catchtap="HideFixedAll"></view>
 
-<pop showpop="{{showpop}}" poptype="{{poptype}}" category="{{category}}" state="{{state}}"
+<pop showpop="{{showpop}}" poptype="{{poptype}}" isadmin="{{isadmin}}" category="{{category}}" state="{{state}}"
   height="{{popheight}}" bind:myevent="bindUpdatepost" />

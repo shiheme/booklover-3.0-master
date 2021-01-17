@@ -1,0 +1,52 @@
+<!--单页面合集-->
+
+<view class="wrapper bgcolor-base"></view>
+
+<navtitle title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
+<view class="container bgcolor-base">
+  <view class="wrap"
+    style="padding-bottom:calc(96rpx + env(safe-area-inset-bottom));padding-top: {{customBarHeight}}px;">
+    <view class="cateswrap">
+      <scroll-view scroll-x style="width:100%;white-space: nowrap;" class="">
+        <view class="cates">
+          <view class="cateilist {{posttype==cnttype?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+            data-posttype="{{cnttype}}">
+            <text class="text">{{cnttypetitle}}</text>
+          </view>
+          <view class="cateilist {{posttype=='topic'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+          data-posttype="topic">
+            <text class="text">发现</text>
+          </view>
+          <view class="cateilist {{posttype=='quot'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+          data-posttype="quot" wx:if="{{cnttype=='library'||cnttype=='films'}}">
+            <text class="text">语录</text>
+          </view>
+          <view class="cateilist {{posttype=='act'?'main-bgcolor':'bgcolor-sub'}}" bindtap="bindtablike"
+          data-posttype="act">
+            <text class="text">福利</text>
+          </view>
+          
+        </view>
+      </scroll-view>
+    </view>
+    <view class="itemwrap {{gridtype=='water'&&posttype=='library'?'libtypewater':'libtypelist'}}">
+      <view class="item" wx:for="{{posts}}" wx:for-index="index" wx:key="id">
+        <view class="cardbox" wx:if="{{gridtype!='water' && index%3 ==0  && index!=0}}">
+          <view class="card">
+            <ad-custom unit-id="adunit-ad073b15bc52a9c6"></ad-custom>
+        </view>
+      </view>
+        <view class="cardbox" style="{{gridtype=='water'&&posttype==cnttype?'width:'+(windowWidth-70)/2+'px;':''}}">
+          <dataitem index="{{index}}" posttype="{{posttype}}" gridtype="{{gridtype}}" item="{{posts}}" ani="{{ani}}" />
+        </view>
+      </view>
+    </view>
+    <loadstatus errtext="{{errtext}}" length="{{posts.length}}" hasnextpage="{{hasnextpage}}" />
+  </view>
+
+</view>
+
+<view class="tabbar">
+      <tabbar tabbarStyle="{{tabbarStyle}}" showitemadd="{{showitemadd}}" safeinsetbottom="{{safeinsetbottom}}" selected="3" />
+    </view>
+

@@ -1,7 +1,7 @@
 <!-- 定义评分列表 -->
 <view class="topcmtlist" wx:if="{{posttype=='topcmt'}}">
 	<view catchtap="bindDetail" class="card borcolor-top-base bgcolor-sub" data-posttype="{{item[index].post.post_type}}"
-		id="{{item[index].post.ID}}" data-key="{{i}}" animation="{{num==index?showpic:hidepic}}">
+		id="{{item[index].post.ID}}" data-key="{{index}}" style="z-index:{{num==index?'10':'5'}}" animation="{{num==index?showpic:hidepic}}">
 		<view class="cardbody">
 			<view class="post_cnt">
 				<text class="text">{{item[index].author.name}}给</text>
@@ -11,7 +11,7 @@
 				<text class="text">{{item[index].rating?item[index].rating:'0'}}星</text>
 			</view>
 			<view class="post_thumb">
-				<view class="workcover libcover"
+				<view class="workcover {{item[index].type=='library'?'libcover':''}} {{item[index].type=='films'|| item[index].type=='movie'?'movcover':''}}"
 					style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].post_thumbnail}}');">
 				</view>
 			</view>
@@ -25,7 +25,7 @@
 </view>
 
 <!-- 定义发现列表结构 -->
-<view class="topiclist {{ani?'ani':''}}" wx:if="{{posttype=='topic'}}">
+<view class="topiclist {{cnttype+'list'}} {{ani?'ani':''}}" wx:if="{{posttype=='topic'}}">
 	<view catchtap="bindDetail" class="card bgcolor-sub bgline {{item[index].book_tolibrary[0].book_pagestyle}}"
 		style="{{item[index].book_tolibrary[0].book_foreground?'background-color:'+item[index].book_tolibrary[0].book_foreground:''}}"
 		data-posttype="{{item[index].type}}" id="{{item[index].id}}" data-key="{{index}}">
@@ -55,7 +55,7 @@
 					<block wx:key="index" wx:for="{{item[index].book_tolibrary}}" wx:for-item='cell'>
 						<block wx:if="{{index<5}}">
 							<view class="workcell workcell{{index}}">
-								<view class="workcover libcover" style="background-image:url('{{cell.book_thumb}}');"></view>
+								<view class="workcover {{cell.type=='library'?'libcover':''}} {{cell.type=='films' || cell.type=='movie'?'movcover':''}} {{cell.app_type!='wxapp'?'iosapp':'wxapp'}}" style="background-image:url('{{cell.book_thumb}}');"></view>
 							</view>
 						</block>
 					</block>
@@ -102,11 +102,12 @@
 			<view class="worksgroup">
 				<view class="workcnt">
 					<view class="workmsg">
-						<text class="text auth">{{item[index].book_tolibrary[0].book_author}}</text>
+						<text class="text auth" wx:if="{{item[index].book_tolibrary[0].book_author}}">—— {{item[index].book_tolibrary[0].book_author}}</text>
+						<text class="text auth" wx:if="{{item[index].book_tolibrary[0].book_director}}">—— {{item[index].book_tolibrary[0].book_director}}</text>
 						<text class="text title">《{{item[index].book_tolibrary[0].book_title}}》</text>
 					</view>
 					<view class="workcell">
-						<view class="workcover libcover"
+						<view class="workcover {{item[index].book_tolibrary[0].type=='library'?'libcover':''}} {{item[index].book_tolibrary[0].type=='films'?'movcover':''}}"
 							style="background-image:url('{{item[index].book_tolibrary[0].book_thumb}}');"></view>
 					</view>
 				</view>
@@ -136,7 +137,7 @@
 </view>
 
 <!-- 定义书籍列表结构（列表） -->
-<view class="librarylist {{gridtype}}" wx:if="{{posttype == 'library' && gridtype == 'list'}}">
+<view class="librarylist {{item[index].type?item[index].type:posttype}}list {{gridtype}}" wx:if="{{(posttype == 'library'||posttype == 'app'||posttype == 'films'||posttype == 'pro') && gridtype == 'list'}}">
 	<view catchtap="bindDetail" class="card bgcolor-sub bgline works-items {{item[index].book_pagestyle}}"
 		style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}"
 		data-posttype="{{item[index].type?item[index].type:posttype}}" id="{{item[index].id}}" data-key="{{i}}">
@@ -146,8 +147,8 @@
 					<view class="workcell">
 						<view class="head">
 							<view class="msg">
-								<view class="workcover libcover"
-									style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].book_thumb}}');width:150rpx;height:208rpx;">
+								<view class="workcover {{item[index].app_type!='wxapp'?'iosapp':'wxapp'}} {{item[index].type == 'library'?'libcover':''}} {{item[index].type == 'films'?'movcover':''}}"
+									style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].book_thumb}}');">
 								</view>
 								<view class="base">
 									<view class="text title">
@@ -188,7 +189,7 @@
 	</view>
 </view>
 
-<view class="librarylist {{gridtype}}" wx:if="{{posttype == 'library' && gridtype == 'water'}}">
+<view class="librarylist {{posttype == 'app'?'applist':''}} {{gridtype}}" wx:if="{{(posttype == 'library'||posttype == 'app'||posttype == 'films'||posttype == 'pro') && gridtype == 'water'}}">
 	<view catchtap="bindDetail" class="card bgcolor-sub bgline works-items {{item[index].book_pagestyle}}"
 		style="{{item[index].book_foreground?'background-color:'+item[index].book_foreground:''}}"
 		data-posttype="{{item[index].type?item[index].type:posttype}}" id="{{item[index].id}}" data-key="{{i}}">
@@ -198,8 +199,8 @@
 					<view class="workcell">
 						<view class="head">
 							<view class="msg">
-								<view class="workcover libcover"
-									style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].book_thumb}}');width:150rpx;height:208rpx;">
+								<view class="workcover {{item[index].app_type!='wxapp'?'iosapp':'wxapp'}} {{item[index].type == 'library'?'libcover':''}} {{item[index].type == 'films'?'movcover':''}}"
+									style="background-image:url('{{item[index].meta.thumbnail?item[index].meta.thumbnail:item[index].book_thumb}}');">
 									<text class="dbscore main-color">{{item[index].book_dbscore}}</text>
 								</view>
 							</view>
@@ -352,4 +353,77 @@
 	<view class="cmtbody hide">
 		{{item[index].content}}
 	</view>
+</view>
+
+<!-- 定义图书分类展示 -->
+<!-- <view class="topiclist catslist {{cnttype+'list'}} {{ani?'ani':''}}" wx:if="{{posttype=='cats'}}">
+	<view class="card bgcolor-sub bgline {{item[0].posts[0].book_pagestyle}}"
+		style="{{item[0].posts[0].book_foreground?'background-color:'+item[0].posts[0].book_foreground:''}}"
+		bindtap="bindHandler" data-url="/pages/list/list?posttype={{cnttype}}&cats={{item[0].id}}&title={{posttype=='library_cats'?'书籍':'应用'}}&catstxt={{item[0].name}}">
+		<view class="cardbody">
+			<view class="worksgroup">
+				<view class="workcnt">
+					<block wx:key="index" wx:for="{{item[0].posts}}" wx:for-item='cell'>
+						<block wx:if="{{index<5}}">
+							<view class="workcell workcell{{index}}">
+								<view class="workcover {{posttype=='library_cats'?'libcover':''}} {{cell.app_type!='wxapp'?'iosapp':'wxapp'}}" style="background-image:url('{{cell.meta.thumbnail}}');"></view>
+							</view>
+						</block>
+					</block>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot lib"
+			style="{{item[0].posts[0].book_foreground?'background-color:'+item[0].posts[0].book_foreground:''}}">
+			<view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">{{item[0].name}}</view>
+                </view>
+                <view class="card-cell-more">
+									<text class="text">共{{item[0].count}}{{posttype=='library_cats'?'本':'个'}}</text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+            </view>
+		</view>
+	</view>
+
+</view> -->
+
+
+<!-- 定义排行 -->
+<view class="topiclist catslist {{cnttype+'list'}} {{ani?'ani':''}}" wx:if="{{posttype=='top'}}">
+	<view class="card bgcolor-sub bgline {{item[index].posts[0].book_pagestyle}}"
+		style="{{item[index].posts[0].book_foreground?'background-color:'+item[index].posts[0].book_foreground:''}}"
+		bindtap="bindHandler" data-url="/pages/list/list?posttype={{cnttype}}&toptype={{item[index].type}}&toptypetitle={{item[index].name}}&title={{cnttypetitle}}排行">
+		<view class="cardbody">
+			<view class="worksgroup">
+				<view class="workcnt">
+					<block wx:key="index" wx:for="{{item[index].posts}}" wx:for-item='cell'>
+						<block wx:if="{{index<5}}">
+							<view class="workcell workcell{{index}}">
+								<view class="workcover {{cell.type=='films'?'movcover':''}} {{cell.type=='library'?'libcover':''}} {{cell.app_type!='wxapp'?'iosapp':'wxapp'}}" style="background-image:url('{{cell.meta.thumbnail}}');"></view>
+							</view>
+						</block>
+					</block>
+				</view>
+			</view>
+		</view>
+		<view class="cardfoot lib"
+			style="{{item[index].posts[0].book_foreground?'background-color:'+item[index].posts[0].book_foreground:''}}">
+			<view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">{{item[index].name}}{{cnttypetitle}}排序</view>
+                </view>
+                <view class="card-cell-more">
+									
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+            </view>
+		</view>
+	</view>
+
 </view>

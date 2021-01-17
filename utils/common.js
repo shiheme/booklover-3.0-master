@@ -15,16 +15,14 @@ module.exports = Behavior({
     floatDisplay: "none",
     isshare: "0",
 
+    isadmin: false,
+
     showpop: false,
+    anicolltip: false,
     // safemodeok:'1',
 
     siteinfo:{safemode:1},
-    
-    cnt_tp: '', //定义文章类型
-    opennavbarscroll: false, //是否让底部导航开启滑动隐藏
-    istrue_scroll: false, //控制底部导航显示隐藏
 
-    geziads: false, //小格子原生广告
     
     isshowLoad: true,
     isshowError: false,
@@ -32,13 +30,17 @@ module.exports = Behavior({
     isActive: true, //定义头部导航是否显示背景
     isGoback: false, //定义头部导航是否存在返回上一页/返回首页
     isSearch: false, //定义头部导航是否显示搜索
-    isTolist: false, //定义头部导航是否显示内容列表
+    isScancode: false, //定义头部导航是否显示扫码
 
     showLoad: false,
     waiting: true,
     opentabwrapper: false,
-    scene: app.globalData.scene,
-    siteinfo: app.globalData.siteinfo,
+    errtext:app.globalData.errtext,
+    // siteinfo: app.globalData.siteinfo,
+    tabbarStyle:app.globalData.tabbarStyle,
+    showitemadd:app.globalData.showitemadd,
+    safeinsetbottom:app.globalData.safeinsetbottom,
+    cnttype: app.globalData.cnttype, //
 
     wrapperhide: app.globalData.wrapperhide,
     windowHeight: app.globalData.windowHeight,
@@ -58,6 +60,46 @@ module.exports = Behavior({
       })
     }
 
+    that.setData({
+      cnttype:app.globalData.cnttype,
+      errtext:app.globalData.errtext
+    })
+
+    // console.log('cnttyoe',app.globalData.cnttype)
+    if(this.data.cnttype=='library'){
+      this.setData({
+        topic_cats: API.custompostcats().library_topic_cats,
+        quot_cats: API.custompostcats().library_quot_cats,
+        act_cats: API.custompostcats().library_act_cats,
+        faq_cats: API.custompostcats().library_faq_cats,
+        cnttypetitle:'书籍',
+      })
+    } else if(this.data.cnttype=='films') {
+      this.setData({
+      topic_cats: API.custompostcats().films_topic_cats,
+      quot_cats: API.custompostcats().films_quot_cats,
+      act_cats: API.custompostcats().films_act_cats,
+      faq_cats: API.custompostcats().films_faq_cats,
+      cnttypetitle:'影视'
+    })
+    }else if(this.data.cnttype=='app') {
+      this.setData({
+      topic_cats: API.custompostcats().app_topic_cats,
+      quot_cats: API.custompostcats().app_quot_cats,
+      act_cats: API.custompostcats().app_act_cats,
+      faq_cats: API.custompostcats().app_faq_cats,
+      cnttypetitle:'APP'
+    })
+    }else if(this.data.cnttype=='pro') {
+      this.setData({
+      topic_cats: API.custompostcats().pro_topic_cats,
+      quot_cats: API.custompostcats().pro_quot_cats,
+      act_cats: API.custompostcats().pro_act_cats,
+      faq_cats: API.custompostcats().pro_faq_cats,
+      cnttypetitle:'商品'
+    })
+    }
+
   },
   methods: {
     onShow: function () {
@@ -68,6 +110,12 @@ module.exports = Behavior({
       this.setData({
         user: user,
       })
+      if (user.role == 'administrator') {
+        this.setData({
+          isadmin: true
+        })
+      }
+      
 
     },
 
@@ -143,7 +191,7 @@ module.exports = Behavior({
 
     bindSubscribe: function () {
       let that = this
-      let templates = API.template().comments
+      let templates = API.template().subscribe
       wx.requestSubscribeMessage({
         tmplIds: templates,
         success(res) {
@@ -178,16 +226,23 @@ module.exports = Behavior({
       // console.log(popitem)
       setTimeout(function () {
         that.setData({
-          showpop: true
+          showpop: true,
+          showcolltip: true,
         });
       }, 100);
+      setTimeout(function () {
+        that.setData({
+          anicolltip: true,
+        });
+      }, 1000);
 
     },
     bindHidepop: function (e) {
       let that = this;
       that.setData({
         showpop: false,
-        pengyouquantip: false
+        pengyouquantip: false,
+        showcolltip: false,
       })
     },
     opentabwrapper: function (e) {
@@ -310,6 +365,27 @@ module.exports = Behavior({
     onCanceltip: function () {
       this.setData({
         showcolltip: false,
+      })
+    },
+    changeCnttype: function (e) {
+      let cnttype = e.currentTarget.dataset.cnttype;
+      app.globalData.cnttype = cnttype
+      this.setData({
+        cnttype:app.globalData.cnttype
+      })
+      //保存到本地
+      wx.setStorage({
+        key: "cnttype",
+        data: app.globalData.cnttype
+      })
+      console.log(app.globalData.cnttype)
+      
+      wx.reLaunch({
+        url: '/pages/index/index',
+        // success: function (res) {
+        //     app.onLaunch();
+          
+        // }
       })
     },
   },

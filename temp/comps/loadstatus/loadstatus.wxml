@@ -1,10 +1,20 @@
-<view class="txttip" wx:if="{{length}}">
-  <loadmore tip="加载更多" loading="{{ true }}" wx:if="{{hasnextpage}}" />
-  <loadmore tip="到底啦～" loading="{{ false }}" wx:else />
+<view wx:if="{{errtext}}" class="txttip">
+  <view class="error">
+    <icon class="icon iconfont icon-error" />
+    <text class="text">加载失败，请检查网络是否延迟</text>
+  </view>
+  <view class="btn main-bgcolor" bindtap="reLaunchpage">点击重试</view>
 </view>
+
 <view wx:elif="{{hasnextpage}}" class="txttip">
   <loadmore tip="加载中" loading="{{ true }}" />
 </view>
+
+<view class="txttip" wx:elif="{{length}}">
+  <loadmore tip="加载更多" loading="{{ true }}" wx:if="{{hasnextpage}}" />
+  <loadmore tip="到底啦～" loading="{{ false }}" wx:else />
+</view>
+
 <view class="txttip nothing" wx:else>
-  <text class="text">暂无数据</text>
+  <text class="text">无更多数据</text>
 </view>

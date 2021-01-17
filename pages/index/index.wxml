@@ -7,21 +7,17 @@
         <icon class="icon iconfont icon-close" />
       </view>
     </view>
-    <wrapleft isShowabout="{{isShowabout}}" siteinfo="{{[siteinfo]}}" bind:myevent="toggleToast" wx:if="{{[siteinfo]!=''}}" />
+    <wrapleft isShowabout="{{isShowabout}}" isadmin="{{isadmin}}" siteinfo="{{[siteinfo]}}" bind:myevent="toggleToast"
+      wx:if="{{[siteinfo]!=''}}" />
   </view>
-  <view class="mainwrapper" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
 
+  <view class="mainwrapper" bindtap="{{opentabwrapper?'closetabwrapper':''}}">
     <view class="wrapper bgcolor-base"></view>
 
-    <navtitle title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isSearch="{{isSearch}}"
-      isTolist="{{isTolist}}" isTomine="{{isTomine}}" bind:taplist="opentabwrapper" />
+    <navtitle title="" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" isScancode="{{isScancode}}"
+      isSearch="{{isSearch}}" isTolist="{{isTolist}}" isTomine="{{isTomine}}" bind:taplist="opentabwrapper" />
 
-      <view class="colltiparea" style="top:{{customBarHeight}}px;right:30rpx;" wx:if="{{showcolltip}}">
-					<view class="colltip">
-            <text class="text">添加到我的小程序</text>
-            <icon class="icon" bindtap="onCanceltip" type="cancel" color="#ffffff" size="15" />
-            </view>
-</view>
+    
 
     <view class="indexnavwrap" style="top:{{navBarHeight}}px">
       <!-- 如果选项很多屏幕宽度不够，scroll设置为true滚动显示，否则scroll设置为false时使用flex布局均匀分布 -->
@@ -37,20 +33,32 @@
           bindchange="handleIndexnavChange">
           <block wx:for="{{indexnav}}" wx:key="id">
             <swiper-item>
-              <datalist posttype="{{item.posttype}}" siteinfo="{{[siteinfo]}}" loaded="{{item.loaded}}" wx:if="{{[siteinfo]!=''}}" />
+              <datalist posttype="{{item.posttype}}" siteinfo="{{[siteinfo]}}" isadmin="{{isadmin}}" loaded="{{item.loaded}}"
+                mineclick="{{mineclick}}" bind:myevent="headState" />
             </swiper-item>
           </block>
         </swiper>
       </view>
     </view>
 
-    <view class="indexsubnav" catchtap="bindShowpop" data-poptype="index" data-popitem="" data-popheight="{{260}}">
+    <view class="indexsubnav" catchtap="bindShowpop" data-poptype="index" data-popitem="" data-popheight="{{siteinfo.safemode == '1' && !isadmin ? 200 : 600}}">
+      <view class="squareop">
+			<view class="square square1"></view>
+			<view class="square square2"></view>
+			<view class="square square3"></view>
+			</view>
       <view class="navbtn main-bgcolor">
-        <icon class="icon iconfont icon-add" />
+        <icon class="icon iconfont icon-hamburger" />
       </view>
+      
     </view>
+    <block wx:if="{{[siteinfo]!=''}}">
+    <pop showpop="{{showpop}}" showcolltip="{{showcolltip}}" poptype="{{poptype}}" isadmin="{{isadmin}}" siteinfo="{{[siteinfo]}}" height="{{popheight}}" />
+    </block>
+    <!-- <view class="tabbar">
+      <tabbar tabbarStyle="{{tabbarStyle}}" showitemadd="{{showitemadd}}" safeinsetbottom="{{safeinsetbottom}}" selected="0" />
+    </view> -->
 
-    <pop showpop="{{showpop}}" poptype="{{poptype}}" siteinfo="{{[siteinfo]}}" height="{{popheight}}" wx:if="{{showpop&&[siteinfo]!=''}}" />
 
   </view><!-- end mainwrapper -->
 </view><!-- end tabwrapper -->

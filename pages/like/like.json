@@ -3,10 +3,9 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "navtitle": "../../temp/comps/navtitle/index",
-    "parser": "../../temp/comps/parser/parser",
     "dataitem": "../../temp/comps/item/item",
     "pop": "../../temp/comps/pop/pop",
-    "audioring": "../../temp/comps/audioring/audioring",
-    "loadmore": "../../temp/comps/loadmore/index"
+    "loadstatus": "../../temp/comps/loadstatus/loadstatus",
+    "tabbar": "../../temp/comps/tabbar/index"
   }
 }

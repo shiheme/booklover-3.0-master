@@ -1,7 +1,9 @@
-// pages/list/list.js
+// pages/page/page.js
 const PCB = require('../../utils/common');
 const API = require('../../utils/api')
 const app = getApp()
+
+let rewardedVideoAd = null
 
 Component({
   behaviors: [PCB],
@@ -17,7 +19,7 @@ Component({
    * 页面的初始数据
    */
   data: {
-    
+    videolook: false,
     isActive: true, //定义头部导航是否显示背景
     isGoback: true,
 
@@ -31,11 +33,34 @@ Component({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+      // 对于分享进入的链接做内容类型缓存
+      if (options.cnttype) {
+        let cnttype = options.cnttype;
+        app.globalData.cnttype = cnttype
+      } else if (wx.getStorageSync('cnttype')) {
+        let cnttype = wx.getStorageSync('cnttype');
+        app.globalData.cnttype = cnttype
+      } else {
+        let cnttype = this.data.cnttype;
+        app.globalData.cnttype = cnttype
+      }
+
+      this.setData({
+        cnttype: app.globalData.cnttype
+      })
+      //保存到本地
+      wx.setStorage({
+        key: "cnttype",
+        data: app.globalData.cnttype
+      })
+      console.log(app.globalData.cnttype)
+      // 结束对于分享进入的链接做内容类型缓存
       // this.getSiteInfo();
       // app.loaclCallBack = res => {
-        this.setData({
-          siteinfo: app.globalData.siteinfo
-        })
+      this.setData({
+        siteinfo: app.globalData.siteinfo
+      })
+      this.showVideoAd();
       // }
       console.log(this.data.siteinfo)
     },
@@ -50,9 +75,9 @@ Component({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
       let that = this;
-      
+
       //获取缓存使用情况
       wx.getStorageInfo({
         success(res) {
@@ -92,14 +117,14 @@ Component({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function () {
-      
+
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-      
+
     },
 
     /**
@@ -108,17 +133,69 @@ Component({
     onShareAppMessage: function () {
       return {
         title: this.data.siteinfo.description + ' - ' + this.data.siteinfo.name,
-        path: '/pages/index/index'
+        path: '/pages/index/index?cnttype='+this.data.cnttype
       }
     },
 
-    clear: function(e) {
+    clear: function (e) {
       wx.clearStorageSync();
       wx.showToast({
         title: '清除完毕',
       })
     },
 
-    
+    showVideoAd: function () {
+      let that = this
+      
+      if (wx.createRewardedVideoAd) {
+        rewardedVideoAd = wx.createRewardedVideoAd({
+          adUnitId: 'adunit-3e6043b4117685cd'
+        })
+        rewardedVideoAd.onLoad(() => {
+          // console.log('onLoad event emit')
+        })
+        rewardedVideoAd.onError((err) => {
+          console.log(err);
+          that.setData({
+            videolook: true
+          })
+        })
+        rewardedVideoAd.onClose((res) => {
+          if (res && res.isEnded) {
+            that.setData({
+              videolook: true
+            })
+          } else {
+            wx.showToast({
+              title: "你中途关闭了视频",
+              icon: "none",
+              duration: 3000
+            });
+          }
+        })
+      }
+    },
+
+    //阅读更多
+    readMore: function () {
+      var that = this;
+
+
+      rewardedVideoAd.show()
+        .catch(() => {
+          rewardedVideoAd.load()
+            .then(() => rewardedVideoAd.show())
+            .catch(err => {
+              console.log('激励视频 广告显示失败');
+              that.setData({
+                videolook: true
+              })
+            })
+        })
+
+
+    },
+
+
   }
 })

@@ -1,14 +1,21 @@
 /* pages/page/page.wxss */
 
-.pagelist {margin-top:80rpx;}
-.pagelist .cardbox .card-cell-wrap {padding:0 30rpx;}
+.pagelist {
+  margin-top: 80rpx;
+}
+
+.pagelist .cardbox .card-cell-wrap {
+  padding: 0 30rpx;
+}
 
 .about-container {
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
+
 .about-container .header {
   text-align: center;
   display: flex;
@@ -16,38 +23,120 @@
   align-items: center;
   justify-content: center;
 }
-.about-container .header .icon{
-  width:176rpx;
-  height:176rpx;
+
+.about-container .header .icon {
+  width: 176rpx;
+  height: 176rpx;
   border-radius: 88rpx;
 }
 
-.about-container .header .icon .image{
-  width:176rpx;
-  height:176rpx;
+.about-container .header .icon .image {
+  width: 176rpx;
+  height: 176rpx;
   border-radius: 88rpx;
 }
-.about-container .header .title{
+
+.about-container .header .title {
   font-weight: bold;
   font-size: 42rpx;
-  margin-top:20rpx;
+  margin-top: 20rpx;
 }
-.about-container .header .title .text{
+
+.about-container .header .title .text {
   display: block;
 }
 
-.about-container .body{margin:200rpx 0;}
+.about-container .body {
+  margin: 200rpx 0;
+}
 
 .about-container .body .button {
   font-size: 28rpx;
-    padding: 20rpx 40rpx;
-    opacity: 1;
-    border-radius: 50rpx;
-    margin-top:50rpx;
-    text-align: center;
+  padding: 20rpx 40rpx;
+  opacity: 1;
+  border-radius: 50rpx;
+  margin-top: 50rpx;
+  text-align: center;
 }
 
 .webview {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 }
+
+.sparetitle {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin: 50rpx;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.sparetitle .image {
+  position: relative;
+  width: 30%;
+  height: 300rpx;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: rgba(120, 120, 120, 0.1);
+  margin-bottom: 30rpx;
+}
+
+.spare-container .body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.spare-container .body .image {
+  width: 100%;
+}
+
+
+.hidecnt {
+  padding: 30rpx;
+}
+.hidecnttext {
+  text-align: center;
+}
+.hidecnttext .tit{
+font-size: 30rpx;
+font-weight: bold;
+margin:30rpx 0 10rpx 0;
+}
+
+.hidecnttext .subtit{
+opacity: .8;
+font-size: 26rpx;
+}
+
+.hidecntbtn {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-flow: column;
+  padding: 30rpx;
+  position: relative;
+}
+
+.hidecntbtn .btn {
+  font-size: 28rpx;
+  padding: 20rpx 40rpx;
+  opacity: 1;
+  border-radius: 50rpx;
+  font-weight: bold;
+  margin: 50rpx;
+}
+
+.hidecntbtn .icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  margin: 30rpx 0;
+}
+
+.hidecntbtn .text {}

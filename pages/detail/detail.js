@@ -8,10 +8,7 @@ Component({
   properties: {
     // 接受页面参数
     posttype: String,
-    cnttype: {
-      type: String,
-      value: 'default'
-    },
+    cnttype: String,
     id: Number,
   },
   data: {
@@ -46,18 +43,36 @@ Component({
       this.setData({
         options: options
       })
+      // 对于分享进入的链接做内容类型缓存
+      if (options.cnttype) {
+        let cnttype = options.cnttype;
+        app.globalData.cnttype = cnttype
+      } else if (wx.getStorageSync('cnttype')) {
+        let cnttype = wx.getStorageSync('cnttype');
+        app.globalData.cnttype = cnttype
+      } else {
+        let cnttype = this.data.cnttype;
+        app.globalData.cnttype = cnttype
+      }
+
+      this.setData({
+        cnttype: app.globalData.cnttype
+      })
+      //保存到本地
+      wx.setStorage({
+        key: "cnttype",
+        data: app.globalData.cnttype
+      })
+      console.log(app.globalData.cnttype)
+      // 结束对于分享进入的链接做内容类型缓存
       // this.getSiteInfo();
-        this.setData({
-          siteinfo: app.globalData.siteinfo
-        })
+      this.setData({
+        siteinfo: app.globalData.siteinfo
+      })
       // console.log(this.data.options)
       // console.log('option')
-      if (this.data.scene == 1011 || this.data.scene == 1047 || this.data.scene == 1124) {
-        this.setData({
-          showOfficial: true
-        })
-      }
-      
+
+
       if (options.posttype) {
         this.getPostsbyID(options.posttype, options.id)
         // this.getRelatePosts(options.posttype, options.id)
@@ -90,10 +105,17 @@ Component({
       if (!user) {
         user = '';
       }
+      
       this.setData({
         user: user,
       })
-      // console.log('user', this.data.user)
+
+      if (user.role == 'administrator') {
+        this.setData({
+          isadmin: true
+        })
+      }
+      console.log('user', this.data.user)
     },
 
     //自定义组件中通信
@@ -162,9 +184,16 @@ Component({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-      return {
-        title: this.data.detail.title.rendered + ' - ' + this.data.siteinfo.name,
-        path: '/pages/detail/detail?id=' + this.data.detail.id + '&isshare=1&posttype=' + this.data.posttype
+      if (this.data.user) {
+        return {
+          title: this.data.user.nickName + '分享了《' + this.data.detail.title.rendered + '》' + this.data.cnttypetitle + '内容',
+          path: '/pages/detail/detail?id=' + this.data.detail.id + '&isshare=1&posttype=' + this.data.posttype + '&cnttype=' + this.data.cnttype
+        }
+      } else {
+        return {
+          title: '《' + this.data.detail.title.rendered + '》 - ' + this.data.siteinfo.name,
+          path: '/pages/detail/detail?id=' + this.data.detail.id + '&isshare=1&posttype=' + this.data.posttype + '&cnttype=' + this.data.cnttype
+        }
       }
     },
 
@@ -185,6 +214,27 @@ Component({
             post: [res],
             post_likes: res.post_likes
           })
+          console.log(res)
+          if (res.book_detailshow) {
+            var detailshow = [].concat(this.data.detailshow, res.book_detailshow.map(function (item) {
+              // var strdate = item[0]
+              // var excerpt = item.excerpt.rendered
+              // item.filed = item;
+              // item.name = item;
+
+              item = API.cutspit(item);
+              item[0].value = res[[item[0].field]] ? res[[item[0].field]] : '';
+              // item.field = item[0][0];
+              // item.name = item[1];
+              // item.value = res[[item.field]];
+              return item;
+            }))
+            this.setData({
+              detailshow: detailshow,
+            })
+            console.log(this.data.detailshow)
+            // console.log('detailshow')
+          }
           if (res.rating_avg != null) {
             this.setData({
               detailrating_avg: API.mathRoundRate(res.rating_avg.avg),
@@ -208,7 +258,8 @@ Component({
           let args = {}
           args.posts = res
           this.setData(args)
-          // console.log(this.data.posts)
+          console.log('RelatePosts')
+          console.log(this.data.posts)
         })
         .catch(err => {
           console.log(err)
@@ -317,7 +368,7 @@ Component({
         })
     },
 
-    
+
 
     // 跳转至地图
     redictAmap: function (e) {

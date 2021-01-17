@@ -25,6 +25,9 @@ Component({
     item: {
       type: Array,
       value: ''
+    },
+    isadmin:{
+      type:Boolean
     }
   },
 
@@ -46,7 +49,7 @@ Component({
         that.setData({
           num: num++
         })
-        if (num > 2) {
+        if (num > 5) {
           num = 0;
         } //淡入
         animation.opacity(1).step({

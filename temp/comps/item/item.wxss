@@ -295,7 +295,6 @@
   transform: translateX(20rpx);
   transition: .6s;
 }
-
 .topiclist .workcell0 .workcover {
   width: 150rpx;
   height: 208rpx;
@@ -362,21 +361,26 @@
 .quotlist .workmsg .auth {
   position: relative;
   margin-left: 30rpx;
-  padding: 10rpx 20rpx;
+  padding: 0rpx 20rpx;
+  margin-bottom:10rpx;
   font-size: 24rpx;
   opacity: .8;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
 }
 
-.quotlist .workmsg .auth::before {
-  content: '——';
-  position: absolute;
-  margin-left: -65rpx;
-  opacity: 0.3;
-}
 
 .quotlist .workmsg .title {
   font-weight: bold;
   font-size: 36rpx;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
 }
 
 .quotlist .workcell {
@@ -638,3 +642,69 @@
   line-height: 44rpx;
   margin: 30rpx 0 10rpx 0;
 }
+
+.catslist .card-cell-msg {
+  padding:40rpx 30rpx;
+}
+
+.applist .workcell0 .workcover {
+  width: 150rpx;
+  height: 150rpx;
+
+}
+
+.applist .workcell1 .workcover {
+  width: 180rpx;
+  height: 180rpx;
+}
+
+.applist .workcell2 .workcover {
+  width: 165rpx;
+  height: 165rpx;
+}
+
+.applist .workcell3 .workcover {
+  width: 140rpx;
+  height: 140rpx;
+}
+
+.applist .workcell4 .workcover {
+  width: 130rpx;
+  height: 130rpx;
+}
+.applist .workcover {
+  widows: 150rpx;
+  height:150rpx;
+}
+.applist .worksgroup .workcnt .workcell .head {
+  padding:30rpx 40rpx;
+  bottom:0;
+}
+.applist .workcover.iosapp {
+  border-radius: 22.5%;
+}
+
+.applist .workcover.wxapp {
+  border-radius: 50%;
+}
+
+.applist .workcover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: rgba(0123,123,123,.1);
+}
+
+.applist .workcover.iosapp::after {
+border-radius: 22.5%;
+}
+
+.applist .workcover.wxapp::after {
+  border-radius: 50%;
+  }

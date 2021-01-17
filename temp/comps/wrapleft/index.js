@@ -10,12 +10,11 @@ Component({
     // titleBarHeight: app.globalData.TitleBar,
     // loading: 1,
 
-    placeHolder: '输入你要查找的内容',
+    placeHolder: '',
     searchLogs: [],
     inputEnable: true,
     autoFocus: false,
     keydown_number: 0,
-    posttype: "library",
   },
   properties: {
     //属性值可以在组件使用时指定
@@ -30,6 +29,9 @@ Component({
     // },
     siteinfo:{
       type:Array
+    },
+    isadmin:{
+      type:Boolean
     }
   },
   attached() {
@@ -39,6 +41,10 @@ Component({
     //   customBarHeight: app.globalData.CustomBar,
     //   titleBarHeight: app.globalData.TitleBar,
     // })
+
+    this.setData({
+      placeHolder:'输入你要查找的'+this.data.cnttypetitle+'名'
+    })
 
   },
   pageLifetimes: {
@@ -73,7 +79,7 @@ Component({
       //   console.log(this.data.siteinfo)
       // }
       this.getComments({
-        post_type: 'library',
+        post_type: this.data.cnttype,
         page: 1
       });
     },
@@ -96,12 +102,12 @@ Component({
       if (this.data.keydown_number == 1) {
         var url = '/pages/list/list'
         var key = this.data.searchKey;
-        var posttype = this.data.posttype;
+        var posttype = this.data.cnttype;
 
-        var cnt_tp = "";
+        var cnt_tp = this.data.cnttypetitle;
 
 
-        url = url + '?s=' + key + '&posttype=' + posttype;
+        url = url + '?s=' + key + '&posttype=' + posttype + '&cnt_tp='+cnt_tp;
 
         let arr = this.data.searchLogs;
         // 判断数组中是否已存在
@@ -116,7 +122,7 @@ Component({
         arr.unshift([key, url, cnt_tp]);
         wx.setStorageSync('searchlogs', arr);
         //存储搜索记录
-        url = url + '?s=' + key + '&posttype=' + posttype;
+        url = url + '?s=' + key + '&posttype=' + posttype + '&cnt_tp' +cnt_tp;
         wx.navigateTo({
           url: url
         })
@@ -176,7 +182,7 @@ Component({
         let args = {}
         args.posts = [].concat(this.data.posts, res)
         this.setData(args)
-        // console.log('args', res)
+        console.log('args', res)
       })
     },
 

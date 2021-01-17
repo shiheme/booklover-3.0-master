@@ -18,10 +18,13 @@
 		<view bindtap='taplistarea' class="searchbtn btn" style="height:{{titleBarHeight}}px;" wx:if="{{isSearch}}">
 			<icon class="icon iconfont icon-search" />
 		</view>
+		<view bindtap="scanCode" class="scancodebtn btn" style="height:{{titleBarHeight}}px;" wx:if="{{isScancode}}">
+      <icon class="icon iconfont icon-scancode" />
+    </view>
 
 		<view class="navigate-title color-base-op80" style="height:{{titleBarHeight}}px;">
 			<text class="text">{{title}}</text>
 		</view>
 	</view>
-	<view class="header-title-bg bgcolor-base-op95" style="position:absolute;background:{{bgcolor}};left:0;top:0;right:0;height:{{customBarHeight}}px; z-index:1;"></view>
+	<view class="header-title-bg bgfilter15 bgcolor-base-op90" style="background-color:{{bgcolor}};height:{{customBarHeight}}px; z-index:1;"></view>
 </view>

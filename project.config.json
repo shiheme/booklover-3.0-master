@@ -21,13 +21,14 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
+    "useMultiFrameRuntime": true,
     "useApiHook": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
+    "bundle": false,
     "useIsolateContext": true,
     "useCompilerModule": false,
     "userConfirmedUseCompilerModuleSwitch": false,
@@ -35,7 +36,7 @@
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
-    "bundle": false
+    "useApiHostProcess": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.12.1",
@@ -62,7 +63,7 @@
         {
           "name": "pages/detail/detail",
           "pathName": "pages/detail/detail",
-          "query": "id=10711&posttype=movie",
+          "query": "id=10892&posttype=films",
           "scene": null
         },
         {
@@ -81,6 +82,18 @@
           "name": "pages/detail/detail",
           "pathName": "pages/detail/detail",
           "query": "id=1500&posttype=library",
+          "scene": null
+        },
+        {
+          "name": "app内页",
+          "pathName": "pages/detail/detail",
+          "query": "id=10857&posttype=app",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "cnttype=app",
           "scene": null
         }
       ]

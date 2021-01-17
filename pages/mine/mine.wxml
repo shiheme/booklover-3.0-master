@@ -1,0 +1,187 @@
+<!--pages/mine/mine.wxml-->
+
+
+<view class="wrapper bgcolor-base"></view>
+
+<navtitle title="{{title}}" isshare="{{isshare}}" isActive="{{isActive}}" isGoback="{{isGoback}}" />
+
+<view class="container bgcolor-base">
+  <view class="minebg" style="">
+    <image class="image" style="transform: scale({{1.22-(imagescale/4)/100}});"
+      src="{{siteinfo.mineimg}}" mode="widthFix"></image>
+  </view>
+  <scroll-view scroll-y="{{true}}" bindscroll="scroll" scroll-with-animation="true" bindscrolltolower=""
+    enable-back-to-top="{{true}}" refresher-enabled="{{false}}" refresher-default-style="none" bindrefresherrefresh=""
+    refresher-triggered="{{loading}}" scroll-anchoring="{{true}}" throttle="{{false}}" upper-threshold="50"
+    lower-threshold="50" class="listwrap" bindscrolltolower="">
+
+    <view class="wrap"
+      style="padding-top: {{customBarHeight}}px;padding-bottom:calc(200rpx + env(safe-area-inset-bottom));">
+      <view class="user-container">
+        <view class="user-information card-cell-wrap">
+          <view class="card-cell nouser" wx:if="{{!user && openid !=''}}">
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">Hi!爱书者</view>
+                <view class="card-cell-label main-bgcolor">
+                  <text class="text">点击登录</text>
+                  <button class="card-cell-btn button" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+                </view>
+              </view>
+            </view>
+
+          </view>
+          <view class="card-cell" wx:else>
+            <view class="card-cell-icon bgcolor-sub">
+              <image class="image" lazyLoad src="{{user.avatarUrl}}"></image>
+            </view>
+            <view class="card-cell-msg">
+              <view class="card-cell-base">
+                <view class="card-cell-title">{{user.nickName}}</view>
+                <view class="card-cell-label bgcolor-sub">
+                  <text class="text" wx:if="{{user.role=='subscriber'}}">订阅者</text>
+                  <text class="text" wx:elif="{{user.role=='contributor'}}">贡献者</text>
+                  <text class="text" wx:elif="{{user.role=='administrator'}}">管理员</text>
+                  <text class="text" wx:else>工作者</text></view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="cardbox">
+
+          <view class="card usernav bgcolor-sub user-items card-cell-wrap" wx:if="{{user}}">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">点赞</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text main-color">{{user_likes?user_likes:'-'}}</text>
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/list/list?posttype=library&title=我点赞的&tabid=1"
+                bindtap="bindHandler" />
+            </view>
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">收藏</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text main-color">{{user_fav?user_fav:'-'}}</text>
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/list/list?posttype=library&title=我收藏的&tabid=2"
+                bindtap="bindHandler" />
+            </view>
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">评星</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text main-color">{{user_comment?user_comment:'-'}}</text>
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/list/list?posttype=library&title=我评星的&tabid=3"
+                bindtap="bindHandler" />
+            </view>
+          </view>
+
+        </view>
+        <view class="cardbox">
+          <view class="card bgcolor-sub user-items card-cell-wrap">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">我的福利</view>
+                </view>
+                <view class="card-cell-more">
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/list/list?posttype=act&title=福利"
+                bindtap="bindHandler" />
+            </view>
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">FAQ集锦</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text"></text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/list/list?posttype=faq&title=常见问题"
+                bindtap="bindHandler" />
+            </view>
+
+            <view class="card-cell {{siteinfo.safemode == '1' && !isadmin ? 'safemode':''}}">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">订阅提醒</view>
+                </view>
+                <view class="card-cell-more">
+                  <!-- <icon class="icon large iconfont icon-wxapp" /> -->
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" wx:if="{{!user}}" bindgetuserinfo="getProfile"
+                openType="getUserInfo"></button>
+              <button class="card-cell-btn button" wx:else bindtap="bindSubscribe"></button>
+            </view>
+
+          </view>
+        </view>
+        <view class="cardbox">
+          <view class="card bgcolor-sub user-items card-cell-wrap">
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base reddot">
+                  <view class="card-cell-title">关于小程序</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text">V{{siteinfo.version}}</text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/page/page?posttype=about&title=关于"
+                bindtap="bindHandler" />
+            </view>
+            <view class="card-cell">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">设置</view>
+                </view>
+                <view class="card-cell-more">
+                  <text class="text"></text>
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" data-url="/pages/page/page?posttype=set&title=设置"
+                bindtap="bindHandler" />
+            </view>
+            <view class="card-cell" wx:if="{{user}}">
+              <view class="card-cell-msg">
+                <view class="card-cell-base">
+                  <view class="card-cell-title">退出</view>
+                </view>
+                <view class="card-cell-more">
+                  <icon class="icon iconfont icon-arrow-right" />
+                </view>
+              </view>
+              <button class="card-cell-btn button" bindtap="loginOut" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+
+<!-- <view class="tabbar">
+      <tabbar tabbarStyle="{{tabbarStyle}}" showitemadd="{{showitemadd}}" safeinsetbottom="{{safeinsetbottom}}" selected="4" />
+    </view> -->
+

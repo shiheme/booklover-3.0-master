@@ -1,0 +1,73 @@
+.container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.listwrap {
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.swiperitem {
+  /* width: 400rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4rpx;
+  opacity: 0.6; */
+}
+
+.section {
+  padding: 0 50rpx;
+  margin-bottom: 60rpx;
+  margin-top: 80rpx;
+}
+
+.section .card-cell-icon {
+  width: 132rpx;
+  height: 132rpx;
+  margin-right: 24rpx;
+}
+
+.section .card-cell-icon .image {
+  width: 132rpx;
+  height: 132rpx;
+  opacity: 1;
+}
+
+.section .card-cell-msg {
+  padding: 10rpx 0;
+}
+
+.section .card-cell-base {
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.section .card-cell-base .card-cell-title {
+  font-size: 42rpx;
+  opacity: 1;
+}
+
+.section .card-cell-base .card-cell-label {
+  font-weight: bold;
+  font-size: 32rpx;
+  padding: 20rpx 40rpx;
+  opacity: 1;
+  border-radius: 50rpx;
+}
+
+.section .card-cell-base .card-cell-label .text {
+  opacity: .6;
+}
+
+.cardbox {
+  margin: 0rpx 17rpx 50rpx 17rpx;
+}

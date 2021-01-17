@@ -303,6 +303,11 @@
   opacity: .6;
 }
 
+.cateilist .text.count {
+  opacity: .3;
+  margin-left: 10rpx;
+}
+
 .cateilist.main-bgcolor .text {
   opacity: 1;
 }
